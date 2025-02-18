@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Exit on error and undefined variables
+set -eu
+set -o pipefail
+
 echo "🚀 Starting MacOS development environment setup..."
 
 # Check if Homebrew is already installed
@@ -92,5 +96,6 @@ if [ -f configs/ssh/config ]; then
   cp configs/ssh/config ~/.ssh/
 else
   echo "❌ configs/ssh/config: No such file or directory"
+  exit 1
 fi
 echo "✅ SSH configuration copied to .ssh directory"

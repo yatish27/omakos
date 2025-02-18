@@ -17,7 +17,7 @@ defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 # Enable tap-to-click
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 # Use list view in all Finder windows by default
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
@@ -63,5 +63,16 @@ defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 
 # Disable the auto-hide Dock delay
 defaults write com.apple.Dock autohide-delay -float 0
+
+# Disable Dock animations
+defaults write com.apple.dock autohide-time-modifier -float 0
+defaults write com.apple.dock expose-animation-duration -float 0
+defaults write com.apple.dock springboard-show-duration -int 0
+defaults write com.apple.dock springboard-hide-duration -int 0
+defaults write com.apple.dock springboard-page-duration -int 0
+
+# Remove all apps from the Dock
+defaults write com.apple.dock persistent-apps -array
+killall Dock
 
 echo "macOS settings updated. Some changes may require a logout/restart to take effect."
