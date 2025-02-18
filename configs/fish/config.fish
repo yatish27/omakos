@@ -1,8 +1,3 @@
-# Interactive shell configuration
-if status is-interactive then
-    # Commands to run in interactive sessions can go here
-end
-
 # Homebrew configuration
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
