@@ -1,0 +1,48 @@
+[user]
+name = Yatish Mehta
+email = yatish27@users.noreply.github.com
+
+[core]
+editor = vim
+whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+excludesfile = ~/.gitignore_global
+
+[color]
+ui = auto
+
+[push]
+default = simple
+
+[pull]
+rebase = false
+
+[merge]
+tool = vimdiff
+conflictstyle = diff3
+
+[diff]
+tool = vimdiff
+
+[alias]
+st = status
+ci = commit
+br = branch
+co = checkout
+df = diff
+dc = diff --cached
+lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+lol = log --graph --decorate --pretty=oneline --abbrev-commit
+lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+ls = ls-files
+
+[credential]
+helper = cache --timeout=3600
+
+[init]
+defaultBranch = main
+
+[fetch]
+prune = true
+
+[help]
+autocorrect = 1

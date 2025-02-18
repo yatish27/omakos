@@ -1,0 +1,126 @@
+{
+  // Editor appearance
+  "workbench.colorTheme": "Night Owl",
+  "editor.fontFamily": "Cascadia Code",
+  "editor.fontSize": 14,
+  "editor.fontWeight": 325,
+  "editor.minimap.enabled": false,
+  "editor.rulers": [80, 120],
+
+  // Editor behavior
+  "editor.formatOnSave": true,
+  "editor.multiCursorModifier": "alt",
+  "editor.trimAutoWhitespace": true,
+  "editor.maxTokenizationLineLength": 200000,
+  "editor.inlineSuggest.enabled": true,
+  "editor.semanticHighlighting.enabled": true,
+  "editor.insertSpaces": true,
+  "editor.formatOnType": true,
+  "editor.stickyScroll.enabled": false,
+  "editor.tabSize": 2,
+  "editor.autoClosingBrackets": "always",
+  "editor.autoClosingQuotes": "always",
+  "editor.guides.indentation": true,
+  "editor.guides.bracketPairs": true,
+  "editor.autoClosingOvertype": "never",
+
+  // File handling
+  "files.autoSave": "onFocusChange",
+  "files.associations": {
+    "*.html.erb": "erb"
+  },
+
+  // Workspace and startup
+  "security.workspace.trust.untrustedFiles": "open",
+
+  // Telemetry and updates
+  "typescript.surveys.enabled": false,
+  "update.showReleaseNotes": false,
+
+  // Tailwind CSS
+  "tailwindCSS.includeLanguages": {
+    "ruby": "html",
+    "erb": "html"
+  },
+
+  // Ruby LSP settings
+  "rubyLsp.pullDiagnosticsOn": "save",
+  "rubyLsp.enabledFeatures": {
+    "codeActions": true,
+    "diagnostics": false,
+    "documentHighlights": true,
+    "documentLink": true,
+    "documentSymbols": true,
+    "foldingRanges": true,
+    "formatting": true,
+    "hover": true,
+    "inlayHint": true,
+    "onTypeFormatting": false,
+    "selectionRanges": true,
+    "semanticHighlighting": true,
+    "completion": true,
+    "codeLens": true,
+    "definition": true,
+    "workspaceSymbol": true,
+    "signatureHelp": true
+  },
+  "rubyLsp.formatter": "rubocop",
+  "rubyLsp.rubyVersionManager": {
+    "identifier": "mise",
+    "miseExecutablePath": "/opt/homebrew/bin/mise"
+  },
+  "rubyLsp.erbSupport": true,
+
+  // Rubocop settings
+  "rubocop.mode": "enableUnconditionally",
+
+  // Git and GitHub settings
+  "git.autofetch": true,
+  "git.confirmSync": false,
+
+  // Language-specific settings
+  "[ruby]": {
+    "tailwindCSS.experimental.classRegex": ["\\bclass:\\s*[\"']([^\"']*)[\"']"],
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.semanticHighlighting.enabled": true,
+    "editor.formatOnType": true,
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true,
+    "editor.rulers": [120]
+  },
+  "[erb]": {
+    "tailwindCSS.experimental.classRegex": ["\\bclass:\\s*[\"']([^\"']*)[\"']"],
+    "editor.defaultFormatter": "aliariff.vscode-erb-beautify",
+    "editor.formatOnSave": true
+  },
+  "[handlebars]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 60
+  },
+  "[mdx]": {
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 60,
+    "editor.defaultFormatter": "unifiedjs.vscode-mdx"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "security.promptForLocalFileProtocolHandling": false,
+  "vscode-erb-beautify.keepBlankLines": 1,
+  "extensions.ignoreRecommendations": true
+}
