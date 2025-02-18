@@ -30,14 +30,14 @@ else
   brew install git
 fi
 
-# Clone repository
-# echo "📥 Cloning omakos repository..."
-# git clone https://github.com/yatish27/omakos.git
-# cd omakos
+# Clone repository in the home folder
+echo "📥 Cloning omakos repository into the home folder..."
+cd ~
+git clone https://github.com/yatish27/omakos.git
+cd omakos
 
-# Make mac_setup.sh executable and run it
+# Setup the macOS settings
 echo "🔧 Running mac setup script..."
-chmod +x mac_setup.sh
 ./mac_setup.sh
 
 # Install packages from Brewfile
@@ -82,3 +82,15 @@ if ! grep -q "$(which fish)" /etc/shells; then
 fi
 chsh -s "$(which fish)"
 echo "✅ Default shell set to Fish"
+
+# Copy SSH config
+echo "🔑 Setting up SSH configuration..."
+if [ ! -d ~/.ssh ]; then
+  mkdir -p ~/.ssh
+fi
+if [ -f configs/ssh/config ]; then
+  cp configs/ssh/config ~/.ssh/
+else
+  echo "❌ configs/ssh/config: No such file or directory"
+fi
+echo "✅ SSH configuration copied to .ssh directory"
