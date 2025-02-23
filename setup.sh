@@ -26,7 +26,6 @@ chapter() {
 ###############################################################################
 
 source ./scripts/ascii.sh
-echo -e ${dim}$(get_os) $(get_os_version) ${normal}
 
 printf "\nWelcome to Omakos! 🚀\n"
 printf "Omakos turns your new mac laptop into a full configured development system in a single command.\n"
