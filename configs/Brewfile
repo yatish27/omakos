@@ -24,7 +24,6 @@ brew "zsh"
 # Cask applications
 cask "1password"
 cask "brave-browser"
-cask "cork"
 cask "cursor"
 cask "discord"
 cask "docker"
