@@ -3,17 +3,6 @@
 # Exit on error
 set -e
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-BOLD='\033[1m'
-NC='\033[0m' # No Color
-
-# Print header
-echo -e "${BLUE}${BOLD}Omakos${NC}"
-echo -e "${BOLD}Turn your MacOS laptop into a fully functional development system${NC}\n"
-
 # Check for required commands
 command -v curl >/dev/null 2>&1 || {
   echo -e "${RED}Error: curl is required but not installed.${NC}" >&2
