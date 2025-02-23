@@ -1,101 +1,57 @@
 #!/bin/bash
 
-# Exit on error and undefined variables
-set -eu
-set -o pipefail
+# Exit on error
+set -e
 
-echo "🚀 Starting MacOS development environment setup..."
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+NC='\033[0m' # No Color
 
-# Check if Homebrew is already installed
-if command -v brew >/dev/null 2>&1; then
-  echo "✅ Homebrew is already installed"
-else
-  echo "📦 Installing Homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Print header
+echo -e "${BLUE}${BOLD}Omakos${NC}"
+echo -e "${BOLD}Turn your MacOS laptop into a fully functional development system${NC}\n"
 
-  # Add Homebrew to PATH for Apple Silicon Macs in current session
-  if [[ $(uname -m) == "arm64" ]]; then
-    echo "🔧 Configuring Homebrew for Apple Silicon..."
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  fi
-fi
-
-# Update Homebrew
-echo "🔄 Updating Homebrew..."
-brew update
-
-echo "✨ Homebrew installation complete!"
-
-# Install git if not already installed
-if command -v git >/dev/null 2>&1; then
-  echo "✅ Git is already installed"
-else
-  echo "📦 Installing git..."
-  brew install git
-fi
-
-# Clone repository in the home folder
-echo "📥 Cloning omakos repository into the home folder..."
-cd ~
-git clone https://github.com/yatish27/omakos.git
-cd omakos
-
-# Setup the macOS settings
-echo "🔧 Running mac setup script..."
-./mac_setup.sh
-
-# Install packages from Brewfile
-echo "📦 Installing packages from Brewfile..."
-brew bundle
-
-# Setup Cursor
-echo "🎯 Setting up Cursor..."
-chmod +x cursor_setup.sh
-./cursor_setup.sh
-
-# Copy rubocop config
-echo "📝 Setting up Rubocop configuration..."
-cp configs/rubocop.yml ~/.rubocop.yml
-echo "✅ Rubocop configuration copied to home directory"
-
-# Copy gemrc config
-echo "💎 Setting up Ruby gems configuration..."
-cp configs/gemrc ~/.gemrc
-echo "✅ Gemrc configuration copied to home directory"
-
-# Copy Ghostty config
-echo "👻 Setting up Ghostty terminal configuration..."
-mkdir -p ~/.config/ghostty
-cp configs/ghostty.conf ~/.config/ghostty/config
-echo "✅ Ghostty configuration copied to config directory"
-
-# Setup Git configuration
-echo "🔧 Setting up Git configuration..."
-cp configs/git/gitconfig ~/.gitconfig
-echo "✅ Git configuration copied to home directory"
-
-# Copy fish config
-echo "🐟 Setting up Fish shell configuration..."
-mkdir -p ~/.config/fish
-cp configs/fish/config.fish ~/.config/fish/config.fish
-echo "✅ Fish configuration copied to config directory"
-
-# Set default shell to fish
-if ! grep -q "$(which fish)" /etc/shells; then
-  echo "$(which fish)" | sudo tee -a /etc/shells
-fi
-chsh -s "$(which fish)"
-echo "✅ Default shell set to Fish"
-
-# Copy SSH config
-echo "🔑 Setting up SSH configuration..."
-if [ ! -d ~/.ssh ]; then
-  mkdir -p ~/.ssh
-fi
-if [ -f configs/ssh/config ]; then
-  cp configs/ssh/config ~/.ssh/
-else
-  echo "❌ configs/ssh/config: No such file or directory"
+# Check for required commands
+command -v curl >/dev/null 2>&1 || {
+  echo -e "${RED}Error: curl is required but not installed.${NC}" >&2
   exit 1
+}
+command -v unzip >/dev/null 2>&1 || {
+  echo -e "${RED}Error: unzip is required but not installed.${NC}" >&2
+  exit 1
+}
+
+# Set install directory
+INSTALL_DIR="$HOME/omakos"
+TEMP_ZIP="/tmp/omakos.zip"
+
+# Remove existing zip if present
+rm -f "$TEMP_ZIP"
+
+# Check if directory already exists
+if [ -d "$INSTALL_DIR" ]; then
+  echo -e "${BLUE}Removing existing Omakos installation...${NC}"
+  rm -rf "$INSTALL_DIR"
 fi
-echo "✅ SSH configuration copied to .ssh directory"
+
+echo -e "${BLUE}Downloading Omakos...${NC}"
+curl -L "https://github.com/yatish27/omakos/archive/refs/heads/main.zip" -o "$TEMP_ZIP"
+
+echo -e "${BLUE}Extracting files...${NC}"
+unzip -q "$TEMP_ZIP" -d "/tmp"
+mv "/tmp/omakos-main" "$INSTALL_DIR"
+rm -f "$TEMP_ZIP"
+
+cd "$INSTALL_DIR"
+
+# Make setup script executable
+chmod +x setup.sh
+
+echo -e "\n${GREEN}✓ Download complete!${NC}"
+echo -e "${BLUE}Starting setup...${NC}\n"
+
+# Run setup script
+./setup.sh
