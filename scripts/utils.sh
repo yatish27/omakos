@@ -544,36 +544,6 @@ gem_install_or_update() {
   fi
 }
 
-install_brews() {
-  if test ! $(brew list | grep $brew); then
-    echo_install "Installing $brew"
-    brew install $brew >/dev/null
-    print_in_green "${bold}✓ installed!${normal}\n"
-  else
-    print_success_muted "$brew already installed. Skipped."
-  fi
-}
-
-install_application_via_brew() {
-  if [[ ! $(brew cask list | grep $cask) ]]; then
-    echo_install "Installing $cask"
-    brew cask install $cask --appdir=/Applications >/dev/null
-    print_in_green "${bold}✓ installed!${normal}\n"
-  else
-    print_success_muted "$cask already installed. Skipped."
-  fi
-}
-
-install_application_via_app_store() {
-  if ! mas list | grep $1 &>/dev/null; then
-    echo_install "Installing $2"
-    mas install $1 >/dev/null
-    print_in_green "${bold}✓ installed!${normal}\n"
-  else
-    print_success_muted "$2 already installed. Skipped."
-  fi
-}
-
 install_npm_packages() {
   if [[ $(cli_is_installed $2) == 0 ]]; then
     echo_install "Installing $1"
@@ -594,6 +564,15 @@ get_github_version() {
 ###############################################################################
 # Text Formatting
 ###############################################################################
+
+print_attribute() {
+  local name="$1"
+  local value="$2"
+  printf "   ${blue}✦  ${reset}"
+  print_in_cyan "$name: "
+  print_in_white "$value\n"
+}
+
 title() {
   local fmt="$1"
   shift
@@ -625,7 +604,7 @@ announce() {
 }
 
 step() {
-  printf "\n   ${dot}${underline}$@${reset}\n"
+  printf "\n ${dot}$@${reset}\n"
 }
 
 label_blue() {
@@ -634,18 +613,4 @@ label_blue() {
 
 label_green() {
   printf "\e[30;42m $1 \e[0m\e[32m $2 \033[0m\n"
-}
-
-e_lemon_ated() {
-  printf "
-  ${bold}Congrats! You're in formation!${normal} 🍋
-
-  ╭────────────────────────────────────────────────────╮
-  │ Thanks for using Formation!                        │
-  │ If you liked it, then you should put a star on it! │
-  │                                                    │
-  │ https://github.com/minamarkham/formation           │
-  ╰────────────────────────────────────────────────────╯
-
-"
 }

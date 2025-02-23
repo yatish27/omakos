@@ -27,19 +27,18 @@ chapter() {
 
 source ./scripts/ascii.sh
 echo -e ${dim}$(get_os) $(get_os_version) ${normal}
-# TODO: Add a simple instruction and explanantion of the Omakos setup
+
+printf "\nWelcome to Omakos! 🚀\n"
+printf "Omakos turns your new mac laptop into a full configured development system in a single command.\n"
+printf "It is safe to rerun this multiple times.\n"
+printf "You can cancel at any time by pressing ctrl+c.\n"
+printf "Let's get started!\n"
 
 ###############################################################################
 # CHECK: Internet
 ###############################################################################
 chapter "Checking internet connection…"
 check_internet_connection
-
-###############################################################################
-# PROMPT: Password
-###############################################################################
-# chapter "Caching password…"
-# ask_for_sudo
 
 ###############################################################################
 # INSTALL: Dependencies
@@ -97,22 +96,7 @@ source ./scripts/brew.sh
 # INSTALL: Setup ZSH and oh-my-zsh
 ###############################################################################
 chapter "Setting up ZSH…"
-
-# set zsh as default shell
-if ! command -v zsh &>/dev/null; then
-  step "Setting ZSH as default shell…"
-  chsh -s $(which zsh)
-  print_success "ZSH set as default shell!"
-fi
-
-# install oh-my-zsh
-if [ -d "$HOME/.oh-my-zsh" ]; then
-  print_success_muted "oh-my-zsh already installed. Skipping"
-else
-  step "Installing oh-my-zsh…"
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  print_success "oh-my-zsh installed!"
-fi
+source ./scripts/zsh_setup.sh
 
 ###############################################################################
 # SETUP: Cursor
@@ -125,6 +109,18 @@ source ./scripts/cursor_setup.sh
 ###############################################################################
 chapter "Setting up Git…"
 source ./scripts/git_setup.sh
+
+###############################################################################
+# SETUP: SSH
+###############################################################################
+chapter "Setting up SSH…"
+source ./scripts/ssh_setup.sh
+
+###############################################################################
+# SETUP: Dotfiles
+###############################################################################
+chapter "Setting up Dotfiles…"
+source ./scripts/dotfiles_setup.sh
 
 ###############################################################################
 # SETUP: Mac Settings

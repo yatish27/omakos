@@ -12,21 +12,21 @@ fi
 CURSOR_CONFIG_DIR="$HOME/Library/Application Support/Cursor"
 CURSOR_USER_DIR="$CURSOR_CONFIG_DIR/User"
 
-print_muted "Setting up Cursor configuration directories..."
+step "Setting up Cursor configuration directories..."
 mkdir -p "$CURSOR_USER_DIR"
 
 # Backup existing settings if they exist
 if [ -f "$CURSOR_USER_DIR/settings.json" ]; then
-  print_muted "Backing up existing Cursor settings..."
+  step "Backing up existing Cursor settings..."
   cp "$CURSOR_USER_DIR/settings.json" "$CURSOR_USER_DIR/settings.json.backup"
 fi
 
 # Copy new settings
-print_muted "Installing Cursor settings..."
+step "Installing Cursor settings..."
 cp configs/cursor/settings.json "$CURSOR_USER_DIR/settings.json"
 
 # Install extensions
-print_muted "Installing Cursor extensions..."
+step "Installing Cursor extensions..."
 if [ -f "configs/cursor/extensions.txt" ]; then
   CURSOR_PATH="/Applications/Cursor.app/Contents/MacOS/Cursor"
   if [ ! -f "$CURSOR_PATH" ]; then

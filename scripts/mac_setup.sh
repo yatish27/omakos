@@ -72,11 +72,19 @@ defaults write com.apple.dock springboard-page-duration -int 0
 defaults write com.apple.dock persistent-apps -array
 print_success_muted "Dock preferences configured"
 
+# iCloud default save
+step "Setting default save location to local disk instead of iCloud..."
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+print_success_muted "Default save location configured"
+
 # Restart affected applications
 step "Applying changes by restarting Finder and Dock..."
 killall Dock
 killall Finder
 print_success_muted "Applications restarted"
 
-print_success "macOS settings have been updated successfully!"
+echo ""
 print_warning "Note: Some changes may require a logout/restart to take effect."
+
+echo ""
+print_success "macOS settings have been updated successfully!"
