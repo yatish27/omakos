@@ -68,7 +68,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [Docker](https://www.docker.com/) for containerization
 - [OrbStack](https://orbstack.dev/) for Docker and Linux development on macOS
 - [PostgreSQL 17](https://www.postgresql.org/) with `libpq` for database management
-- [Mise](https://github.com/jdx/mise) for runtime version management
+- [Mise](https://mise.jdx.dev/) for runtime version management
 - [Rust](https://www.rust-lang.org/) programming language
 - [Ollama](https://ollama.ai/) for local AI models
 - [Overmind](https://github.com/DarthSim/overmind) for process management
@@ -89,8 +89,6 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [WhatsApp](https://www.whatsapp.com/) and [Zoom](https://zoom.us/) for communication
 
 ### Fonts
-
-All fonts are optimized for development with programming ligatures:
 
 - Cascadia Code & Cascadia Mono
 - DM Sans
