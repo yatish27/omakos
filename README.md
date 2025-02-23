@@ -2,7 +2,7 @@
 
 > Omakos turns your macOS laptop into a fully functional development system in a single command.
 
-Omakos is inspired by Basecamp's [omakase](https://github.com/basecamp/omakase) project. The name is a combination of "omakase" (お任せ, Japanese for "I leave it up to you") and "macOS", reflecting its purpose of providing a curated development environment setup for macOS.
+Omakos is inspired by Basecamp's [Omakub](https://github.com/basecamp/omakub) project. The name is a combination of "omakase" (お任せ, Japanese for "I leave it up to you") and "macOS", reflecting its purpose of providing a curated development environment setup for macOS.
 
 It can be run multiple times on the same machine safely.
 It installs, upgrades, or skips packages based on what is already installed on the machine.
