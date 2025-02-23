@@ -2,7 +2,6 @@ aliariff.vscode-erb-beautify
 bradlc.vscode-tailwindcss
 esbenp.prettier-vscode
 foxundermoon.shell-format
-rubocop.vscode-rubocop
 sdras.night-owl
 shopify.ruby-lsp
 unifiedjs.vscode-mdx
