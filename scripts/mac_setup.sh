@@ -26,7 +26,7 @@ print_success_muted "Finder preferences configured"
 step "Enabling tap-to-click and removing app security warnings..."
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 print_success_muted "System preferences configured"
 
 # Text and input preferences
@@ -48,6 +48,7 @@ print_success_muted "Save and print dialogs configured"
 # Screenshot settings
 step "Setting PNG as default screenshot format..."
 defaults write com.apple.screencapture type -string "png"
+defaults write com.apple.screencapture "include-date" -bool "true"
 print_success_muted "Screenshot settings configured"
 
 # .DS_Store settings
@@ -77,14 +78,16 @@ step "Setting default save location to local disk instead of iCloud..."
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 print_success_muted "Default save location configured"
 
+# Disable Apple Intelligence
+step "Disabling Apple Intelligence..."
+defaults write com.apple.CloudSubscriptionFeatures.optIn "545129924" -bool "false"
+print_success_muted "Apple Intelligence disabled"
+
 # Restart affected applications
 step "Applying changes by restarting Finder and Dock..."
 killall Dock
 killall Finder
 print_success_muted "Applications restarted"
-
-echo ""
-print_warning "Note: Some changes may require a logout/restart to take effect."
 
 echo ""
 print_success "macOS settings have been updated successfully!"

@@ -40,6 +40,12 @@ chapter "Checking internet connection…"
 check_internet_connection
 
 ###############################################################################
+# PROMPT: Password
+###############################################################################
+chapter "Caching password…"
+ask_for_sudo
+
+###############################################################################
 # INSTALL: Dependencies
 ###############################################################################
 chapter "Installing Dependencies…"
@@ -126,3 +132,10 @@ source ./scripts/dotfiles_setup.sh
 ###############################################################################
 chapter "Setting up Mac Settings…"
 source ./scripts/mac_setup.sh
+
+###############################################################################
+# SETUP: Complete
+###############################################################################
+chapter "Setup Complete!"
+print_success "Your Mac is now ready to use! 🎉"
+print_success_muted "You may need to restart your computer for all changes to take effect."
