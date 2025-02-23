@@ -92,7 +92,7 @@
   },
   "[erb]": {
     "tailwindCSS.experimental.classRegex": ["\\bclass:\\s*[\"']([^\"']*)[\"']"],
-    "editor.defaultFormatter": "aliariff.vscode-erb-beautify",
+    "editor.defaultFormatter": "elia.erb-formatter",
     "editor.formatOnSave": true
   },
   "[handlebars]": {
@@ -121,6 +121,6 @@
   },
 
   "security.promptForLocalFileProtocolHandling": false,
-  "vscode-erb-beautify.keepBlankLines": 1,
+  // "vscode-erb-beautify.keepBlankLines": 1,
   "extensions.ignoreRecommendations": true
 }

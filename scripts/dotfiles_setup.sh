@@ -58,3 +58,16 @@ if [ -f "./configs/gemrc" ]; then
 else
   print_warning "Gem configuration file not found"
 fi
+
+# Copy zshrc configuration
+if [ -f "./configs/zshrc" ]; then
+  step "Setting up Zsh configuration..."
+  if confirm_override "$HOME/.zshrc"; then
+    cp "./configs/zshrc" "$HOME/.zshrc"
+    print_success "Zsh configuration installed"
+  else
+    print_muted "Skipping Zsh configuration"
+  fi
+else
+  print_warning "Zsh configuration file not found"
+fi

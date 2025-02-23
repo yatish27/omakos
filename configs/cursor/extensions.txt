@@ -1,7 +1,8 @@
-aliariff.vscode-erb-beautify
+elia.erb-formatter
 bradlc.vscode-tailwindcss
 esbenp.prettier-vscode
 foxundermoon.shell-format
 sdras.night-owl
 shopify.ruby-lsp
 unifiedjs.vscode-mdx
+ckolkman.vscode-postgres
