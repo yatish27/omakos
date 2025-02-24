@@ -9,15 +9,15 @@ ________                  __
         \/      \/     \/     \/         \/ 
 '
 
-# Define the color gradient (shades of cyan and blue)
+# Define the color gradient (shades of yellow)
 colors=(
-  '\033[38;5;81m' # Cyan
-  '\033[38;5;75m' # Light Blue
-  '\033[38;5;69m' # Sky Blue
-  '\033[38;5;63m' # Dodger Blue
-  '\033[38;5;57m' # Deep Sky Blue
-  '\033[38;5;51m' # Cornflower Blue
-  '\033[38;5;45m' # Royal Blue
+  '\033[38;5;226m' # Bright Yellow
+  '\033[38;5;227m' # Light Yellow
+  '\033[38;5;228m' # Pale Yellow
+  '\033[38;5;229m' # Cream Yellow
+  '\033[38;5;230m' # Off White Yellow
+  '\033[38;5;222m' # Peach Yellow
+  '\033[38;5;221m' # Golden Yellow
 )
 
 # Print each line with color
