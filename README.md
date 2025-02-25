@@ -70,13 +70,13 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [OrbStack](https://orbstack.dev/) for Docker and Linux development on macOS
 - [PostgreSQL 17](https://www.postgresql.org/) with `libpq` for database management
 - [Redis](https://redis.io/) for in-memory data store
-- [Mise](https://mise.jdx.dev/) for runtime version management
-- [Ollama](https://ollama.ai/) for local AI models
-- [Overmind](https://github.com/DarthSim/overmind) for process management
-- [UV](https://github.com/astral-sh/uv) for Python packaging
-- [pnpm](https://pnpm.io/) and [yarn](https://yarnpkg.com/) for Node.js package management
 - [jemalloc](https://jemalloc.net/) for memory allocation
 - [vips](https://www.libvips.org/) for image processing
+- [Ollama](https://ollama.ai/) for local AI models
+- [Overmind](https://github.com/DarthSim/overmind) for process management
+- [Mise](https://mise.jdx.dev/) for runtime version management
+- [UV](https://github.com/astral-sh/uv) for Python packaging
+- [pnpm](https://pnpm.io/) and [yarn](https://yarnpkg.com/) for Node.js package management
 
 ### Productivity & Communication
 
