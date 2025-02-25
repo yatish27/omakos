@@ -100,8 +100,6 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - Hack
 - IBM Plex Mono & IBM Plex Sans
 
-## Features
-
 ## Code Structure
 
 The project follows a modular structure where each component is responsible for a specific setup task. You can run any script individually if you only want to set up specific parts of your system.
