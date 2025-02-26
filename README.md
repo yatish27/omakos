@@ -70,7 +70,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [OrbStack](https://orbstack.dev/) for Docker and Linux development on macOS
 - [PostgreSQL 17](https://www.postgresql.org/) with `libpq` for database management
 - [Redis](https://redis.io/) for in-memory data store
-- [Mise](https://mise.jdx.dev/) for runtime version management
+- [Mise](https://mise.jdx.dev/) for runtime version management (automatically installs configured runtimes if `~/.mise.toml` exists)
 - [Ollama](https://ollama.ai/) for local AI models
 - [Overmind](https://github.com/DarthSim/overmind) for process management
 - [UV](https://github.com/astral-sh/uv) for Python packaging
@@ -102,6 +102,26 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 
 ## Features
 
+### Modular Scripts
+
+Each script in the [`scripts/`](scripts/) directory can be run independently:
+
+```sh
+# Run individual scripts
+./scripts/mac_setup.sh     # Only configure macOS settings
+./scripts/git_setup.sh     # Only setup Git configuration
+./scripts/cursor_setup.sh  # Only configure Cursor editor
+./scripts/mise.sh         # Only setup mise and install configured runtimes
+./scripts/dotfiles_setup.sh # Only setup dotfiles
+./scripts/ssh_setup.sh    # Only configure SSH settings
+```
+
+The scripts are designed to be:
+
+- **Independent**: Each script can run on its own
+- **Idempotent**: Safe to run multiple times
+- **Configurable**: Easy to modify for your needs
+
 ## Code Structure
 
 The project follows a modular structure where each component is responsible for a specific setup task. You can run any script individually if you only want to set up specific parts of your system.
@@ -116,6 +136,7 @@ omakos/
 │   ├── dotfiles_setup.sh   # Dotfiles management
 │   ├── git_setup.sh        # Git configuration
 │   ├── mac_setup.sh        # macOS system preferences
+│   ├── mise.sh             # Mise runtime manager setup
 │   ├── ssh_setup.sh        # SSH configuration
 │   ├── utils.sh            # Utility functions
 │   └── zsh_setup.sh        # ZSH shell setup
@@ -126,26 +147,10 @@ omakos/
 │   ├── ssh/                # SSH configuration files
 │   ├── gemrc              # Ruby gems configuration
 │   ├── ghostty.conf       # Ghostty terminal config
+│   ├── mise.toml          # Mise runtime versions config
 │   └── rubocop.yml        # Ruby code style config
 └── README.md
 ```
-
-### Modular Scripts
-
-Each script in the [`scripts/`](scripts/) directory can be run independently:
-
-```sh
-# Run individual scripts
-./scripts/mac_setup.sh     # Only configure macOS settings
-./scripts/git_setup.sh     # Only setup Git configuration
-./scripts/cursor_setup.sh  # Only configure Cursor editor
-```
-
-The scripts are designed to be:
-
-- **Independent**: Each script can run on its own
-- **Idempotent**: Safe to run multiple times
-- **Configurable**: Easy to modify for your needs
 
 ### Configuration Files
 

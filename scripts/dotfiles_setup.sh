@@ -71,3 +71,16 @@ if [ -f "./configs/zshrc" ]; then
 else
   print_warning "Zsh configuration file not found"
 fi
+
+# Copy mise configuration
+if [ -f "./configs/mise.toml" ]; then
+  step "Setting up mise configuration..."
+  if confirm_override "$HOME/.mise.toml"; then
+    cp "./configs/mise.toml" "$HOME/.mise.toml"
+    print_success "mise configuration installed"
+  else
+    print_muted "Skipping mise configuration"
+  fi
+else
+  print_warning "mise configuration file not found"
+fi

@@ -128,6 +128,12 @@ chapter "Setting up Dotfiles…"
 source ./scripts/dotfiles_setup.sh
 
 ###############################################################################
+# SETUP: Development Tools with mise
+###############################################################################
+chapter "Setting up Development Tools…"
+source ./scripts/mise.sh
+
+###############################################################################
 # SETUP: Mac Settings
 ###############################################################################
 chapter "Setting up Mac Settings…"
