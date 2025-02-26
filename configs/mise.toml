@@ -1,0 +1,20 @@
+[tools]
+# Latest versions of each tool
+rust = 'latest'
+ruby = 'latest'
+go = 'latest'
+node = 'lts'
+python = 'latest'
+
+[settings]
+# Always keep the downloaded archives for faster reinstalls
+always_keep_download = true
+
+# Enable experimental features
+experimental = true
+
+# Configure status display
+[settings.status]
+show_env = true
+show_tools = true
+
