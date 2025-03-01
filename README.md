@@ -10,7 +10,7 @@ Omakos is inspired by Basecamp's [Omakub](https://github.com/basecamp/omakub) pr
 It can be run multiple times on the same machine safely.
 It installs, upgrades, or skips packages based on what is already installed on the machine.
 
-<img src="./configs/images/screenshot_1.png" alt="screenshot" width="400"/>
+<img src="./configs/images/screenshot_1.png" alt="screenshot" width="600"/>
 
 ## Install
 
