@@ -1,3 +1,5 @@
+<img src="./configs/images/icon.png" alt="Omakos Icon" width="100"/>
+
 # Omakos
 
 > Omakos turns your macOS laptop into a fully functional development machine in a single command.
@@ -7,6 +9,8 @@ Omakos is inspired by Basecamp's [Omakub](https://github.com/basecamp/omakub) pr
 
 It can be run multiple times on the same machine safely.
 It installs, upgrades, or skips packages based on what is already installed on the machine.
+
+![Omakos Screenshot](./configs/images/screenshot_1.png)
 
 ## Install
 
