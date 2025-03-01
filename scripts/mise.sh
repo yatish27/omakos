@@ -29,6 +29,7 @@ if [ -f "$HOME/.mise.toml" ]; then
   mise exec go -- go version
   mise exec node -- node --version
   mise exec python -- python --version
+  mise exec java -- java -version
   echo "----------------------------------------"
 
   print_success "All development tools installed successfully!"
