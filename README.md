@@ -21,7 +21,7 @@ You can install Omakos using one of these two methods:
 Run this single command in your terminal:
 
 ```sh
-curl -L https://raw.githubusercontent.com/yatish27/omakos/main/install.sh | bash
+curl -L https://raw.githubusercontent.com/amscad/omakos/main/install.sh | bash
 ```
 
 ### Option 2: Manual Install
@@ -31,7 +31,7 @@ If you prefer to review the code first:
 1. Download the repo:
 
 ```sh
-git clone https://github.com/yatish27/omakos.git && cd omakos
+git clone https://github.com/amscad/omakos.git && cd omakos
 ```
 
 2. Review the scripts (please don't run scripts you don't understand):
