@@ -103,6 +103,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - Fira Code
 - Hack
 - IBM Plex Mono & IBM Plex Sans
+- Other Nerd fonts
 
 ## Features
 
