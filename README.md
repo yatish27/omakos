@@ -92,6 +92,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [1Password](https://1password.com/)
 - [Brave Browser](https://brave.com/)
 - [Discord](https://discord.com/)
+- [iTerm2](https://iterm2.com/)
 - [Obsidian](https://obsidian.md/)
 - [Raycast](https://www.raycast.com/)
 - [Rectangle](https://rectangleapp.com/)
