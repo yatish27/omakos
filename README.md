@@ -78,31 +78,39 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [vips](https://www.libvips.org/) for image processing (automatically installs configured runtimes if `~/.mise.toml` exists)
 - [Ollama](https://ollama.ai/) for local AI models
 - [Overmind](https://github.com/DarthSim/overmind) for process management
-- [Mise](https://mise.jdx.dev/) for runtime version management
+- [Mise](https://mise.jdx.dev/) for runtime version management. The Mise configuration is present in [mise.toml](configs/mise.toml). It installs
+  - Python
+  - Ruby
+  - Rust
+  - Go
+  - Node
 - [UV](https://github.com/astral-sh/uv) for Python packaging
 - [pnpm](https://pnpm.io/) and [yarn](https://yarnpkg.com/) for Node.js package management
 
 ### Productivity & Communication
 
-- [1Password](https://1password.com/) for password management
-- [Brave Browser](https://brave.com/) for secure web browsing
-- [Discord](https://discord.com/) for team communication
-- [Obsidian](https://obsidian.md/) for note-taking
-- [Raycast](https://www.raycast.com/) for productivity enhancement
-- [Rectangle](https://rectangleapp.com/) for window management
-- [Claude](https://claude.ai/) for AI assistance
-- [NetNewsWire](https://netnewswire.com/) for RSS reading
-- [PearCleaner](https://www.pearcleaner.com/) for app uninstallation
-- [VLC](https://www.videolan.org/) for media playback
-- [WhatsApp](https://www.whatsapp.com/) and [Zoom](https://zoom.us/) for communication
+- [1Password](https://1password.com/)
+- [Brave Browser](https://brave.com/)
+- [Discord](https://discord.com/)
+- [Obsidian](https://obsidian.md/)
+- [Raycast](https://www.raycast.com/)
+- [Rectangle](https://rectangleapp.com/)
+- [Claude](https://claude.ai/)
+- [NetNewsWire](https://netnewswire.com/)
+- [PearCleaner](https://www.pearcleaner.com/)
+- [VLC](https://www.videolan.org/)
+- [WhatsApp](https://www.whatsapp.com/)
+- [Zoom](https://zoom.us/)
 
 ### Fonts
 
-- Cascadia Code & Cascadia Mono
+- Cascadia Code
+- Cascadia Mono
 - DM Sans
 - Fira Code
 - Hack
-- IBM Plex Mono & IBM Plex Sans
+- IBM Plex Mono
+- IBM Plex Sans
 - Other Nerd fonts
 
 ## Features
