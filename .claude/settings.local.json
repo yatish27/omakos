@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(defaults read:*)",
+      "Bash(defaults write:*)"
+    ],
+    "deny": []
+  }
+}

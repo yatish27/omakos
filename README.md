@@ -99,7 +99,9 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [Claude](https://claude.ai/)
 - [NetNewsWire](https://netnewswire.com/)
 - [PearCleaner](https://www.pearcleaner.com/)
-- [VLC](https://www.videolan.org/)
+- [IINA](https://iina.io/)
+- [Slack](https://slack.com/)
+- [SuperWhisper](https://superwhisper.com/)
 - [WhatsApp](https://www.whatsapp.com/)
 - [Zoom](https://zoom.us/)
 
@@ -113,6 +115,18 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - IBM Plex Mono
 - IBM Plex Sans
 - Other Nerd fonts
+
+### Enhanced macOS Settings
+
+The setup applies developer-optimized macOS configurations including:
+
+- **Performance**: Near-instant window animations and faster Mission Control
+- **Finder**: Opens to home directory, searches current folder by default, shows hidden files
+- **Text Editing**: Key repeat enabled in all apps, faster cursor movement
+- **Screenshots**: Organized in `~/Desktop/Screenshots/` folder without shadows
+- **Trackpad**: Three-finger drag enabled for better window management
+- **Keyboard**: Fastest repeat rates for efficient coding
+- **System**: Disabled automatic corrections, expanded dialogs, local saves by default
 
 ## Features
 
