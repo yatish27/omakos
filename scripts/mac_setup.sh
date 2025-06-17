@@ -13,28 +13,35 @@ defaults write -g KeyRepeat -int 1         # normal minimum is 2 (30 ms)
 print_success_muted "Keyboard repeat rates configured"
 
 # Finder preferences
-step "Showing hidden files and file extensions in Finder..."
+step "Configuring enhanced Finder settings..."
 defaults write com.apple.finder AppleShowAllFiles YES
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 defaults write com.apple.finder ShowPathbar -bool true
 defaults write com.apple.finder ShowStatusBar -bool true
 defaults write com.apple.finder _FXSortFoldersFirst -bool true
+defaults write com.apple.finder NewWindowTarget -string "PfHm"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 print_success_muted "Finder preferences configured"
 
 # System preferences
-step "Enabling tap-to-click and removing app security warnings..."
+step "Configuring enhanced system and trackpad settings..."
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
 print_success_muted "System preferences configured"
 
 # Text and input preferences
-step "Disabling automatic text corrections and substitutions..."
+step "Configuring enhanced text and input settings..."
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+defaults write NSGlobalDomain NSTextMovementDefaultKeyTimeout -float 0.03
 print_success_muted "Text input preferences configured"
 
 # Save and print dialogs
@@ -45,10 +52,19 @@ defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 print_success_muted "Save and print dialogs configured"
 
+# Performance and UI enhancements
+step "Optimizing window and UI performance..."
+defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+defaults write NSGlobalDomain NSToolbarTitleViewRolloverDelay -float 0
+print_success_muted "Performance optimizations configured"
+
 # Screenshot settings
-step "Setting PNG as default screenshot format..."
+step "Configuring enhanced screenshot settings..."
+mkdir -p ~/Desktop/Screenshots
 defaults write com.apple.screencapture type -string "png"
 defaults write com.apple.screencapture "include-date" -bool "true"
+defaults write com.apple.screencapture location -string "~/Desktop/Screenshots"
+defaults write com.apple.screencapture disable-shadow -bool true
 print_success_muted "Screenshot settings configured"
 
 # .DS_Store settings
@@ -66,11 +82,12 @@ print_success_muted "Library folder made visible"
 step "Removing Dock animation delays and clearing default apps..."
 defaults write com.apple.Dock autohide-delay -float 0
 defaults write com.apple.dock autohide-time-modifier -float 0
-defaults write com.apple.dock expose-animation-duration -float 0
+defaults write com.apple.dock expose-animation-duration -float 0.1
 defaults write com.apple.dock springboard-show-duration -int 0
 defaults write com.apple.dock springboard-hide-duration -int 0
 defaults write com.apple.dock springboard-page-duration -int 0
 defaults write com.apple.dock persistent-apps -array
+defaults write com.apple.dock mru-spaces -bool false
 print_success_muted "Dock preferences configured"
 
 # iCloud default save
@@ -84,9 +101,10 @@ defaults write com.apple.CloudSubscriptionFeatures.optIn "545129924" -bool "fals
 print_success_muted "Apple Intelligence disabled"
 
 # Restart affected applications
-step "Applying changes by restarting Finder and Dock..."
+step "Applying changes by restarting system components..."
 killall Dock
 killall Finder
+killall SystemUIServer
 print_success_muted "Applications restarted"
 
 echo ""
