@@ -65,7 +65,7 @@ step "Configuring enhanced screenshot settings..."
 mkdir -p ~/Desktop/Screenshots
 defaults write com.apple.screencapture type -string "png"
 defaults write com.apple.screencapture "include-date" -bool "true"
-defaults write com.apple.screencapture location -string "~/Desktop/Screenshots"
+defaults write com.apple.screencapture location -string "$HOME/Desktop/Screenshots"
 defaults write com.apple.screencapture disable-shadow -bool true
 print_success_muted "Screenshot settings configured"
 
