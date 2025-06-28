@@ -477,6 +477,36 @@ ask() {
   done
 }
 
+confirm_override() {
+  local file_path="$1"
+  local config_file="$2"
+  local description="${3:-file}"
+  
+  if [ -f "$file_path" ]; then
+    echo -e "\n   ${yellow}⚠${reset}  $description already exists at $file_path"
+    
+    # Show diff if both files exist
+    if [ -f "$config_file" ]; then
+      echo -e "   ${blue}📋${reset}  Showing diff between existing and new config:"
+      echo -e "   ${dim}┌─────────────────────────────────────────────────────${reset}"
+      if command -v diff &>/dev/null; then
+        diff "$file_path" "$config_file" || true
+      else
+        echo "   ${dim}diff command not available${reset}"
+      fi
+      echo -e "   ${dim}└─────────────────────────────────────────────────────${reset}"
+    fi
+    
+    if ask "Would you like to override it?" Y; then
+      return 0
+    else
+      return 1
+    fi
+  else
+    return 0
+  fi
+}
+
 ###############################################################################
 #
 ###############################################################################

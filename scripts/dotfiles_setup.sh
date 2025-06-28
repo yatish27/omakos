@@ -7,23 +7,11 @@ source ./scripts/utils.sh
 mkdir -p "$HOME/.config"
 mkdir -p "$HOME/.config/ghostty"
 
-# Function to check if file exists and confirm override
-confirm_override() {
-  local file="$1"
-  if [ -f "$file" ]; then
-    if ask "$(basename "$file") already exists. Do you want to override it?" N; then
-      return 0
-    else
-      return 1
-    fi
-  fi
-  return 0
-}
 
 # Copy ghostty configuration
 if [ -f "./configs/ghostty.conf" ]; then
   step "Setting up Ghostty configuration..."
-  if confirm_override "$HOME/.config/ghostty/config"; then
+  if confirm_override "$HOME/.config/ghostty/config" "./configs/ghostty.conf" "Ghostty configuration"; then
     cp "./configs/ghostty.conf" "$HOME/.config/ghostty/config"
     print_success "Ghostty configuration installed"
   else
@@ -36,7 +24,7 @@ fi
 # Copy rubocop configuration
 if [ -f "./configs/rubocop.yml" ]; then
   step "Setting up Rubocop configuration..."
-  if confirm_override "$HOME/.config/rubocop.yml"; then
+  if confirm_override "$HOME/.config/rubocop.yml" "./configs/rubocop.yml" "Rubocop configuration"; then
     cp "./configs/rubocop.yml" "$HOME/.config/rubocop.yml"
     print_success "Rubocop configuration installed"
   else
@@ -49,7 +37,7 @@ fi
 # Copy gemrc configuration
 if [ -f "./configs/gemrc" ]; then
   step "Setting up Gem configuration..."
-  if confirm_override "$HOME/.gemrc"; then
+  if confirm_override "$HOME/.gemrc" "./configs/gemrc" "Gem configuration"; then
     cp "./configs/gemrc" "$HOME/.gemrc"
     print_success "Gem configuration installed"
   else
@@ -62,7 +50,7 @@ fi
 # Copy zshrc configuration
 if [ -f "./configs/zshrc" ]; then
   step "Setting up Zsh configuration..."
-  if confirm_override "$HOME/.zshrc"; then
+  if confirm_override "$HOME/.zshrc" "./configs/zshrc" "Zsh configuration"; then
     cp "./configs/zshrc" "$HOME/.zshrc"
     print_success "Zsh configuration installed"
   else
@@ -75,7 +63,7 @@ fi
 # Copy mise configuration
 if [ -f "./configs/mise.toml" ]; then
   step "Setting up mise configuration..."
-  if confirm_override "$HOME/.mise.toml"; then
+  if confirm_override "$HOME/.mise.toml" "./configs/mise.toml" "mise configuration"; then
     cp "./configs/mise.toml" "$HOME/.mise.toml"
     print_success "mise configuration installed"
   else

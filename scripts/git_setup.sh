@@ -17,7 +17,7 @@ if [ ! -f "configs/git/gitconfig" ]; then
 fi
 
 # Setup gitconfig if it doesn't exist or user agrees to override
-if [ ! -f "$HOME/.gitconfig" ] || ask "A .gitconfig file already exists. Would you like to override it?" Y; then
+if [ ! -f "$HOME/.gitconfig" ] || confirm_override "$HOME/.gitconfig" "configs/git/gitconfig" ".gitconfig file"; then
   print_muted "Copying gitconfig from configs/git/gitconfig..."
   cp configs/git/gitconfig ~/.gitconfig
   print_success_muted "Copied gitconfig file"
