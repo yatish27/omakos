@@ -39,8 +39,10 @@ cd "$INSTALL_DIR"
 # Make setup script executable
 chmod +x setup.sh
 
-echo -e "\n${GREEN}✓ Download complete!${NC}"
-echo -e "${BLUE}Starting setup...${NC}\n"
+echo -e "
+${GREEN}✓ Download complete!${NC}"
+echo -e "${BLUE}Starting setup...${NC}
+"
 
 # Run setup script
 ./setup.sh

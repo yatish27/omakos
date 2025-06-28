@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -e
+
 source ./scripts/utils.sh
 
 step "Installing Homebrew packages from configs/Brewfile"

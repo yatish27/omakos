@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 source ./scripts/utils.sh
 
 # Check if Cursor is installed via Homebrew
