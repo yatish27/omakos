@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 ###############################################################################
 # VARIABLES
 ###############################################################################
@@ -41,7 +43,7 @@ _print_error_stream() {
 
 _show_spinner() {
 
-  local -r FRAMES='/-\|'
+  local -r FRAMES='/-\|\\'
 
   # shellcheck disable=SC2034
   local -r NUMBER_OR_FRAMES=${#FRAMES}
@@ -76,7 +78,7 @@ _show_spinner() {
 
   fi
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   # Display spinner while the commands are being executed.
 
@@ -146,8 +148,7 @@ _link_file() {
 
       else
 
-        printf "\r   ${yellow}!${reset} File already exists: $dst ($(basename "$src")), what do you want to do?
-     [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all? "
+        printf "\r   ${yellow}!${reset} File already exists: $dst ($(basename "$src")), what do you want to do?\n     [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all? "
         read -n 1 action
 
         case "$action" in
@@ -169,7 +170,8 @@ _link_file() {
         S)
           skip_all=true
           ;;
-        *) ;;
+        *)
+          ;;
         esac
 
       fi
@@ -366,7 +368,7 @@ execute() {
 
   _show_spinner "$cmdsPID" "$CMDS" "$MSG"
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   # Wait for the commands to no longer be executing
   # in the background, and then get their exit code.
@@ -374,7 +376,7 @@ execute() {
   wait "$cmdsPID" &>/dev/null
   exitCode=$?
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   # Print output based on what happened.
 
@@ -386,7 +388,7 @@ execute() {
 
   rm -rf "$TMP_FILE"
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   return $exitCode
 
