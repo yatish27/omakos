@@ -16,13 +16,29 @@ if [ ! -f "configs/git/gitconfig" ]; then
   exit 1
 fi
 
+# Flag to track if gitconfig was set up
+gitconfig_setup=false
+
 # Setup gitconfig if it doesn't exist or user agrees to override
-if [ ! -f "$HOME/.gitconfig" ] || confirm_override "$HOME/.gitconfig" "configs/git/gitconfig" ".gitconfig file"; then
+if [ ! -f "$HOME/.gitconfig" ]; then
   print_muted "Copying gitconfig from configs/git/gitconfig..."
   cp configs/git/gitconfig ~/.gitconfig
   print_success_muted "Copied gitconfig file"
+  gitconfig_setup=true
+elif files_are_identical "$HOME/.gitconfig" "configs/git/gitconfig"; then
+  print_success_muted "Git configuration already up to date"
+  gitconfig_setup=true
+elif confirm_override "$HOME/.gitconfig" "configs/git/gitconfig" ".gitconfig file"; then
+  print_muted "Copying gitconfig from configs/git/gitconfig..."
+  cp configs/git/gitconfig ~/.gitconfig
+  print_success_muted "Copied gitconfig file"
+  gitconfig_setup=true
+else
+  print_success_muted "Git configuration skipped."
+fi
 
-  # Prompt for Git user information and override existing settings
+# Prompt for Git user information only if gitconfig is set up
+if [ "$gitconfig_setup" = true ]; then
   print_muted "Setting up Git user information..."
 
   read -p "Enter your Git display name: " git_name
@@ -35,5 +51,5 @@ if [ ! -f "$HOME/.gitconfig" ] || confirm_override "$HOME/.gitconfig" "configs/g
 
   print_success "Git setup completed!"
 else
-  print_success_muted "Git setup skipped."
+  print_success_muted "Git setup completed (configuration skipped)."
 fi
