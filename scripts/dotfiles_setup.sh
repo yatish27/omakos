@@ -31,12 +31,12 @@ fi
 if [ -f "./configs/rubocop.yml" ]; then
   step "Setting up Rubocop configuration..."
   if [ ! -f "$HOME/.config/rubocop.yml" ]; then
-    cp "./configs/rubocop.yml" "$HOME/.config/rubocop.yml"
+    cp "./configs/rubocop.yml" "$HOME/.rubocop.yml"
     print_success "Rubocop configuration installed"
-  elif files_are_identical "$HOME/.config/rubocop.yml" "./configs/rubocop.yml"; then
+  elif files_are_identical "$HOME/.rubocop.yml" "./configs/rubocop.yml"; then
     print_success_muted "Rubocop configuration already up to date"
-  elif confirm_override "$HOME/.config/rubocop.yml" "./configs/rubocop.yml" "Rubocop configuration"; then
-    cp "./configs/rubocop.yml" "$HOME/.config/rubocop.yml"
+  elif confirm_override "$HOME/.rubocop.yml" "./configs/rubocop.yml" "Rubocop configuration"; then
+    cp "./configs/rubocop.yml" "$HOME/.rubocop.yml"
     print_success "Rubocop configuration installed"
   else
     print_muted "Skipping Rubocop configuration"
