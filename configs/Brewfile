@@ -48,6 +48,7 @@ cask "figma"                          # Design
 cask "bettertouchtool"                # Customise touch bar
 # cask "karabiner-elements"             # Keyboard customisation
 cask "jump-desktop-connect"          # Remote desktop   
+cask "hiddenbar"                      # hide menu item
 
 
 cask "cursor"
