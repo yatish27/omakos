@@ -2,8 +2,9 @@
 
 # Omakos
 
+> This is a fork of the [Omakos project](https://github.com/yatish27/omakos) 
 > Omakos turns your macOS laptop into a fully functional development machine in a single command.
-> A shell script to setup a new mac.
+> This version is a shell script to setup a new mac **VM**.
 
 Omakos is inspired by Basecamp's [Omakub](https://github.com/basecamp/omakub) project. The name is a combination of "omakase" (お任せ, Japanese for "I leave it up to you") and "macOS", reflecting its purpose of providing a curated development environment setup for macOS.
 
@@ -21,7 +22,7 @@ You can install Omakos using one of these two methods:
 Run this single command in your terminal:
 
 ```sh
-curl -L https://raw.githubusercontent.com/amscad/omakos/main/install.sh | bash
+curl -L https://raw.githubusercontent.com/amscad/omakos/vm/install.sh | bash
 ```
 
 ### Option 2: Manual Install
@@ -68,33 +69,18 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 
 ### Development Environment
 
-- [Cursor](https://cursor.sh/) - AI-powered code editor
 - [Ghostty](https://github.com/mitchellh/ghostty) - Modern terminal emulator
-- [Docker](https://www.docker.com/) for containerization
-- [OrbStack](https://orbstack.dev/) for Docker and Linux development on macOS
-- [PostgreSQL 17](https://www.postgresql.org/) with `libpq` for database management
-- [Redis](https://redis.io/) for in-memory data store
-- [jemalloc](https://jemalloc.net/) for memory allocation
-- [vips](https://www.libvips.org/) for image processing (automatically installs configured runtimes if `~/.mise.toml` exists)
-- [Ollama](https://ollama.ai/) for local AI models
-- [Overmind](https://github.com/DarthSim/overmind) for process management
 - [Mise](https://mise.jdx.dev/) for runtime version management
 - [UV](https://github.com/astral-sh/uv) for Python packaging
-- [pnpm](https://pnpm.io/) and [yarn](https://yarnpkg.com/) for Node.js package management
+
 
 ### Productivity & Communication
 
-- [1Password](https://1password.com/) for password management
 - [Brave Browser](https://brave.com/) for secure web browsing
-- [Discord](https://discord.com/) for team communication
-- [Obsidian](https://obsidian.md/) for note-taking
-- [Raycast](https://www.raycast.com/) for productivity enhancement
-- [Rectangle](https://rectangleapp.com/) for window management
 - [Claude](https://claude.ai/) for AI assistance
-- [NetNewsWire](https://netnewswire.com/) for RSS reading
-- [PearCleaner](https://www.pearcleaner.com/) for app uninstallation
-- [VLC](https://www.videolan.org/) for media playback
-- [WhatsApp](https://www.whatsapp.com/) and [Zoom](https://zoom.us/) for communication
+- [Jetbrains Toolbox](https://www.jetbrains.com/toolbox-app/)
+- [VS Code](https://code.visualstudio.com)
+- [Beyond Compare](https://www.scootersoftware.com)
 
 ### Fonts
 
