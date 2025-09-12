@@ -42,6 +42,8 @@ cask "slack"
 cask "superwhisper"
 cask "whatsapp"
 cask "zoom"
+cask "alacritty"
+cask "copilot-money"
 
 # Fonts
 cask "font-cascadia-code"
