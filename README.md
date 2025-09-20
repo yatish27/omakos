@@ -65,6 +65,9 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [jq](https://stedolan.github.io/jq/) for JSON processing
 - [btop](https://github.com/aristocratos/btop) for system resource monitoring
 - [fastfetch](https://github.com/fastfetch-cli/fastfetch) for system information display
+- [ffmpeg](https://ffmpeg.org/) for video processing
+- [gh](https://cli.github.com/) for GitHub CLI integration
+- [libyaml](https://pyyaml.org/wiki/LibYAML) for YAML parsing
 
 ### Development Environment
 
@@ -85,36 +88,41 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
   - Go
   - Node
 - [UV](https://github.com/astral-sh/uv) for Python packaging
-- [pnpm](https://pnpm.io/) and [yarn](https://yarnpkg.com/) for Node.js package management
+- [pnpm](https://pnpm.io/) for Node.js package management
 
 ### Productivity & Communication
 
-- [1Password](https://1password.com/)
-- [Brave Browser](https://brave.com/)
-- [Discord](https://discord.com/)
-- [iTerm2](https://iterm2.com/)
-- [Obsidian](https://obsidian.md/)
-- [Raycast](https://www.raycast.com/)
-- [Rectangle](https://rectangleapp.com/)
-- [Claude](https://claude.ai/)
-- [NetNewsWire](https://netnewswire.com/)
-- [PearCleaner](https://www.pearcleaner.com/)
-- [IINA](https://iina.io/)
-- [Slack](https://slack.com/)
-- [SuperWhisper](https://superwhisper.com/)
-- [WhatsApp](https://www.whatsapp.com/)
-- [Zoom](https://zoom.us/)
+- [1Password](https://1password.com/) for password management
+- [Brave Browser](https://brave.com/) for web browsing
+- [ChatGPT](https://chat.openai.com/) for AI assistance
+- [Claude](https://claude.ai/) for AI assistance
+- [Discord](https://discord.com/) for communication
+- [IINA](https://iina.io/) for media playback
+- [iTerm2](https://iterm2.com/) for terminal emulation
+- [LocalSend](https://localsend.org/) for cross-platform file sharing
+- [NetNewsWire](https://netnewswire.com/) for RSS reading
+- [Obsidian](https://obsidian.md/) for note-taking
+- [PearCleaner](https://www.pearcleaner.com/) for app uninstallation
+- [Raycast](https://www.raycast.com/) for productivity launcher
+- [Rectangle](https://rectangleapp.com/) for window management
+- [Slack](https://slack.com/) for team communication
+- [SuperWhisper](https://superwhisper.com/) for voice transcription
+- [WhatsApp](https://www.whatsapp.com/) for messaging
+- [Zoom](https://zoom.us/) for video conferencing
 
 ### Fonts
 
 - Cascadia Code
 - Cascadia Mono
+- Commit Mono
 - DM Sans
 - Fira Code
+- Geist
+- Geist Mono
 - Hack
 - IBM Plex Mono
 - IBM Plex Sans
-- Other Nerd fonts
+- Work Sans
 
 ### Enhanced macOS Settings
 
