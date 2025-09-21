@@ -5,6 +5,7 @@ ruby = 'latest'
 go = 'latest'
 node = 'lts'
 python = 'latest'
+java = 'latest'
 
 [settings]
 # Always keep the downloaded archives for faster reinstalls

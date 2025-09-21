@@ -27,7 +27,7 @@ if [ -d "$INSTALL_DIR" ]; then
 fi
 
 echo -e "${BLUE}Downloading Omakos...${NC}"
-curl -L "https://github.com/yatish27/omakos/archive/refs/heads/main.zip" -o "$TEMP_ZIP"
+curl -L "https://github.com/amscad/omakos/archive/refs/heads/main.zip" -o "$TEMP_ZIP"
 
 echo -e "${BLUE}Extracting files...${NC}"
 unzip -q "$TEMP_ZIP" -d "/tmp"

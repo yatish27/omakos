@@ -1,49 +1,54 @@
 # Packages
-brew "btop"
-brew "coreutils"
-brew "curl"
-brew "docker"
-brew "fastfetch"
-brew "ffmpeg"
-brew "fzf"
-brew "gh"
-brew "git"
-brew "jemalloc"
-brew "jq"
-brew "libpq"
-brew "libyaml"
+
+# Command line utils
+brew "coreutils"        # Those that come with macOS are outdated
+brew "findutils"        # GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
+brew "moreutils"        # Collection of tools that nobody wrote when UNIX was young 
+
+# Development
+brew "btop"             # Resource monitor
+brew "curl"             # HTTP client
+brew "fastfetch"        # Fetches system information
+brew "fzf"              # Fuzzy finder
+brew "git"              # Version control
+# brew "jemalloc"         # Memory allocator
+brew "jq"               # JSON processor
+brew "libpq"            # Required for postgres
+brew "libyaml"          # Required for ruby
 brew "mise"
-brew "ollama"
-brew "overmind"
-brew "pnpm"
-brew "postgresql@17"
-brew "redis"
-brew "uv"
-brew "vips"
+# brew "ollama"           # CLI for the Llama programming language
+# brew "overmind"         # Process manager
+# brew "pnpm"        # Package manager  
+# brew "postgresql@17"   # Postgresql
+# brew "uv"
+# brew "vips"
 brew "wget"
 brew "zsh"
+# brew "redis"
+# brew "yarn"
+brew "neovim"           # Text editor
+brew "tmux"             # Terminal multiplexer 
+brew "diff-so-fancy"    # Better git diffs
+
+# brew "mosh"             # Remote terminal
+brew "lazygit"          # Terminal UI for git  
 
 # Cask applications
-cask "1password"
-cask "brave-browser"
-cask "chatgpt"
-cask "claude"
-cask "cursor"
-cask "discord"
-cask "ghostty"
-cask "iina"
-cask "iterm2"
-cask "localsend"
-cask "netnewswire"
+cask "brave-browser"                  # Browser
+cask "jetbrains-toolbox"              # JetBrains IDEs
+cask "objektiv"                       # Switch browswers from the menu bar
+cask "visual-studio-code"             # Text editor
+cask "iterm2"                         # Terminal  
+cask "beyond-compare"                 # File comparison
+cask "bettertouchtool"                # Customise touch bar
+cask "jump-desktop-connect"          # Remote desktop   
+
+cask "ghostty"              # Terminal from Mitchell Hashimoto
 cask "obsidian"
-cask "orbstack"
-cask "pearcleaner"
-cask "raycast"
-cask "rectangle"
-cask "slack"
-cask "superwhisper"
-cask "whatsapp"
-cask "zoom"
+cask "claude"
+
+
+cask "zed"
 
 # Fonts
 cask "font-cascadia-code"
@@ -55,5 +60,14 @@ cask "font-geist"
 cask "font-hack"
 cask "font-ibm-plex-mono"
 cask "font-ibm-plex-sans"
-cask "font-geist-mono"
-cask "font-work-sans"
+
+
+# additional terminal fonts
+cask "font-dejavu-sans-mono-nerd-font"
+cask "font-fira-code-nerd-font"
+cask "font-fira-mono-nerd-font"
+cask "font-go-mono-nerd-font"
+cask "font-hack-nerd-font"
+cask "font-jetbrains-mono-nerd-font"
+cask "font-roboto-mono-nerd-font"
+

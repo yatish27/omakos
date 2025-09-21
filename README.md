@@ -2,8 +2,9 @@
 
 # Omakos
 
+> This is a fork of the [Omakos project](https://github.com/yatish27/omakos) 
 > Omakos turns your macOS laptop into a fully functional development machine in a single command.
-> A shell script to setup a new mac.
+> This version is a shell script to setup a new mac **VM**.
 
 Omakos is inspired by Basecamp's [Omakub](https://github.com/basecamp/omakub) project. The name is a combination of "omakase" (お任せ, Japanese for "I leave it up to you") and "macOS", reflecting its purpose of providing a curated development environment setup for macOS.
 
@@ -21,7 +22,7 @@ You can install Omakos using one of these two methods:
 Run this single command in your terminal:
 
 ```sh
-curl -L https://raw.githubusercontent.com/yatish27/omakos/main/install.sh | bash
+curl -L https://raw.githubusercontent.com/amscad/omakos/vm/install.sh | bash
 ```
 
 ### Option 2: Manual Install
@@ -31,7 +32,7 @@ If you prefer to review the code first:
 1. Download the repo:
 
 ```sh
-git clone https://github.com/yatish27/omakos.git && cd omakos
+git clone https://github.com/amscad/omakos.git && cd omakos
 ```
 
 2. Review the scripts (please don't run scripts you don't understand):
@@ -71,44 +72,19 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 
 ### Development Environment
 
-- [Cursor](https://cursor.sh/) - AI-powered code editor
 - [Ghostty](https://github.com/mitchellh/ghostty) - Modern terminal emulator
-- [Docker](https://www.docker.com/) for containerization
-- [OrbStack](https://orbstack.dev/) for Docker and Linux development on macOS
-- [PostgreSQL 17](https://www.postgresql.org/) with `libpq` for database management
-- [Redis](https://redis.io/) for in-memory data store
-- [jemalloc](https://jemalloc.net/) for memory allocation
-- [vips](https://www.libvips.org/) for image processing (automatically installs configured runtimes if `~/.mise.toml` exists)
-- [Ollama](https://ollama.ai/) for local AI models
-- [Overmind](https://github.com/DarthSim/overmind) for process management
-- [Mise](https://mise.jdx.dev/) for runtime version management. The Mise configuration is present in [mise.toml](configs/mise.toml). It installs
-  - Python
-  - Ruby
-  - Rust
-  - Go
-  - Node
+
+- [Mise](https://mise.jdx.dev/) for runtime version management
 - [UV](https://github.com/astral-sh/uv) for Python packaging
-- [pnpm](https://pnpm.io/) for Node.js package management
+
 
 ### Productivity & Communication
 
-- [1Password](https://1password.com/) for password management
-- [Brave Browser](https://brave.com/) for web browsing
-- [ChatGPT](https://chat.openai.com/) for AI assistance
+- [Brave Browser](https://brave.com/) for secure web browsing
 - [Claude](https://claude.ai/) for AI assistance
-- [Discord](https://discord.com/) for communication
-- [IINA](https://iina.io/) for media playback
-- [iTerm2](https://iterm2.com/) for terminal emulation
-- [LocalSend](https://localsend.org/) for cross-platform file sharing
-- [NetNewsWire](https://netnewswire.com/) for RSS reading
-- [Obsidian](https://obsidian.md/) for note-taking
-- [PearCleaner](https://www.pearcleaner.com/) for app uninstallation
-- [Raycast](https://www.raycast.com/) for productivity launcher
-- [Rectangle](https://rectangleapp.com/) for window management
-- [Slack](https://slack.com/) for team communication
-- [SuperWhisper](https://superwhisper.com/) for voice transcription
-- [WhatsApp](https://www.whatsapp.com/) for messaging
-- [Zoom](https://zoom.us/) for video conferencing
+- [Jetbrains Toolbox](https://www.jetbrains.com/toolbox-app/)
+- [VS Code](https://code.visualstudio.com)
+- [Beyond Compare](https://www.scootersoftware.com)
 
 ### Fonts
 
