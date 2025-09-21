@@ -204,9 +204,6 @@ The script is designed to be customizable. You can:
 - Adjust macOS settings in [`scripts/mac_setup.sh`](scripts/mac_setup.sh)
 - Modify the dotfiles in [`configs/`](configs/) directory
 
-## Contributing
-
-Feel free to submit issues and enhancement requests.
 
 ## License
 
