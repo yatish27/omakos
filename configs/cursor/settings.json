@@ -1,11 +1,12 @@
 {
   // Editor appearance
-  "workbench.colorTheme": "Night Owl",
-  "editor.fontFamily": "Cascadia Code",
+  "workbench.colorTheme": "Tokyo Night",
+  "editor.fontFamily": "Cascadia code",
   "editor.fontSize": 14,
-  "editor.fontWeight": 325,
+  "editor.fontWeight": 300,
   "editor.minimap.enabled": false,
   "editor.rulers": [80, 120],
+  "editor.letterSpacing": -0.25,
 
   // Editor behavior
   "editor.formatOnSave": true,
@@ -43,6 +44,10 @@
     "erb": "html"
   },
 
+  // Git and GitHub settings
+  "git.autofetch": true,
+  "git.confirmSync": false,
+
   // Ruby LSP settings
   "rubyLsp.pullDiagnosticsOn": "save",
   "rubyLsp.enabledFeatures": {
@@ -70,13 +75,6 @@
     "miseExecutablePath": "/opt/homebrew/bin/mise"
   },
   "rubyLsp.erbSupport": true,
-
-  // Rubocop settings
-  "rubocop.mode": "enableUnconditionally",
-
-  // Git and GitHub settings
-  "git.autofetch": true,
-  "git.confirmSync": false,
 
   // Language-specific settings
   "[ruby]": {
@@ -119,8 +117,12 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
 
   "security.promptForLocalFileProtocolHandling": false,
-  // "vscode-erb-beautify.keepBlankLines": 1,
-  "extensions.ignoreRecommendations": true
+
+  "extensions.ignoreRecommendations": true,
+  "diffEditor.ignoreTrimWhitespace": true
 }

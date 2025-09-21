@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 ###############################################################################
 # VARIABLES
 ###############################################################################
@@ -41,7 +43,7 @@ _print_error_stream() {
 
 _show_spinner() {
 
-  local -r FRAMES='/-\|'
+  local -r FRAMES='/-\|\\'
 
   # shellcheck disable=SC2034
   local -r NUMBER_OR_FRAMES=${#FRAMES}
@@ -76,7 +78,7 @@ _show_spinner() {
 
   fi
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   # Display spinner while the commands are being executed.
 
@@ -146,8 +148,7 @@ _link_file() {
 
       else
 
-        printf "\r   ${yellow}!${reset} File already exists: $dst ($(basename "$src")), what do you want to do?
-     [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all? "
+        printf "\r   ${yellow}!${reset} File already exists: $dst ($(basename "$src")), what do you want to do?\n     [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all? "
         read -n 1 action
 
         case "$action" in
@@ -169,7 +170,8 @@ _link_file() {
         S)
           skip_all=true
           ;;
-        *) ;;
+        *)
+          ;;
         esac
 
       fi
@@ -366,7 +368,7 @@ execute() {
 
   _show_spinner "$cmdsPID" "$CMDS" "$MSG"
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   # Wait for the commands to no longer be executing
   # in the background, and then get their exit code.
@@ -374,7 +376,7 @@ execute() {
   wait "$cmdsPID" &>/dev/null
   exitCode=$?
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   # Print output based on what happened.
 
@@ -386,7 +388,7 @@ execute() {
 
   rm -rf "$TMP_FILE"
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   return $exitCode
 
@@ -475,6 +477,65 @@ ask() {
     esac
 
   done
+}
+
+show_file_diff() {
+  local file_path="$1"
+  local config_file="$2"
+  
+  if [ -f "$file_path" ] && [ -f "$config_file" ]; then
+    echo -e "   ${blue}📋${reset}  Showing diff between existing and new config:"
+    echo -e "   ${dim}┌─────────────────────────────────────────────────────${reset}"
+    if command -v diff &>/dev/null; then
+      diff "$file_path" "$config_file" || true
+    else
+      echo "   ${dim}diff command not available${reset}"
+    fi
+    echo -e "   ${dim}└─────────────────────────────────────────────────────${reset}"
+  fi
+}
+
+files_are_identical() {
+  local file_path="$1"
+  local config_file="$2"
+  
+  if [ -f "$file_path" ] && [ -f "$config_file" ]; then
+    if command -v diff &>/dev/null; then
+      diff "$file_path" "$config_file" >/dev/null 2>&1
+      return $?
+    else
+      # Fallback: compare file sizes and content if diff is not available
+      if [ "$(wc -c < "$file_path")" = "$(wc -c < "$config_file")" ]; then
+        cmp "$file_path" "$config_file" >/dev/null 2>&1
+        return $?
+      else
+        return 1
+      fi
+    fi
+  else
+    return 1
+  fi
+}
+
+confirm_override() {
+  local file_path="$1"
+  local config_file="$2"
+  local description="${3:-file}"
+  
+  if [ -f "$file_path" ]; then
+    echo -e "\n   ${yellow}⚠${reset}  $description already exists at $file_path"
+    
+    # Show diff if both files exist
+    show_file_diff "$file_path" "$config_file"
+    
+    if ask "Would you like to override it?" Y; then
+      return 0
+    else
+      return 1
+    fi
+  else
+    return 0
+  fi
 }
 
 ###############################################################################
