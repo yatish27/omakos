@@ -130,8 +130,8 @@ source ./scripts/mac_setup.sh
 ###############################################################################
 # SETUP: Cursor
 ###############################################################################
-chapter "Setting up Cursor…"
-source ./scripts/cursor_setup.sh
+# chapter "Setting up Cursor…" 
+# source ./scripts/cursor_setup.sh
 
 ###############################################################################
 # SETUP: Git
