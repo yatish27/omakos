@@ -206,7 +206,7 @@ The script is designed to be customizable. You can:
 
 ## Contributing
 
-Feel free to submit issues and enhancement requests!
+Feel free to submit issues and enhancement requests.
 
 ## License
 
