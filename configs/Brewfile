@@ -1,4 +1,5 @@
 # Packages
+
 # Command line utils
 brew "coreutils"        # Those that come with macOS are outdated
 brew "findutils"        # GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
@@ -46,16 +47,20 @@ cask "ghostty"              # Terminal from Mitchell Hashimoto
 cask "obsidian"
 cask "claude"
 
+
 cask "zed"
 
 # Fonts
 cask "font-cascadia-code"
 cask "font-cascadia-mono"
+cask "font-commit-mono"
 cask "font-dm-sans"
 cask "font-fira-code"
+cask "font-geist"
 cask "font-hack"
 cask "font-ibm-plex-mono"
 cask "font-ibm-plex-sans"
+
 
 # additional terminal fonts
 cask "font-dejavu-sans-mono-nerd-font"
@@ -65,3 +70,4 @@ cask "font-go-mono-nerd-font"
 cask "font-hack-nerd-font"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-roboto-mono-nerd-font"
+

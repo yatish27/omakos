@@ -66,10 +66,14 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [jq](https://stedolan.github.io/jq/) for JSON processing
 - [btop](https://github.com/aristocratos/btop) for system resource monitoring
 - [fastfetch](https://github.com/fastfetch-cli/fastfetch) for system information display
+- [ffmpeg](https://ffmpeg.org/) for video processing
+- [gh](https://cli.github.com/) for GitHub CLI integration
+- [libyaml](https://pyyaml.org/wiki/LibYAML) for YAML parsing
 
 ### Development Environment
 
 - [Ghostty](https://github.com/mitchellh/ghostty) - Modern terminal emulator
+
 - [Mise](https://mise.jdx.dev/) for runtime version management
 - [UV](https://github.com/astral-sh/uv) for Python packaging
 
@@ -84,11 +88,29 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 
 ### Fonts
 
-- Cascadia Code & Cascadia Mono
+- Cascadia Code
+- Cascadia Mono
+- Commit Mono
 - DM Sans
 - Fira Code
+- Geist
+- Geist Mono
 - Hack
-- IBM Plex Mono & IBM Plex Sans
+- IBM Plex Mono
+- IBM Plex Sans
+- Work Sans
+
+### Enhanced macOS Settings
+
+The setup applies developer-optimized macOS configurations including:
+
+- **Performance**: Near-instant window animations and faster Mission Control
+- **Finder**: Opens to home directory, searches current folder by default, shows hidden files
+- **Text Editing**: Key repeat enabled in all apps, faster cursor movement
+- **Screenshots**: Organized in `~/Desktop/Screenshots/` folder without shadows
+- **Trackpad**: Three-finger drag enabled for better window management
+- **Keyboard**: Fastest repeat rates for efficient coding
+- **System**: Disabled automatic corrections, expanded dialogs, local saves by default
 
 ## Features
 
