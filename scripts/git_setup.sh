@@ -53,5 +53,30 @@ if [ "$gitconfig_setup" = true ]; then
 
   print_success "Git setup completed!"
 else
-  print_success_muted "Git setup completed (configuration skipped)."
+
+  print_success_muted "Git setup skipped."
+fi
+
+print_muted "Setting up Git Ignore..."
+
+# Check if gitignore_global template exists
+if [ ! -f "configs/git/gitignore_global" ]; then
+  print_error "No gitignore found in configs/git/gitignore_global. Please create one first."
+  exit 1
+fi
+
+# Setup gitignore_global if it doesn't exist or user agrees to override
+if [ ! -f "$HOME/.gitignore_global" ] || ask "A .gitignore_global file already exists. Would you like to override it?" Y; then
+  print_muted "Copying gitignore_global from configs/git/gitignore_global..."
+  cp configs/git/gitignore_global ~/.gitignore_global
+  print_success_muted "Copied gitignore_global file"
+
+  # Set global gitignore
+  git config --global core.excludesfile ~/.gitignore_global
+  print_success_muted "Set global gitignore to: ~/.gitignore_global"
+
+  print_success "Git Ignore setup completed!"
+else
+  print_success_muted "Git Ignore setup skipped."
+
 fi

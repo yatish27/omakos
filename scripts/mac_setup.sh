@@ -15,17 +15,16 @@ defaults write -g KeyRepeat -int 1         # normal minimum is 2 (30 ms)
 print_success_muted "Keyboard repeat rates configured"
 
 # Finder preferences
-step "Configuring enhanced Finder settings..."
-defaults write com.apple.finder AppleShowAllFiles YES
-defaults write NSGlobalDomain AppleShowAllExtensions -bool true
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
-defaults write com.apple.finder ShowPathbar -bool true
-defaults write com.apple.finder ShowStatusBar -bool true
-defaults write com.apple.finder _FXSortFoldersFirst -bool true
-defaults write com.apple.finder NewWindowTarget -string "PfHm"
-defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
-defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
-print_success_muted "Finder preferences configured"
+
+# step "Showing hidden files and file extensions in Finder..."
+# defaults write com.apple.finder AppleShowAllFiles YES
+# defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+# defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+# defaults write com.apple.finder ShowPathbar -bool true
+# defaults write com.apple.finder ShowStatusBar -bool true
+# defaults write com.apple.finder _FXSortFoldersFirst -bool true
+# print_success_muted "Finder preferences configured"
+
 
 # System preferences
 step "Configuring enhanced system and trackpad settings..."
