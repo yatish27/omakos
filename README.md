@@ -72,6 +72,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 ### Development Environment
 
 - [Cursor](https://cursor.sh/) - AI-powered code editor
+- [Neovim](https://neovim.io/) with [LazyVim](https://www.lazyvim.org/) - Modern Vim-based editor
 - [Ghostty](https://github.com/mitchellh/ghostty) - Modern terminal emulator
 - [Docker](https://www.docker.com/) for containerization
 - [OrbStack](https://orbstack.dev/) for Docker and Linux development on macOS
@@ -147,6 +148,7 @@ Each script in the [`scripts/`](scripts/) directory can be run independently:
 ./scripts/mac_setup.sh     # Only configure macOS settings
 ./scripts/git_setup.sh     # Only setup Git configuration
 ./scripts/cursor_setup.sh  # Only configure Cursor editor
+./scripts/nvim_setup.sh    # Only configure Neovim with LazyVim
 ./scripts/mise.sh         # Only setup mise and install configured runtimes
 ./scripts/dotfiles_setup.sh # Only setup dotfiles
 ./scripts/ssh_setup.sh    # Only configure SSH settings
@@ -173,6 +175,7 @@ omakos/
 │   ├── git_setup.sh        # Git configuration
 │   ├── mac_setup.sh        # macOS system preferences
 │   ├── mise.sh             # Mise runtime manager setup
+│   ├── nvim_setup.sh       # Neovim configuration
 │   ├── ssh_setup.sh        # SSH configuration
 │   ├── utils.sh            # Utility functions
 │   └── zsh_setup.sh        # ZSH shell setup
@@ -180,6 +183,7 @@ omakos/
 │   ├── Brewfile            # Homebrew packages list
 │   ├── cursor/             # Cursor editor settings
 │   ├── git/                # Git configuration files
+│   ├── nvim/               # Neovim configuration with LazyVim
 │   ├── ssh/                # SSH configuration files
 │   ├── gemrc              # Ruby gems configuration
 │   ├── ghostty.conf       # Ghostty terminal config
@@ -200,9 +204,6 @@ The script is designed to be customizable. You can:
 - Adjust macOS settings in [`scripts/mac_setup.sh`](scripts/mac_setup.sh)
 - Modify the dotfiles in [`configs/`](configs/) directory
 
-## Contributing
-
-Feel free to submit issues and enhancement requests!
 
 ## License
 
