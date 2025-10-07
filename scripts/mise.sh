@@ -15,6 +15,24 @@ fi
 
 print_success_muted "mise detected"
 
+# Copy mise configuration
+if [ -f "./configs/mise.toml" ]; then
+  step "Setting up mise configuration..."
+  if [ ! -f "$HOME/.mise.toml" ]; then
+    cp "./configs/mise.toml" "$HOME/.mise.toml"
+    print_success "mise configuration installed"
+  elif files_are_identical "$HOME/.mise.toml" "./configs/mise.toml"; then
+    print_success_muted "mise configuration already up to date"
+  elif confirm_override "$HOME/.mise.toml" "./configs/mise.toml" "mise configuration"; then
+    cp "./configs/mise.toml" "$HOME/.mise.toml"
+    print_success "mise configuration installed"
+  else
+    print_muted "Skipping mise configuration"
+  fi
+else
+  print_warning "mise configuration file not found"
+fi
+
 # Check if mise configuration exists in home directory
 if [ -f "$HOME/.mise.toml" ]; then
   step "mise configuration found in home directory"
