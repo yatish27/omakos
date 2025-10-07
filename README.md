@@ -154,6 +154,7 @@ Each script in the [`scripts/`](scripts/) directory can be run independently:
 ./scripts/mise.sh      # Only setup mise and install configured runtimes
 ./scripts/rubocop.sh   # Only setup Rubocop configuration
 ./scripts/gemrc.sh     # Only setup Gem configuration
+./scripts/irbrc.sh     # Only setup IRB configuration
 ./scripts/zshrc.sh     # Only setup Zsh configuration
 ./scripts/ssh.sh       # Only configure SSH settings
 ```
@@ -178,6 +179,7 @@ omakos/
 │   ├── gemrc.sh            # Gem configuration
 │   ├── ghostty.sh          # Ghostty terminal configuration
 │   ├── git.sh              # Git configuration
+│   ├── irbrc.sh            # IRB configuration
 │   ├── mac.sh              # macOS system preferences
 │   ├── mise.sh             # Mise runtime manager setup
 │   ├── nvim.sh             # Neovim configuration
@@ -196,6 +198,7 @@ omakos/
 │   ├── zed/                # Zed editor settings
 │   ├── gemrc              # Ruby gems configuration
 │   ├── ghostty.conf       # Ghostty terminal config
+│   ├── irbrc              # IRB (Interactive Ruby) configuration
 │   ├── mise.toml          # Mise runtime versions config
 │   ├── rubocop.yml        # Ruby code style config
 │   └── zshrc              # Zsh shell configuration
