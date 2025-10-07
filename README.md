@@ -73,6 +73,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 
 - [Cursor](https://cursor.sh/) - AI-powered code editor
 - [Neovim](https://neovim.io/) with [LazyVim](https://www.lazyvim.org/) - Modern Vim-based editor
+- [Zed](https://zed.dev/) - High-performance code editor
 - [Ghostty](https://github.com/mitchellh/ghostty) - Modern terminal emulator
 - [Docker](https://www.docker.com/) for containerization
 - [OrbStack](https://orbstack.dev/) for Docker and Linux development on macOS
@@ -145,13 +146,16 @@ Each script in the [`scripts/`](scripts/) directory can be run independently:
 
 ```sh
 # Run individual scripts
-./scripts/mac_setup.sh     # Only configure macOS settings
-./scripts/git_setup.sh     # Only setup Git configuration
-./scripts/cursor_setup.sh  # Only configure Cursor editor
-./scripts/nvim_setup.sh    # Only configure Neovim with LazyVim
-./scripts/mise.sh         # Only setup mise and install configured runtimes
-./scripts/dotfiles_setup.sh # Only setup dotfiles
-./scripts/ssh_setup.sh    # Only configure SSH settings
+./scripts/mac.sh       # Only configure macOS settings
+./scripts/git.sh       # Only setup Git configuration
+./scripts/cursor.sh    # Only configure Cursor editor
+./scripts/nvim.sh      # Only configure Neovim with LazyVim
+./scripts/zed.sh       # Only configure Zed editor
+./scripts/mise.sh      # Only setup mise and install configured runtimes
+./scripts/rubocop.sh   # Only setup Rubocop configuration
+./scripts/gemrc.sh     # Only setup Gem configuration
+./scripts/zshrc.sh     # Only setup Zsh configuration
+./scripts/ssh.sh       # Only configure SSH settings
 ```
 
 The scripts are designed to be:
@@ -170,25 +174,31 @@ omakos/
 ├── scripts/
 │   ├── ascii.sh            # ASCII art for terminal output
 │   ├── brew.sh             # Homebrew package installation
-│   ├── cursor_setup.sh     # Cursor editor configuration
-│   ├── dotfiles_setup.sh   # Dotfiles management
-│   ├── git_setup.sh        # Git configuration
-│   ├── mac_setup.sh        # macOS system preferences
+│   ├── cursor.sh           # Cursor editor configuration
+│   ├── gemrc.sh            # Gem configuration
+│   ├── ghostty.sh          # Ghostty terminal configuration
+│   ├── git.sh              # Git configuration
+│   ├── mac.sh              # macOS system preferences
 │   ├── mise.sh             # Mise runtime manager setup
-│   ├── nvim_setup.sh       # Neovim configuration
-│   ├── ssh_setup.sh        # SSH configuration
+│   ├── nvim.sh             # Neovim configuration
+│   ├── rubocop.sh          # Rubocop configuration
+│   ├── ssh.sh              # SSH configuration
 │   ├── utils.sh            # Utility functions
-│   └── zsh_setup.sh        # ZSH shell setup
+│   ├── zed.sh              # Zed editor configuration
+│   ├── zsh.sh              # ZSH shell setup
+│   └── zshrc.sh            # Zshrc configuration
 ├── configs/
 │   ├── Brewfile            # Homebrew packages list
 │   ├── cursor/             # Cursor editor settings
 │   ├── git/                # Git configuration files
 │   ├── nvim/               # Neovim configuration with LazyVim
 │   ├── ssh/                # SSH configuration files
+│   ├── zed/                # Zed editor settings
 │   ├── gemrc              # Ruby gems configuration
 │   ├── ghostty.conf       # Ghostty terminal config
 │   ├── mise.toml          # Mise runtime versions config
-│   └── rubocop.yml        # Ruby code style config
+│   ├── rubocop.yml        # Ruby code style config
+│   └── zshrc              # Zsh shell configuration
 └── README.md
 ```
 
@@ -201,8 +211,8 @@ The [`configs/`](configs/) directory contains all config files.
 The script is designed to be customizable. You can:
 
 - Modify the [`Brewfile`](configs/Brewfile) to add/remove packages
-- Adjust macOS settings in [`scripts/mac_setup.sh`](scripts/mac_setup.sh)
-- Modify the dotfiles in [`configs/`](configs/) directory
+- Adjust macOS settings in [`scripts/mac.sh`](scripts/mac.sh)
+- Modify the configuration files in [`configs/`](configs/) directory
 
 
 ## License
