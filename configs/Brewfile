@@ -44,6 +44,7 @@ cask "rectangle"
 cask "slack"
 cask "superwhisper"
 cask "whatsapp"
+cask "zed"
 cask "zoom"
 
 # Fonts
