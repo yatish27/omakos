@@ -1,0 +1,239 @@
+{
+  "theme": "GitHub Dark Default",
+  "buffer_font_size": 14,
+  "buffer_font_family": "Google Sans Code",
+  "tab_size": 2,
+  "buffer_line_height": {
+    "custom": 1.6
+  },
+  "hard_tabs": false,
+  "soft_wrap": "editor_width",
+  "preferred_line_length": 100,
+  "format_on_save": "on",
+  "remove_trailing_whitespace_on_save": true,
+  "ensure_final_newline_on_save": true,
+  "show_whitespaces": "selection",
+  "show_wrap_guides": true,
+  "relative_line_numbers": false,
+  "cursor_blink": true,
+  "lsp_highlight_debounce": 100,
+  "auto_update": true,
+  "file_types": {
+    "Gemfile": ["Ruby"],
+    "Guardfile": ["Ruby"],
+    "Rakefile": ["Ruby"],
+    "*.rake": ["Ruby"],
+    "*.gemspec": ["Ruby"],
+    "*.ru": ["Ruby"],
+    "*.arb": ["Ruby"],
+    "*.jbuilder": ["Ruby"],
+    "*.thor": ["Ruby"],
+    "Thorfile": ["Ruby"],
+    "Fastfile": ["Ruby"],
+    "Podfile": ["Ruby"],
+    "Vagrantfile": ["Ruby"],
+    "Brewfile": ["Ruby"],
+    "*.erb": ["ERB"],
+    "*.html.erb": ["ERB"],
+    "*.heex": ["HEEx"],
+    "*.leex": ["HEEx"]
+  },
+  "base_keymap": "VSCode",
+  "enable_language_server": true,
+  "show_call_status_icon": false,
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  },
+  "confirm_quit": false,
+  "restore_on_startup": "last_workspace",
+  "extend_comment_on_newline": true,
+  "use_autoclose": true,
+  "show_completion_documentation": true,
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.svn",
+    "**/.hg",
+    "**/CVS",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/node_modules",
+    "**/.next",
+    "**/_build",
+    "**/deps",
+    "**/.elixir_ls",
+    "**/tmp",
+    "**/dist",
+    "**/build",
+    "**/coverage",
+    "**/.cache",
+    "**/vendor/bundle",
+    "**/public/packs",
+    "**/public/assets"
+  ],
+  "inlay_hints": {
+    "enabled": true,
+    "show_type_hints": false,
+    "show_parameter_hints": false,
+    "show_other_hints": true,
+    "edit_debounce_ms": 700,
+    "scroll_debounce_ms": 50
+  },
+  "git": {
+    "git_gutter": "tracked_files",
+    "inline_blame": {
+      "enabled": true,
+      "delay_ms": 600
+    }
+  },
+  "terminal": {
+    "font_size": 14,
+    "font_family": "Google Sans Code",
+    "line_height": {
+      "custom": 1.4
+    },
+    "shell": {
+      "program": "zsh"
+    },
+    "copy_on_select": true,
+    "dock": "bottom",
+    "default_width": 640,
+    "default_height": 320,
+    "detect_venv": {
+      "on": {
+        "directories": [".env", "env", ".venv", "venv"],
+        "activate_script": "default"
+      }
+    }
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "disable_ai": true,
+  "lsp": {
+    "ruby-lsp": {
+      "initialization_options": {
+        "enabledFeatures": {
+          "codeActions": true,
+          "diagnostics": true,
+          "documentHighlights": true,
+          "documentLink": true,
+          "documentSymbols": true,
+          "foldingRanges": true,
+          "formatting": true,
+          "hover": true,
+          "inlayHint": false,
+          "onTypeFormatting": true,
+          "selectionRanges": true,
+          "semanticHighlighting": true,
+          "completion": true,
+          "codeLens": false,
+          "debugging": true
+        }
+      }
+    },
+    "typescript-language-server": {
+      "initialization_options": {
+        "preferences": {
+          "includeInlayParameterNameHints": "all",
+          "includeInlayFunctionParameterTypeHints": true,
+          "includeInlayVariableTypeHints": true,
+          "includeInlayPropertyDeclarationTypeHints": true,
+          "includeInlayFunctionLikeReturnTypeHints": true,
+          "includeInlayEnumMemberValueHints": true,
+          "importModuleSpecifierPreference": "shortest",
+          "quotePreference": "single"
+        }
+      }
+    },
+    "tailwindcss-language-server": {
+      "settings": {
+        "includeLanguages": {
+          "erb": "html",
+          "eex": "html",
+          "heex": "html"
+        },
+        "experimental": {
+          "classRegex": [["class[:]\\s*\"([^\"]*)\"", "([a-zA-Z0-9\\s\\-:]+)"]]
+        }
+      }
+    }
+  },
+  "languages": {
+    "Ruby": {
+      "tab_size": 2,
+      "hard_tabs": false,
+      "preferred_line_length": 120,
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "rubocop",
+          "arguments": ["-a", "--stdin", "{buffer_path}", "--stderr"]
+        }
+      },
+      "language_servers": ["ruby-lsp", "!solargraph"],
+      "inlay_hints": {
+        "enabled": false
+      }
+    },
+    "JavaScript": {
+      "tab_size": 2,
+      "hard_tabs": false,
+      "preferred_line_length": 100,
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "prettier",
+          "arguments": ["--stdin-filepath", "{buffer_path}"]
+        }
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true
+      }
+    },
+    "TypeScript": {
+      "tab_size": 2,
+      "hard_tabs": false,
+      "preferred_line_length": 100,
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "prettier",
+          "arguments": ["--stdin-filepath", "{buffer_path}"]
+        }
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true
+      }
+    },
+    "TSX": {
+      "tab_size": 2,
+      "hard_tabs": false,
+      "preferred_line_length": 100,
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "prettier",
+          "arguments": ["--stdin-filepath", "{buffer_path}"]
+        }
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true
+      }
+    },
+    "ERB": {
+      "tab_size": 2,
+      "hard_tabs": false,
+      "preferred_line_length": 120,
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "erb-format",
+          "arguments": ["--stdin", "--stdin-filename", "{buffer_path}"]
+        }
+      }
+    }
+  }
+}
