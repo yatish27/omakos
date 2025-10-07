@@ -101,37 +101,61 @@ source ./scripts/brew.sh
 # INSTALL: Setup ZSH and oh-my-zsh
 ###############################################################################
 chapter "Setting up ZSH…"
-source ./scripts/zsh_setup.sh
+source ./scripts/zsh.sh
 
 ###############################################################################
 # SETUP: Cursor
 ###############################################################################
 chapter "Setting up Cursor…"
-source ./scripts/cursor_setup.sh
+source ./scripts/cursor.sh
 
 ###############################################################################
 # SETUP: Neovim
 ###############################################################################
 chapter "Setting up Neovim…"
-source ./scripts/nvim_setup.sh
+source ./scripts/nvim.sh
+
+###############################################################################
+# SETUP: Zed
+###############################################################################
+chapter "Setting up Zed…"
+source ./scripts/zed.sh
 
 ###############################################################################
 # SETUP: Git
 ###############################################################################
 chapter "Setting up Git…"
-source ./scripts/git_setup.sh
+source ./scripts/git.sh
 
 ###############################################################################
 # SETUP: SSH
 ###############################################################################
 chapter "Setting up SSH…"
-source ./scripts/ssh_setup.sh
+source ./scripts/ssh.sh
 
 ###############################################################################
-# SETUP: Dotfiles
+# SETUP: Rubocop
 ###############################################################################
-chapter "Setting up Dotfiles…"
-source ./scripts/dotfiles_setup.sh
+chapter "Setting up Rubocop…"
+source ./scripts/rubocop.sh
+
+###############################################################################
+# SETUP: Gemrc
+###############################################################################
+chapter "Setting up Gem configuration…"
+source ./scripts/gemrc.sh
+
+###############################################################################
+# SETUP: Zshrc
+###############################################################################
+chapter "Setting up Zsh configuration…"
+source ./scripts/zshrc.sh
+
+###############################################################################
+# SETUP: Ghostty
+###############################################################################
+chapter "Setting up Ghostty…"
+source ./scripts/ghostty.sh
 
 ###############################################################################
 # SETUP: Development Tools with mise
@@ -143,7 +167,7 @@ source ./scripts/mise.sh
 # SETUP: Mac Settings
 ###############################################################################
 chapter "Setting up Mac Settings…"
-source ./scripts/mac_setup.sh
+source ./scripts/mac.sh
 
 ###############################################################################
 # SETUP: Complete
