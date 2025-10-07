@@ -121,6 +121,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - Fira Code
 - Geist
 - Geist Mono
+- Google Sans Code
 - Hack
 - IBM Plex Mono
 - IBM Plex Sans
