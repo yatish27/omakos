@@ -23,3 +23,7 @@ eval "$(fzf --zsh)"
 
 # PostgreSQL path configuration
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+
+export PGGSSENCMODE="disable"
+
+export PATH="$HOME/.local/bin:$PATH"
