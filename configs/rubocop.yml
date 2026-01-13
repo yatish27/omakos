@@ -30,6 +30,9 @@ Bundler/OrderedGems:
 Gemspec/AddRuntimeDependency:
   Enabled: false
 
+Gemspec/AttributeAssignment:
+  Enabled: false
+
 Gemspec/DependencyVersion:
   Enabled: false
 
@@ -132,10 +135,13 @@ Layout/EmptyLineAfterMultilineCondition:
 
 Layout/EmptyLineBetweenDefs:
   Enabled: true
-  AllowAdjacentOneLineDefs: false
+  AllowAdjacentOneLineDefs: true
   NumberOfEmptyLines: 1
 
 Layout/EmptyLines:
+  Enabled: true
+
+Layout/EmptyLinesAfterModuleInclusion:
   Enabled: true
 
 Layout/EmptyLinesAroundAccessModifier:
@@ -243,6 +249,7 @@ Layout/InitialIndentation:
 
 Layout/LeadingCommentSpace:
   Enabled: true
+  AllowRBSInlineAnnotation: true
 
 Layout/LeadingEmptyLines:
   Enabled: true
@@ -439,11 +446,13 @@ Lint/AmbiguousRange:
 Lint/AmbiguousRegexpLiteral:
   Enabled: true
 
+Lint/ArrayLiteralInRegexp:
+  Enabled: true
+  AutoCorrect: false
+
 Lint/AssignmentInCondition:
   Enabled: true
   AllowSafeAssignment: true
-  # Intentionally disable autocorrect to force us to intentionally decide
-  # whether assignment is intended as opposed to comparison
   AutoCorrect: false
 
 Lint/BigDecimalNew:
@@ -469,6 +478,9 @@ Lint/ConstantReassignment:
 
 Lint/ConstantResolution:
   Enabled: false
+
+Lint/CopDirectiveSyntax:
+  Enabled: true
 
 Lint/Debugger:
   Enabled: true
@@ -710,6 +722,9 @@ Lint/RedundantSplatExpansion:
 Lint/RedundantStringCoercion:
   Enabled: true
 
+Lint/RedundantTypeConversion:
+  Enabled: true
+
 Lint/RedundantWithIndex:
   Enabled: true
 
@@ -789,6 +804,10 @@ Lint/StructNewOverride:
 Lint/SuppressedException:
   Enabled: false
 
+Lint/SuppressedExceptionInNumberConversion:
+  Enabled: true
+  AutoCorrect: false
+
 Lint/SymbolConversion:
   Enabled: true
 
@@ -849,6 +868,12 @@ Lint/UselessAccessModifier:
 Lint/UselessAssignment:
   Enabled: true
 
+Lint/UselessConstantScoping:
+  Enabled: false
+
+Lint/UselessDefaultValueArgument:
+  Enabled: false
+
 Lint/UselessDefined:
   Enabled: true
 
@@ -860,6 +885,9 @@ Lint/UselessMethodDefinition:
 
 Lint/UselessNumericOperation:
   Enabled: false
+
+Lint/UselessOr:
+  Enabled: true
 
 Lint/UselessRescue:
   Enabled: true
@@ -957,7 +985,10 @@ Naming/MethodName:
 Naming/MethodParameterName:
   Enabled: false
 
-Naming/PredicateName:
+Naming/PredicateMethod:
+  Enabled: false
+
+Naming/PredicatePrefix:
   Enabled: false
 
 Naming/RescuedExceptionsVariableName:
@@ -1017,6 +1048,9 @@ Style/ArrayFirstLast:
   Enabled: false
 
 Style/ArrayIntersect:
+  Enabled: false
+
+Style/ArrayIntersectWithSingleElement:
   Enabled: false
 
 Style/ArrayJoin:
@@ -1084,6 +1118,9 @@ Style/CollectionCompact:
 Style/CollectionMethods:
   Enabled: false
 
+Style/CollectionQuerying:
+  Enabled: false
+
 Style/ColonMethodCall:
   Enabled: true
 
@@ -1106,6 +1143,9 @@ Style/CommentAnnotation:
 
 Style/CommentedKeyword:
   Enabled: false
+
+Style/ComparableBetween:
+  Enabled: true
 
 Style/ComparableClamp:
   Enabled: true
@@ -1191,6 +1231,10 @@ Style/EmptyMethod:
   Enabled: true
   EnforcedStyle: expanded
 
+Style/EmptyStringInsideInterpolation:
+  Enabled: true
+  EnforcedStyle: trailing_conditional
+
 Style/Encoding:
   Enabled: true
 
@@ -1210,7 +1254,8 @@ Style/EvenOdd:
   Enabled: false
 
 Style/ExactRegexpMatch:
-    Enabled: true
+  Enabled: true
+
 Style/ExpandPathArguments:
   Enabled: false
 
@@ -1276,8 +1321,14 @@ Style/HashEachMethods:
 Style/HashExcept:
   Enabled: true
 
+Style/HashFetchChain:
+  Enabled: false
+
 Style/HashLikeCase:
   Enabled: false
+
+Style/HashSlice:
+  Enabled: true
 
 Style/HashSyntax:
   Enabled: true
@@ -1331,6 +1382,10 @@ Style/IpAddresses:
 
 Style/ItAssignment:
   Enabled: true
+
+Style/ItBlockParameter:
+  Enabled: true
+  EnforcedStyle: only_numbered_parameters
 
 Style/KeywordArgumentsMerging:
   Enabled: false
@@ -1574,6 +1629,9 @@ Style/RedundantArgument:
 Style/RedundantArrayConstructor:
   Enabled: true
 
+Style/RedundantArrayFlatten:
+  Enabled: true
+
 Style/RedundantAssignment:
   Enabled: true
 
@@ -1612,6 +1670,9 @@ Style/RedundantFileExtensionInRequire:
 
 Style/RedundantFilterChain:
   Enabled: false
+
+Style/RedundantFormat:
+  Enabled: true
 
 Style/RedundantFreeze:
   Enabled: true

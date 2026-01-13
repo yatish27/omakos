@@ -1,12 +1,17 @@
 {
+  "icon_theme": "Zed (Default)",
   "theme": "GitHub Dark Default",
-  "buffer_font_size": 14,
   "buffer_font_family": "Google Sans Code",
-  "tab_size": 2,
-  "buffer_line_height": {
-    "custom": 1.6
+  "buffer_font_weight": 300,
+  "buffer_font_size": 14,
+  "buffer_font_features": {
+    "calt": true,
+    "liga": true,
+    "dlig": true
   },
-  "hard_tabs": false,
+  "buffer_line_height": {
+    "custom": 1.5
+  },
   "soft_wrap": "editor_width",
   "preferred_line_length": 100,
   "format_on_save": "on",
@@ -14,10 +19,7 @@
   "ensure_final_newline_on_save": true,
   "show_whitespaces": "selection",
   "show_wrap_guides": true,
-  "relative_line_numbers": false,
   "cursor_blink": true,
-  "lsp_highlight_debounce": 100,
-  "auto_update": true,
   "file_types": {
     "Gemfile": ["Ruby"],
     "Guardfile": ["Ruby"],
@@ -39,7 +41,6 @@
     "*.leex": ["HEEx"]
   },
   "base_keymap": "VSCode",
-  "enable_language_server": true,
   "show_call_status_icon": false,
   "autosave": {
     "after_delay": {
@@ -70,7 +71,13 @@
     "**/.cache",
     "**/vendor/bundle",
     "**/public/packs",
-    "**/public/assets"
+    "**/public/assets",
+    "**/.idea",
+    "**/*.log",
+    "**/.turbo",
+    "**/.vercel",
+    "**/package-lock.json",
+    "**/yarn.lock"
   ],
   "inlay_hints": {
     "enabled": true,
@@ -165,7 +172,6 @@
     "Ruby": {
       "tab_size": 2,
       "hard_tabs": false,
-      "preferred_line_length": 120,
       "format_on_save": "on",
       "formatter": {
         "external": {
@@ -181,14 +187,8 @@
     "JavaScript": {
       "tab_size": 2,
       "hard_tabs": false,
-      "preferred_line_length": 100,
       "format_on_save": "on",
-      "formatter": {
-        "external": {
-          "command": "prettier",
-          "arguments": ["--stdin-filepath", "{buffer_path}"]
-        }
-      },
+      "formatter": "prettier",
       "code_actions_on_format": {
         "source.fixAll.eslint": true
       }
@@ -196,14 +196,8 @@
     "TypeScript": {
       "tab_size": 2,
       "hard_tabs": false,
-      "preferred_line_length": 100,
       "format_on_save": "on",
-      "formatter": {
-        "external": {
-          "command": "prettier",
-          "arguments": ["--stdin-filepath", "{buffer_path}"]
-        }
-      },
+      "formatter": "prettier",
       "code_actions_on_format": {
         "source.fixAll.eslint": true
       }
@@ -211,14 +205,8 @@
     "TSX": {
       "tab_size": 2,
       "hard_tabs": false,
-      "preferred_line_length": 100,
       "format_on_save": "on",
-      "formatter": {
-        "external": {
-          "command": "prettier",
-          "arguments": ["--stdin-filepath", "{buffer_path}"]
-        }
-      },
+      "formatter": "prettier",
       "code_actions_on_format": {
         "source.fixAll.eslint": true
       }
@@ -226,14 +214,18 @@
     "ERB": {
       "tab_size": 2,
       "hard_tabs": false,
-      "preferred_line_length": 120,
+      "format_on_save": "on",
+      "language_servers": ["herb", "ruby-lsp", "..."]
+    },
+    "HTML+ERB": {
       "format_on_save": "on",
       "formatter": {
         "external": {
-          "command": "erb-format",
-          "arguments": ["--stdin", "--stdin-filename", "{buffer_path}"]
+          "command": "herb-format",
+          "arguments": []
         }
-      }
+      },
+      "language_servers": ["herb", "ruby-lsp", "..."]
     }
   }
 }

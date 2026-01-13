@@ -23,6 +23,7 @@ brew "uv"
 brew "vips"
 brew "wget"
 brew "zsh"
+brew "mole"
 
 # Cask applications
 cask "1password"
