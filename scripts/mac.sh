@@ -58,6 +58,7 @@ print_success_muted "Save and print dialogs configured"
 step "Optimizing window and UI performance..."
 defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
 defaults write NSGlobalDomain NSToolbarTitleViewRolloverDelay -float 0
+defaults write com.apple.dock workspaces-swoosh-animation-off -bool true
 print_success_muted "Performance optimizations configured"
 
 # Screenshot settings
