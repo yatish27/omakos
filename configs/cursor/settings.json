@@ -1,5 +1,4 @@
 {
-  // Editor appearance
   "workbench.colorTheme": "Tokyo Night",
   "editor.fontFamily": "Cascadia code",
   "editor.fontSize": 14,
@@ -8,7 +7,6 @@
   "editor.rulers": [80, 120],
   "editor.letterSpacing": -0.25,
 
-  // Editor behavior
   "editor.formatOnSave": true,
   "editor.multiCursorModifier": "alt",
   "editor.trimAutoWhitespace": true,
@@ -25,30 +23,24 @@
   "editor.guides.bracketPairs": true,
   "editor.autoClosingOvertype": "never",
 
-  // File handling
   "files.autoSave": "onFocusChange",
   "files.associations": {
     "*.html.erb": "erb"
   },
 
-  // Workspace and startup
   "security.workspace.trust.untrustedFiles": "open",
 
-  // Telemetry and updates
   "typescript.surveys.enabled": false,
   "update.showReleaseNotes": false,
 
-  // Tailwind CSS
   "tailwindCSS.includeLanguages": {
     "ruby": "html",
     "erb": "html"
   },
 
-  // Git and GitHub settings
   "git.autofetch": true,
   "git.confirmSync": false,
 
-  // Ruby LSP settings
   "rubyLsp.pullDiagnosticsOn": "save",
   "rubyLsp.enabledFeatures": {
     "codeActions": true,
@@ -76,7 +68,6 @@
   },
   "rubyLsp.erbSupport": true,
 
-  // Language-specific settings
   "[ruby]": {
     "tailwindCSS.experimental.classRegex": ["\\bclass:\\s*[\"']([^\"']*)[\"']"],
     "editor.formatOnSave": true,
