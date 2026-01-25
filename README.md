@@ -104,7 +104,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [LocalSend](https://localsend.org/) for cross-platform file sharing
 - [NetNewsWire](https://netnewswire.com/) for RSS reading
 - [Obsidian](https://obsidian.md/) for note-taking
-- [PearCleaner](https://www.pearcleaner.com/) for app uninstallation
+- [Mole](https://github.com/tw93/Mole) for Mac maintenance and cleaning
 - [Raycast](https://www.raycast.com/) for productivity launcher
 - [Rectangle](https://rectangleapp.com/) for window management
 - [Slack](https://slack.com/) for team communication
