@@ -76,7 +76,7 @@ fi
 if ! [ -x "$(command -v brew)" ]; then
   step "Installing Homebrew…"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  if [[ "$(uname -p)" == "arm" ]]; then
+  if [[ "$(uname -m)" == "arm64" ]]; then
     # Apple Silicon M1/M2 Macs
     export PATH=/opt/homebrew/bin:$PATH
     echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>$HOME/.zprofile

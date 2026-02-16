@@ -17,6 +17,6 @@ if [ -d "$HOME/.oh-my-zsh" ]; then
   print_success_muted "oh-my-zsh already installed. Skipping"
 else
   step "Installing oh-my-zsh…"
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   print_success "oh-my-zsh installed!"
 fi
