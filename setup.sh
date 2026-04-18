@@ -164,6 +164,12 @@ chapter "Setting up Ghostty…"
 source ./scripts/ghostty.sh
 
 ###############################################################################
+# SETUP: iTerm2
+###############################################################################
+chapter "Setting up iTerm2…"
+source ./scripts/iterm2.sh
+
+###############################################################################
 # SETUP: Development Tools with mise
 ###############################################################################
 chapter "Setting up Development Tools…"

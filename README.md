@@ -152,6 +152,7 @@ Each script in the [`scripts/`](scripts/) directory can be run independently:
 ./scripts/cursor.sh    # Only configure Cursor editor
 ./scripts/nvim.sh      # Only configure Neovim with LazyVim
 ./scripts/zed.sh       # Only configure Zed editor
+./scripts/iterm2.sh    # Only configure iTerm2
 ./scripts/mise.sh      # Only setup mise and install configured runtimes
 ./scripts/rubocop.sh   # Only setup Rubocop configuration
 ./scripts/gemrc.sh     # Only setup Gem configuration
@@ -181,6 +182,7 @@ omakos/
 │   ├── ghostty.sh          # Ghostty terminal configuration
 │   ├── git.sh              # Git configuration
 │   ├── irbrc.sh            # IRB configuration
+│   ├── iterm2.sh           # iTerm2 configuration
 │   ├── mac.sh              # macOS system preferences
 │   ├── mise.sh             # Mise runtime manager setup
 │   ├── nvim.sh             # Neovim configuration
@@ -194,6 +196,7 @@ omakos/
 │   ├── Brewfile            # Homebrew packages list
 │   ├── cursor/             # Cursor editor settings
 │   ├── git/                # Git configuration files
+│   ├── iterm2/             # iTerm2 preferences
 │   ├── nvim/               # Neovim configuration with LazyVim
 │   ├── ssh/                # SSH configuration files
 │   ├── zed/                # Zed editor settings
