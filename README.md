@@ -95,7 +95,6 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 ### Productivity & Communication
 
 - [1Password](https://1password.com/) for password management
-- [Brave Browser](https://brave.com/) for web browsing
 - [ChatGPT](https://chat.openai.com/) for AI assistance
 - [Claude](https://claude.ai/) for AI assistance
 - [Discord](https://discord.com/) for communication
@@ -109,6 +108,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [Rectangle](https://rectangleapp.com/) for window management
 - [Slack](https://slack.com/) for team communication
 - [SuperWhisper](https://superwhisper.com/) for voice transcription
+- [Ungoogled Chromium](https://ungoogled-software.github.io/) for privacy-focused Chromium browsing
 - [WhatsApp](https://www.whatsapp.com/) for messaging
 - [Zoom](https://zoom.us/) for video conferencing
 
