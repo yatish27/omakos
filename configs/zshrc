@@ -1,29 +1,27 @@
-# Path to your oh-my-zsh installation.
+# Oh My Zsh
 export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load
 ZSH_THEME="robbyrussell"
+source "$ZSH/oh-my-zsh.sh"
 
-source $ZSH/oh-my-zsh.sh
-
-# Homebrew configuration
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# Ruby configuration
+# Core environment
 export LDFLAGS="-L$(brew --prefix libyaml)/lib"
 export CPPFLAGS="-I$(brew --prefix libyaml)/include"
 export RUBY_YJIT_ENABLE=1
 export RUBY_CONFIGURE_OPTS=--enable-yjit
-
-# Development environment setup
-# Initialize mise (previously rtx) for version management
-eval "$(mise activate zsh)"
-
-eval "$(fzf --zsh)"
-
-# PostgreSQL path configuration
-export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
-
+export EDITOR="zed"
+export VISUAL="zed"
+export BUN_INSTALL="$HOME/.bun"
 export PGGSSENCMODE="disable"
 
+# PATH
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Interactive shell tooling
+eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(mise activate zsh)"
+eval "$(fzf --zsh)"
+
+# Completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"

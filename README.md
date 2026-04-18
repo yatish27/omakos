@@ -77,7 +77,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [Ghostty](https://github.com/mitchellh/ghostty) - Modern terminal emulator
 - [Docker](https://www.docker.com/) for containerization
 - [OrbStack](https://orbstack.dev/) for Docker and Linux development on macOS
-- [PostgreSQL 17](https://www.postgresql.org/) with `libpq` for database management
+- [PostgreSQL 18](https://www.postgresql.org/) with `libpq` for database management
 - [Redis](https://redis.io/) for in-memory data store
 - [jemalloc](https://jemalloc.net/) for memory allocation
 - [vips](https://www.libvips.org/) for image processing (automatically installs configured runtimes if `~/.mise.toml` exists)
