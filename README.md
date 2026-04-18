@@ -97,6 +97,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [1Password](https://1password.com/) for password management
 - [ChatGPT](https://chat.openai.com/) for AI assistance
 - [Claude](https://claude.ai/) for AI assistance
+- [Codex](https://openai.com/codex/) for agentic coding assistance
 - [Discord](https://discord.com/) for communication
 - [IINA](https://iina.io/) for media playback
 - [iTerm2](https://iterm2.com/) for terminal emulation
