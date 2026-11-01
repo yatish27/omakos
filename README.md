@@ -111,6 +111,7 @@ Safari extensions are installed from the Mac App Store by [`scripts/safari-exten
 - [IINA](https://iina.io/) for media playback
 - [LocalSend](https://localsend.org/) for cross-platform file sharing
 - [NetNewsWire](https://netnewswire.com/) for RSS reading
+- [NordVPN](https://nordvpn.com/) for VPN connectivity
 - [Obsidian](https://obsidian.md/) for note-taking
 - [Mole](https://github.com/tw93/Mole) for Mac maintenance and cleaning
 - [Sol](https://github.com/ospfranco/sol) for the Command-Space launcher, with launch at login
