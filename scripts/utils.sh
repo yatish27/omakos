@@ -73,11 +73,12 @@ print_error() {
 ###############################################################################
 
 check_internet_connection() {
-  if [ ping -q -w1 -c1 google.com ] &>/dev/null; then
-    print_error "Please check your internet connection"
-    exit 0
-  else
+  if curl --fail --silent --show-error --location --connect-timeout 10 --max-time 20 \
+    --output /dev/null https://github.com; then
     print_success "Internet connection"
+  else
+    print_error "Cannot reach GitHub. Please check your internet connection."
+    return 1
   fi
 }
 

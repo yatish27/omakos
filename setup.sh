@@ -5,10 +5,11 @@
 ###############################################################################
 
 # Exit handler - runs if script fails
-trap 'if [ $? -ne 0 ]; then
-  echo -e "\n   ❌ Omakos setup failed"
-  exit $?
-fi' EXIT
+trap 'status=$?
+if [ "$status" -ne 0 ]; then
+  echo -e "\n   ❌ Omakos setup failed" >&2
+fi
+exit "$status"' EXIT
 
 set -e
 
@@ -51,35 +52,16 @@ ask_for_sudo
 chapter "Installing Dependencies…"
 
 # -----------------------------------------------------------------------------
-# XCode
-# -----------------------------------------------------------------------------
-os=$(sw_vers -productVersion | awk -F. '{print $1 "." $2}')
-if softwareupdate --history | grep --silent "Command Line Tools.*${os}"; then
-  print_success_muted 'Command-line tools already installed. Skipping'
-else
-  step 'Installing Command-line tools...'
-  in_progress=/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
-  touch ${in_progress}
-  product=$(softwareupdate --list | awk "/\* Command Line.*${os}/ { sub(/^   \* /, \"\"); print }")
-  if ! softwareupdate --verbose --install "${product}"; then
-    echo 'Installation failed.' 1>&2
-    rm ${in_progress}
-    exit 1
-  fi
-  rm ${in_progress}
-  print_success 'Installation succeeded.'
-fi
-
-# -----------------------------------------------------------------------------
-# Homebrew
+# Homebrew (its installer also provisions Xcode Command Line Tools)
 # -----------------------------------------------------------------------------
 if ! [ -x "$(command -v brew)" ]; then
   step "Installing Homebrew…"
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  homebrew_installer=$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
+  /bin/bash -c "$homebrew_installer"
   if [[ "$(uname -m)" == "arm64" ]]; then
     # Apple Silicon M1/M2 Macs
     export PATH=/opt/homebrew/bin:$PATH
-    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>$HOME/.zprofile
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>"$HOME/.zprofile"
     eval "$(/opt/homebrew/bin/brew shellenv)"
   else
     # Intel Macs

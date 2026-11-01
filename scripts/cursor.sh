@@ -10,6 +10,31 @@ if ! brew list --cask | grep -q "^cursor$"; then
   exit 1
 fi
 
+# Homebrew installs the app before its CLI has been added to the shell PATH.
+CURSOR_CLI=$(command -v cursor || true)
+if [ -z "$CURSOR_CLI" ]; then
+  for app_dir in /Applications "$HOME/Applications"; do
+    if [ -x "$app_dir/Cursor.app/Contents/Resources/app/bin/cursor" ]; then
+      CURSOR_CLI="$app_dir/Cursor.app/Contents/Resources/app/bin/cursor"
+      break
+    fi
+  done
+fi
+if [ -z "$CURSOR_CLI" ]; then
+  print_error "Could not find the Cursor CLI. Add Cursor's shell command to PATH and rerun setup."
+  exit 1
+fi
+
+step "Installing Cursor extensions..."
+installed_extensions=$("$CURSOR_CLI" --list-extensions)
+while IFS= read -r extension || [ -n "$extension" ]; do
+  extension=${extension%$'\r'}
+  case "$extension" in "" | \#*) continue ;; esac
+  if ! printf '%s\n' "$installed_extensions" | grep -Fxiq -- "$extension"; then
+    "$CURSOR_CLI" --install-extension "$extension"
+  fi
+done <configs/cursor/extensions.txt
+
 # Create Cursor config directories if they don't exist
 CURSOR_CONFIG_DIR="$HOME/Library/Application Support/Cursor"
 CURSOR_USER_DIR="$CURSOR_CONFIG_DIR/User"

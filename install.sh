@@ -5,44 +5,52 @@ set -e
 
 # Check for required commands
 command -v curl >/dev/null 2>&1 || {
-  echo -e "${RED}Error: curl is required but not installed.${NC}" >&2
+  echo "Error: curl is required but not installed." >&2
   exit 1
 }
 command -v unzip >/dev/null 2>&1 || {
-  echo -e "${RED}Error: unzip is required but not installed.${NC}" >&2
+  echo "Error: unzip is required but not installed." >&2
   exit 1
 }
 
-# Set install directory
+# Stage on the same filesystem so the final move is a rename.
 INSTALL_DIR="$HOME/omakos"
-TEMP_ZIP="/tmp/omakos.zip"
+WORK_DIR=$(mktemp -d "$HOME/.omakos-install.XXXXXX")
+trap 'rm -rf "$WORK_DIR"' EXIT
+TEMP_ZIP="$WORK_DIR/omakos.zip"
 
-# Remove existing zip if present
-rm -f "$TEMP_ZIP"
+echo "Downloading Omakos..."
+curl -fL "https://github.com/yatish27/omakos/archive/refs/heads/main.zip" -o "$TEMP_ZIP"
 
-# Check if directory already exists
-if [ -d "$INSTALL_DIR" ]; then
-  echo -e "${BLUE}Removing existing Omakos installation...${NC}"
-  rm -rf "$INSTALL_DIR"
+echo "Extracting files..."
+unzip -q "$TEMP_ZIP" -d "$WORK_DIR"
+if [ ! -f "$WORK_DIR/omakos-main/setup.sh" ] ||
+   [ ! -f "$WORK_DIR/omakos-main/scripts/utils.sh" ] ||
+   [ ! -f "$WORK_DIR/omakos-main/configs/Brewfile" ]; then
+  echo "Error: the downloaded archive is missing required installation files." >&2
+  exit 1
+fi
+chmod +x "$WORK_DIR/omakos-main/setup.sh"
+
+# Preserve existing checkouts, including local changes and Git history.
+BACKUP_DIR=""
+if [ -e "$INSTALL_DIR" ] || [ -L "$INSTALL_DIR" ]; then
+  BACKUP_DIR=$(mktemp -d "$HOME/omakos.backup.XXXXXX")
+  mv "$INSTALL_DIR" "$BACKUP_DIR/omakos"
+  echo "Existing Omakos installation saved to $BACKUP_DIR/omakos"
 fi
 
-echo -e "${BLUE}Downloading Omakos...${NC}"
-curl -L "https://github.com/yatish27/omakos/archive/refs/heads/main.zip" -o "$TEMP_ZIP"
-
-echo -e "${BLUE}Extracting files...${NC}"
-unzip -q "$TEMP_ZIP" -d "/tmp"
-mv "/tmp/omakos-main" "$INSTALL_DIR"
-rm -f "$TEMP_ZIP"
+if ! mv "$WORK_DIR/omakos-main" "$INSTALL_DIR"; then
+  if [ -n "$BACKUP_DIR" ]; then
+    mv "$BACKUP_DIR/omakos" "$INSTALL_DIR"
+    rmdir "$BACKUP_DIR"
+  fi
+  exit 1
+fi
 
 cd "$INSTALL_DIR"
 
-# Make setup script executable
-chmod +x setup.sh
+printf '\n✓ Download complete!\nStarting setup...\n\n'
 
-echo -e "
-${GREEN}✓ Download complete!${NC}"
-echo -e "${BLUE}Starting setup...${NC}
-"
-
-# Run setup script
-./setup.sh
+# The bootstrap may be piped into bash; interactive installers need the terminal.
+./setup.sh </dev/tty

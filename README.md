@@ -24,6 +24,11 @@ Run this single command in your terminal:
 curl -L https://raw.githubusercontent.com/yatish27/omakos/main/install.sh | bash
 ```
 
+Run this from an interactive terminal. The installer downloads and validates the
+archive before replacing `~/omakos`. If that path already exists, its contents
+(including Git history and local changes) are preserved in a unique
+`~/omakos.backup.*/omakos` directory printed during installation.
+
 ### Option 2: Manual Install
 
 If you prefer to review the code first:
@@ -213,6 +218,13 @@ omakos/
 ### Configuration Files
 
 The [`configs/`](configs/) directory contains all config files.
+
+### Installation regression checks
+
+Run `python3 -m unittest discover -s tests -v`. These checks use temporary home
+directories and mock downloads, package installation, and system changes. The
+Neovim startup check runs when `nvim` is available; it uses a local mock plugin
+manager and does not download plugins.
 
 ## Customization
 

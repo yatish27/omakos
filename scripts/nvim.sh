@@ -17,7 +17,7 @@ step "Setting up Neovim configuration directory..."
 mkdir -p "$NVIM_CONFIG_DIR"
 
 # Backup existing config if it exists
-if [ -d "$NVIM_CONFIG_DIR" ] && [ "$(ls -A $NVIM_CONFIG_DIR)" ]; then
+if [ -d "$NVIM_CONFIG_DIR" ] && [ "$(ls -A "$NVIM_CONFIG_DIR")" ]; then
   step "Backing up existing Neovim configuration..."
   mv "$NVIM_CONFIG_DIR" "$NVIM_CONFIG_DIR.backup.$(date +%Y%m%d_%H%M%S)"
   mkdir -p "$NVIM_CONFIG_DIR"
@@ -27,11 +27,7 @@ fi
 step "Installing Neovim configuration..."
 cp -r configs/nvim/* "$NVIM_CONFIG_DIR/"
 
-# Install LazyVim if not already present
-step "Setting up LazyVim..."
-if [ ! -d "$NVIM_CONFIG_DIR/lazy" ]; then
-  print_muted "LazyVim will be automatically installed on first run"
-fi
+print_muted "The installed startup configuration will download LazyVim on first run"
 
 print_success "Neovim setup completed!"
 print_muted "Run 'nvim' to start Neovim and complete the LazyVim installation"
