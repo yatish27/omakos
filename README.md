@@ -80,6 +80,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [Zed](https://zed.dev/) - High-performance code editor
 - [cmux](https://www.cmux.dev/) - Terminal with the existing Ghostty colors and Google Sans Code font settings
 - [Bruno](https://www.usebruno.com/) - API client
+- [Elixir](https://elixir-lang.org/) with Erlang for Elixir/EEx/HEEx language support
 - [Docker](https://www.docker.com/) for containerization
 - [OrbStack](https://orbstack.dev/) for Docker and Linux development on macOS
 - [PostgreSQL 18](https://www.postgresql.org/) with `libpq` for database management
@@ -216,6 +217,14 @@ omakos/
 ### Configuration Files
 
 The [`configs/`](configs/) directory contains all config files.
+
+Zed automatically installs the GitHub Dark Default theme and the Ruby, HTML, and
+Elixir extensions. When you first open a matching file, Zed downloads the required
+language servers: Ruby LSP and RuboCop, Herb for HTML+ERB, TypeScript Language Server
+and ESLint, HTML/CSS and Tailwind CSS servers, and ElixirLS. Ruby and Node come from
+mise; Elixir and Erlang come from Homebrew. Formatting uses Zed-managed RuboCop,
+Herb, and Prettier. Projects still need their own dependencies and ESLint/Tailwind
+configuration. See [Zed's language-server management](https://zed.dev/docs/configuring-languages#managing-language-servers).
 
 cmux receives [`configs/cmux.conf`](configs/cmux.conf) at
 `~/Library/Application Support/com.cmuxterm.app/config.ghostty`, its

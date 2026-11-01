@@ -1,6 +1,15 @@
 {
   "icon_theme": "Zed (Default)",
   "theme": "GitHub Dark Default",
+  "auto_install_extensions": {
+    "github-dark-default": true,
+    "ruby": true,
+    "html": true,
+    "elixir": true,
+  },
+  "project_panel": {
+    "dock": "left",
+  },
   "buffer_font_family": "Google Sans Code",
   "buffer_font_weight": 300,
   "buffer_font_size": 14,
@@ -20,25 +29,25 @@
   "show_whitespaces": "selection",
   "show_wrap_guides": true,
   "cursor_blink": true,
+  "enable_language_server": true,
   "file_types": {
-    "Gemfile": ["Ruby"],
-    "Guardfile": ["Ruby"],
-    "Rakefile": ["Ruby"],
-    "*.rake": ["Ruby"],
-    "*.gemspec": ["Ruby"],
-    "*.ru": ["Ruby"],
-    "*.arb": ["Ruby"],
-    "*.jbuilder": ["Ruby"],
-    "*.thor": ["Ruby"],
-    "Thorfile": ["Ruby"],
-    "Fastfile": ["Ruby"],
-    "Podfile": ["Ruby"],
-    "Vagrantfile": ["Ruby"],
-    "Brewfile": ["Ruby"],
-    "*.erb": ["ERB"],
-    "*.html.erb": ["ERB"],
-    "*.heex": ["HEEx"],
-    "*.leex": ["HEEx"],
+    "Ruby": [
+      "Gemfile",
+      "Guardfile",
+      "Rakefile",
+      "*.rake",
+      "*.gemspec",
+      "*.ru",
+      "*.arb",
+      "*.jbuilder",
+      "*.thor",
+      "Thorfile",
+      "Fastfile",
+      "Podfile",
+      "Vagrantfile",
+      "Brewfile",
+    ],
+    "HEEx": ["*.heex", "*.leex"],
   },
   "base_keymap": "VSCode",
   "show_call_status_icon": false,
@@ -124,12 +133,12 @@
       "initialization_options": {
         "enabledFeatures": {
           "codeActions": true,
-          "diagnostics": true,
+          "diagnostics": false,
           "documentHighlights": true,
           "documentLink": true,
           "documentSymbols": true,
           "foldingRanges": true,
-          "formatting": true,
+          "formatting": false,
           "hover": true,
           "inlayHint": false,
           "onTypeFormatting": true,
@@ -138,6 +147,13 @@
           "completion": true,
           "codeLens": false,
           "debugging": true,
+        },
+      },
+    },
+    "herb": {
+      "initialization_options": {
+        "formatter": {
+          "enabled": true,
         },
       },
     },
@@ -173,18 +189,20 @@
       "tab_size": 2,
       "hard_tabs": false,
       "format_on_save": "on",
-      "formatter": {
-        "external": {
-          "command": "rubocop",
-          "arguments": ["-a", "--stdin", "{buffer_path}", "--stderr"],
+      "formatter": [
+        {
+          "language_server": {
+            "name": "rubocop",
+          },
         },
-      },
-      "language_servers": ["ruby-lsp", "!solargraph"],
+      ],
+      "language_servers": ["ruby-lsp", "rubocop"],
       "inlay_hints": {
         "enabled": false,
       },
     },
     "JavaScript": {
+      "language_servers": ["typescript-language-server", "eslint", "tailwindcss-language-server"],
       "tab_size": 2,
       "hard_tabs": false,
       "format_on_save": "on",
@@ -194,6 +212,7 @@
       },
     },
     "TypeScript": {
+      "language_servers": ["typescript-language-server", "eslint", "tailwindcss-language-server"],
       "tab_size": 2,
       "hard_tabs": false,
       "format_on_save": "on",
@@ -203,6 +222,7 @@
       },
     },
     "TSX": {
+      "language_servers": ["typescript-language-server", "eslint", "tailwindcss-language-server"],
       "tab_size": 2,
       "hard_tabs": false,
       "format_on_save": "on",
@@ -215,20 +235,33 @@
       "tab_size": 2,
       "hard_tabs": false,
       "format_on_save": "on",
-      "language_servers": ["herb", "ruby-lsp", "..."],
+      "language_servers": ["ruby-lsp", "tailwindcss-language-server"],
     },
     "HTML+ERB": {
       "format_on_save": "on",
-      "formatter": {
-        "external": {
-          "command": "herb-format",
-          "arguments": [],
+      "formatter": [
+        {
+          "language_server": {
+            "name": "herb",
+          },
         },
-      },
-      "language_servers": ["herb", "ruby-lsp", "..."],
+      ],
+      "language_servers": ["herb", "ruby-lsp", "tailwindcss-language-server"],
+    },
+    "HTML": {
+      "language_servers": ["vscode-html-language-server", "tailwindcss-language-server"],
     },
     "CSS": {
-      "language_servers": ["tailwindcss-language-server"],
+      "language_servers": ["vscode-css-language-server", "tailwindcss-language-server"],
+    },
+    "Elixir": {
+      "language_servers": ["elixir-ls"],
+    },
+    "EEx": {
+      "language_servers": ["elixir-ls", "tailwindcss-language-server"],
+    },
+    "HEEx": {
+      "language_servers": ["elixir-ls", "tailwindcss-language-server"],
     },
   },
 }
