@@ -13,7 +13,7 @@ if ! open -Ra Sol; then
 fi
 
 # Sol persists its JSON settings while running, so quit before merging them.
-if pgrep -x Sol >/dev/null; then
+if pgrep -ix sol >/dev/null; then
   osascript -e 'tell application "Sol" to quit'
 fi
 
