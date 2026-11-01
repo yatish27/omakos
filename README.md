@@ -103,6 +103,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [ChatGPT](https://chat.openai.com/) for AI assistance
 - [Claude](https://claude.ai/) for AI assistance
 - [Codex](https://openai.com/codex/) for agentic coding assistance
+- [Copilot Money](https://www.copilot.money/) for tracking spending, budgets, and investments
 - [Discord](https://discord.com/) for communication
 - [IINA](https://iina.io/) for media playback
 - [LocalSend](https://localsend.org/) for cross-platform file sharing
