@@ -4,8 +4,10 @@ ZSH_THEME="robbyrussell"
 source "$ZSH/oh-my-zsh.sh"
 
 # Core environment
-export LDFLAGS="-L$(brew --prefix libyaml)/lib"
-export CPPFLAGS="-I$(brew --prefix libyaml)/include"
+omakos_libyaml_prefix="$(brew --prefix libyaml)"
+export LDFLAGS="-L${omakos_libyaml_prefix}/lib"
+export CPPFLAGS="-I${omakos_libyaml_prefix}/include"
+unset omakos_libyaml_prefix
 export RUBY_YJIT_ENABLE=1
 export RUBY_CONFIGURE_OPTS=--enable-yjit
 export EDITOR="zed"

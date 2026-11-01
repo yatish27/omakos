@@ -31,7 +31,9 @@ print_success_muted "Finder preferences configured"
 step "Configuring enhanced system and trackpad settings..."
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
 defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
 print_success_muted "System preferences configured"
@@ -60,6 +62,50 @@ defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
 defaults write NSGlobalDomain NSToolbarTitleViewRolloverDelay -float 0
 defaults write com.apple.dock workspaces-swoosh-animation-off -bool true
 print_success_muted "Performance optimizations configured"
+
+step "Reducing interface motion..."
+if defaults write com.apple.universalaccess reduceMotion -bool true; then
+  print_success_muted "Reduce Motion enabled"
+else
+  print_warning "Search System Settings for Reduce Motion and enable it manually; macOS blocked the preference write."
+fi
+
+# Opaque system surfaces (macOS has no supported switch to remove Liquid Glass).
+step "Reducing interface transparency..."
+if defaults write com.apple.universalaccess reduceTransparency -bool true; then
+  print_success_muted "Reduce Transparency enabled"
+else
+  print_warning "Enable Reduce Transparency in System Settings > Accessibility > Display. macOS blocked the preference write."
+fi
+
+# Hide widgets in both desktop modes without deleting their saved configuration.
+step "Hiding desktop widgets..."
+defaults write com.apple.WindowManager StandardHideWidgets -bool true
+defaults write com.apple.WindowManager StageManagerHideWidgets -bool true
+print_success_muted "Desktop and Stage Manager widgets hidden"
+
+# Safari's preferences can be protected by Full Disk Access.
+step "Removing Safari start-page sections..."
+safari_settings_applied=true
+for safari_setting in ShowFavorites ShowFrequentlyVisitedSites ShowHighlightsInFavorites \
+  ShowPrivacyReportInFavorites ShowReadingListInFavorites ShowCloudTabsInFavorites \
+  ShowBackgroundImageInFavorites ShowFavoritesUnderSmartSearchField; do
+  if ! defaults write com.apple.Safari "$safari_setting" -bool false; then
+    safari_settings_applied=false
+  fi
+done
+# 1 = Empty Page, so new tabs/windows stay empty even if Safari adds new sections.
+for safari_setting in NewTabBehavior NewWindowBehavior; do
+  if ! defaults write com.apple.Safari "$safari_setting" -int 1; then
+    safari_settings_applied=false
+  fi
+done
+if [ "$safari_settings_applied" = true ]; then
+  print_success_muted "Safari start-page sections hidden; new tabs and windows open empty"
+  print_muted "Restart Safari to apply these settings."
+else
+  print_warning "Safari blocked some settings. Grant your terminal Full Disk Access and rerun, or disable start-page sections with Edit and choose Empty Page for new tabs/windows in Safari > Settings > General."
+fi
 
 # Screenshot settings
 step "Configuring enhanced screenshot settings..."
@@ -105,10 +151,12 @@ print_success_muted "Apple Intelligence disabled"
 
 # Restart affected applications
 step "Applying changes by restarting system components..."
-killall Dock
-killall Finder
-killall SystemUIServer
+killall Dock 2>/dev/null || true
+killall Finder 2>/dev/null || true
+killall SystemUIServer 2>/dev/null || true
+killall NotificationCenter 2>/dev/null || true
+killall WindowManager 2>/dev/null || true
 print_success_muted "Applications restarted"
 
 echo ""
-print_success "macOS settings have been updated successfully!"
+print_success "macOS settings applied. Review any warnings above; log out and back in for all changes to take effect."

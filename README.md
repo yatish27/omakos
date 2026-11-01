@@ -72,14 +72,14 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [fastfetch](https://github.com/fastfetch-cli/fastfetch) for system information display
 - [ffmpeg](https://ffmpeg.org/) for video processing
 - [gh](https://cli.github.com/) for GitHub CLI integration
+- [1Password CLI](https://developer.1password.com/docs/cli/) (`op`) for command-line access to 1Password
 - [libyaml](https://pyyaml.org/wiki/LibYAML) for YAML parsing
 
 ### Development Environment
 
-- [Cursor](https://cursor.sh/) - AI-powered code editor
-- [Neovim](https://neovim.io/) with [LazyVim](https://www.lazyvim.org/) - Modern Vim-based editor
 - [Zed](https://zed.dev/) - High-performance code editor
-- [Ghostty](https://github.com/mitchellh/ghostty) - Modern terminal emulator
+- [cmux](https://www.cmux.dev/) - Terminal with the existing Ghostty colors and Google Sans Code font settings
+- [Bruno](https://www.usebruno.com/) - API client
 - [Docker](https://www.docker.com/) for containerization
 - [OrbStack](https://orbstack.dev/) for Docker and Linux development on macOS
 - [PostgreSQL 18](https://www.postgresql.org/) with `libpq` for database management
@@ -105,15 +105,14 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [Codex](https://openai.com/codex/) for agentic coding assistance
 - [Discord](https://discord.com/) for communication
 - [IINA](https://iina.io/) for media playback
-- [iTerm2](https://iterm2.com/) for terminal emulation
 - [LocalSend](https://localsend.org/) for cross-platform file sharing
 - [NetNewsWire](https://netnewswire.com/) for RSS reading
 - [Obsidian](https://obsidian.md/) for note-taking
 - [Mole](https://github.com/tw93/Mole) for Mac maintenance and cleaning
-- [Raycast](https://www.raycast.com/) for productivity launcher
+- [Sol](https://github.com/ospfranco/sol) for the Command-Space launcher, with launch at login
 - [Rectangle](https://rectangleapp.com/) for window management
 - [Slack](https://slack.com/) for team communication
-- [SuperWhisper](https://superwhisper.com/) for voice transcription
+- [OpenSuperWhisper](https://github.com/my-monkeys/homebrew-tap) for voice transcription, installed from `my-monkeys/tap/opensuperwhisper`
 - [Ungoogled Chromium](https://ungoogled-software.github.io/) for privacy-focused Chromium browsing
 - [WhatsApp](https://www.whatsapp.com/) for messaging
 - [Zoom](https://zoom.us/) for video conferencing
@@ -137,12 +136,15 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 
 The setup applies developer-optimized macOS configurations including:
 
-- **Performance**: Near-instant window animations and faster Mission Control
+- **Performance**: Reduce Motion enabled, near-instant window animations, and faster Mission Control
 - **Finder**: Opens to home directory, searches current folder by default, shows hidden files
 - **Text Editing**: Key repeat enabled in all apps, faster cursor movement
 - **Screenshots**: Organized in `~/Desktop/Screenshots/` folder without shadows
-- **Trackpad**: Three-finger drag enabled for better window management
+- **Trackpad**: Single-tap clicking on built-in and Bluetooth trackpads, plus three-finger drag
 - **Keyboard**: Fastest repeat rates for efficient coding
+- **Launcher**: Command-Space opens Sol; Spotlight's keyboard shortcuts are disabled while file indexing remains available
+- **Appearance**: Reduce Transparency enabled and cmux fully opaque with no background blur
+- **Widgets**: Hidden on the desktop and in Stage Manager; Safari start-page sections hidden with empty new tabs/windows
 - **System**: Disabled automatic corrections, expanded dialogs, local saves by default
 
 ## Features
@@ -155,10 +157,9 @@ Each script in the [`scripts/`](scripts/) directory can be run independently:
 # Run individual scripts
 ./scripts/mac.sh       # Only configure macOS settings
 ./scripts/git.sh       # Only setup Git configuration
-./scripts/cursor.sh    # Only configure Cursor editor
-./scripts/nvim.sh      # Only configure Neovim with LazyVim
 ./scripts/zed.sh       # Only configure Zed editor
-./scripts/iterm2.sh    # Only configure iTerm2
+./scripts/cmux.sh      # Only configure cmux's terminal appearance
+./scripts/sol.sh       # Configure Sol and replace Spotlight's keyboard shortcuts
 ./scripts/mise.sh      # Only setup mise and install configured runtimes
 ./scripts/rubocop.sh   # Only setup Rubocop configuration
 ./scripts/gemrc.sh     # Only setup Gem configuration
@@ -183,16 +184,14 @@ omakos/
 ├── scripts/
 │   ├── ascii.sh            # ASCII art for terminal output
 │   ├── brew.sh             # Homebrew package installation
-│   ├── cursor.sh           # Cursor editor configuration
+│   ├── cmux.sh             # cmux terminal configuration
 │   ├── gemrc.sh            # Gem configuration
-│   ├── ghostty.sh          # Ghostty terminal configuration
 │   ├── git.sh              # Git configuration
 │   ├── irbrc.sh            # IRB configuration
-│   ├── iterm2.sh           # iTerm2 configuration
 │   ├── mac.sh              # macOS system preferences
 │   ├── mise.sh             # Mise runtime manager setup
-│   ├── nvim.sh             # Neovim configuration
 │   ├── rubocop.sh          # Rubocop configuration
+│   ├── sol.sh              # Sol launcher and Command-Space shortcut
 │   ├── ssh.sh              # SSH configuration
 │   ├── utils.sh            # Utility functions
 │   ├── zed.sh              # Zed editor configuration
@@ -200,14 +199,12 @@ omakos/
 │   └── zshrc.sh            # Zshrc configuration
 ├── configs/
 │   ├── Brewfile            # Homebrew packages list
-│   ├── cursor/             # Cursor editor settings
+│   ├── cmux.conf           # cmux terminal appearance (Ghostty syntax)
 │   ├── git/                # Git configuration files
-│   ├── iterm2/             # iTerm2 preferences
-│   ├── nvim/               # Neovim configuration with LazyVim
+│   ├── sol/                # Sol launcher settings
 │   ├── ssh/                # SSH configuration files
 │   ├── zed/                # Zed editor settings
 │   ├── gemrc              # Ruby gems configuration
-│   ├── ghostty.conf       # Ghostty terminal config
 │   ├── irbrc              # IRB (Interactive Ruby) configuration
 │   ├── mise.toml          # Mise runtime versions config
 │   ├── rubocop.yml        # Ruby code style config
@@ -219,12 +216,18 @@ omakos/
 
 The [`configs/`](configs/) directory contains all config files.
 
+cmux receives [`configs/cmux.conf`](configs/cmux.conf) at
+`~/Library/Application Support/com.cmuxterm.app/config.ghostty`, its
+[documented app-specific configuration path](https://github.com/manaflow-ai/cmux/blob/main/docs/customizing-appearance.md).
+It preserves the previous Ghostty palette, cursor, ligatures, and Google Sans Code
+Light 14 font with compact spacing (also used in the former iTerm2 profile).
+Existing shared Ghostty files remain untouched. Reload cmux's configuration with
+Command-Shift-comma after changing it.
+
 ### Installation regression checks
 
 Run `python3 -m unittest discover -s tests -v`. These checks use temporary home
-directories and mock downloads, package installation, and system changes. The
-Neovim startup check runs when `nvim` is available; it uses a local mock plugin
-manager and does not download plugins.
+directories and mock downloads, package installation, and system changes.
 
 ## Customization
 

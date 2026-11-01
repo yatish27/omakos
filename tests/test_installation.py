@@ -17,8 +17,8 @@ import zipfile
 
 
 REPO = Path(__file__).resolve().parents[1]
-NVIM = shutil.which("nvim")
 GIT = shutil.which("git")
+JQ = shutil.which("jq")
 
 
 class InstallationTests(unittest.TestCase):
@@ -280,72 +280,58 @@ esac''')
         self.assertNotEqual(status, 0, output)
         self.assertEqual(config.read_text(), original)
 
-    def prepare_cursor(self):
-        self.stub("brew", "echo cursor")
-        self.stub("cursor", '''case "$1" in
---list-extensions) printf '%s\\n' "${TEST_INSTALLED_EXTENSIONS:-}" ;;
---install-extension) printf '%s\\n' "$2" >> "$HOME/extension-installs"; exit "${TEST_EXTENSION_EXIT:-0}" ;;
-*) exit 97 ;;
-esac''')
-        return self.home / "Library/Application Support/Cursor/User/settings.json"
+    def prepare_sol(self):
+        if JQ:
+            (self.bin / "jq").symlink_to(JQ)
+        self.stub("open", 'echo "$*" >> "$HOME/sol-launches"; exit "${TEST_OPEN_EXIT:-0}"')
+        self.stub("pgrep", "exit 1")
+        self.stub("osascript", "echo Unexpected AppleScript >&2; exit 97")
+        self.stub("activateSettings", "exit 0")
+        self.stub("defaults", 'echo "$*" >> "$HOME/preference-writes"')
+        return self.home / ".config/sol/config.json"
 
-    def test_cursor_installs_missing_extensions_including_theme_and_last_line(self):
-        target = self.prepare_cursor()
-        extensions_file = self.project / "configs/cursor/extensions.txt"
-        extensions_file.write_text(extensions_file.read_text().rstrip("\n"))
-        extensions = extensions_file.read_text().splitlines()
-        self.env["TEST_INSTALLED_EXTENSIONS"] = "ESBENP.PRETTIER-VSCODE"
-        result = self.run_script("scripts/cursor.sh")
-        self.assertEqual(result.returncode, 0, result.stderr)
-        installed = (self.home / "extension-installs").read_text().splitlines()
-        self.assertEqual(installed, [item for item in extensions if item != "esbenp.prettier-vscode"])
-        self.assertIn("enkia.tokyo-night", installed)
-        self.assertEqual(json.loads(target.read_text())["workbench.colorTheme"], "Tokyo Night")
-
-    def test_cursor_skips_installed_extensions(self):
-        self.prepare_cursor()
-        self.env["TEST_INSTALLED_EXTENSIONS"] = (self.project / "configs/cursor/extensions.txt").read_text()
-        result = self.run_script("scripts/cursor.sh")
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertFalse((self.home / "extension-installs").exists())
-
-    def test_cursor_extension_failure_preserves_settings(self):
-        target = self.prepare_cursor()
+    @unittest.skipUnless(JQ, "jq is needed for Sol configuration merging")
+    def test_sol_preserves_unrelated_settings_and_is_safe_to_rerun(self):
+        target = self.prepare_sol()
         target.parent.mkdir(parents=True)
-        target.write_text('{"existing": true}\n')
-        self.env["TEST_EXTENSION_EXIT"] = "5"
-        result = self.run_script("scripts/cursor.sh")
-        self.assertEqual(result.returncode, 5)
-        self.assertEqual(target.read_text(), '{"existing": true}\n')
-
-    @unittest.skipUnless(NVIM, "nvim is needed for the startup smoke test")
-    def test_neovim_bootstraps_lazyvim_and_reuses_plugin_manager(self):
-        self.stub("brew", "echo neovim")
-        module = self.root / "fake-lazy.lua"
-        module.write_text('''return { setup = function(opts)
-  assert(opts.spec[1][1] == "LazyVim/LazyVim")
-  assert(opts.spec[1].import == "lazyvim.plugins")
-  assert(opts.spec[2].import == "plugins")
-  assert(require("plugins.theme")[1].opts.colorscheme == "tokyonight")
-  vim.g.install_test_loaded = true
-end }
-''')
-        self.env["TEST_LAZY_MODULE"] = str(module)
-        self.stub("git", '''[ "$1" = clone ]
-destination="${@: -1}"
-mkdir -p "$destination/lua/lazy"
-cp "$TEST_LAZY_MODULE" "$destination/lua/lazy/init.lua"''')
-        result = self.run_script("scripts/nvim.sh")
-        self.assertEqual(result.returncode, 0, result.stderr)
+        original = {
+            "globalShortcut": "option", "launchAtLogin": False,
+            "searchFolders": ["/a folder"],
+            "shortcuts": {"custom": "command+shift+k"},
+            "customItems": [{"name": "My item", "url": "https://example.invalid"}],
+        }
+        target.write_text(json.dumps(original))
         for attempt in range(2):
-            result = subprocess.run(
-                [NVIM, "--headless", "-i", "NONE", "-c",
-                 "lua if not vim.g.install_test_loaded then vim.cmd('cquit 1') end", "+qa"],
-                cwd=self.home, env=self.env, capture_output=True, text=True, timeout=15,
-            )
+            result = self.run_script("scripts/sol.sh")
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.stub("git", "echo Unexpected clone >&2; exit 97")
+            self.assertEqual(json.loads(target.read_text()), {
+                **original, "globalShortcut": "command", "launchAtLogin": True,
+            })
+            backups = list(target.parent.glob("config.json.backup.*"))
+            self.assertEqual(len(backups), 1)
+            self.assertEqual(json.loads(backups[0].read_text()), original)
+            self.assertEqual(list(target.parent.glob(".config.*")), [])
 
+    @unittest.skipUnless(JQ, "jq is needed for Sol configuration merging")
+    def test_invalid_sol_config_does_not_clobber_settings_or_disable_spotlight(self):
+        target = self.prepare_sol()
+        target.parent.mkdir(parents=True)
+        for original in ("{broken", "", "[]", "null", "{} {}"):
+            with self.subTest(original=original):
+                target.write_text(original)
+                result = self.run_script("scripts/sol.sh")
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(target.read_text(), original)
+                self.assertFalse((self.home / "preference-writes").exists())
+                self.assertEqual(list(target.parent.glob(".config.*")), [])
+
+    def test_missing_sol_does_not_disable_spotlight(self):
+        target = self.prepare_sol()
+        self.env["TEST_OPEN_EXIT"] = "1"
+        result = self.run_script("scripts/sol.sh")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(target.exists())
+        self.assertFalse((self.home / "preference-writes").exists())
 
 if __name__ == "__main__":
     unittest.main()
