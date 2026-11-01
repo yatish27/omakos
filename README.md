@@ -56,7 +56,8 @@ Just follow the prompts and you'll be fine. 👌
 ## What it sets up
 
 The setup process will install and configure the following tools and applications.
-All packages are managed through Homebrew and defined in [`configs/Brewfile`](configs/Brewfile).
+Homebrew packages are defined in [`configs/Brewfile`](configs/Brewfile).
+Safari extensions are installed from the Mac App Store by [`scripts/safari-extensions.sh`](scripts/safari-extensions.sh).
 
 ### Command Line Tools
 
@@ -73,6 +74,7 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [ffmpeg](https://ffmpeg.org/) for video processing
 - [gh](https://cli.github.com/) for GitHub CLI integration
 - [1Password CLI](https://developer.1password.com/docs/cli/) (`op`) for command-line access to 1Password
+- [mas](https://github.com/mas-cli/mas) for installing Mac App Store apps
 - [libyaml](https://pyyaml.org/wiki/LibYAML) for YAML parsing
 
 ### Development Environment
@@ -119,6 +121,19 @@ All packages are managed through Homebrew and defined in [`configs/Brewfile`](co
 - [WhatsApp](https://www.whatsapp.com/) for messaging
 - [Zoom](https://zoom.us/) for video conferencing
 
+### Safari Extensions
+
+- [1Password for Safari](https://apps.apple.com/app/id1569813296) for passwords and autofill (free download; requires a 1Password account)
+- [Consent-O-Matic](https://apps.apple.com/app/id1606897889) for automatically answering cookie consent popups using your preferences (free and open source)
+- [Wipr 2](https://apps.apple.com/app/id1662217862) for blocking ads and trackers (paid; purchase in the App Store before setup)
+
+Sign in to the Mac App Store before setup and approve authentication prompts for
+the downloads. If installation fails, setup continues and prints a retry command.
+Wipr 2 is installed using an existing purchase; setup cannot buy it for you.
+After installation, enable 1Password and Consent-O-Matic in **Safari > Settings > Extensions**
+and approve their website access. Choose your cookie preferences in Consent-O-Matic.
+Open Wipr 2 and follow its setup instructions to enable its Safari extensions.
+
 ### Fonts
 
 - Cascadia Code
@@ -145,7 +160,9 @@ The setup applies developer-optimized macOS configurations including:
 - **Trackpad**: Single-tap clicking on built-in and Bluetooth trackpads, plus three-finger drag
 - **Keyboard**: Fastest repeat rates for efficient coding
 - **Launcher**: Command-Space opens Sol; Spotlight's keyboard shortcuts are disabled while file indexing remains available
+- **Window Snapping**: Rectangle snapping enabled; native edge-drag, menu-bar-drag, and Option-drag tiling disabled
 - **Appearance**: Reduce Transparency enabled and cmux fully opaque with no background blur
+- **Safari**: Website tinting and notification permission prompts disabled; video autoplay defaults to Never Auto-Play, preserving website exceptions
 - **Widgets**: Hidden on the desktop and in Stage Manager; Safari start-page sections hidden with empty new tabs/windows
 - **System**: Disabled automatic corrections, expanded dialogs, local saves by default
 
@@ -158,6 +175,7 @@ Each script in the [`scripts/`](scripts/) directory can be run independently:
 ```sh
 # Run individual scripts
 ./scripts/mac.sh       # Only configure macOS settings
+./scripts/safari-extensions.sh # Install Safari extensions from the Mac App Store
 ./scripts/git.sh       # Only setup Git configuration
 ./scripts/zed.sh       # Only configure Zed editor
 ./scripts/cmux.sh      # Only configure cmux's terminal appearance
@@ -193,6 +211,7 @@ omakos/
 │   ├── mac.sh              # macOS system preferences
 │   ├── mise.sh             # Mise runtime manager setup
 │   ├── rubocop.sh          # Rubocop configuration
+│   ├── safari-extensions.sh # Safari extension installation via the Mac App Store
 │   ├── sol.sh              # Sol launcher and Command-Space shortcut
 │   ├── ssh.sh              # SSH configuration
 │   ├── utils.sh            # Utility functions

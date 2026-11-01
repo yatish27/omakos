@@ -80,6 +80,12 @@ chapter "Installing Homebrew Packages…"
 source ./scripts/brew.sh
 
 ###############################################################################
+# INSTALL: Safari Extensions
+###############################################################################
+chapter "Installing Safari Extensions…"
+source ./scripts/safari-extensions.sh
+
+###############################################################################
 # INSTALL: Setup ZSH and oh-my-zsh
 ###############################################################################
 chapter "Setting up ZSH…"

@@ -84,7 +84,54 @@ defaults write com.apple.WindowManager StandardHideWidgets -bool true
 defaults write com.apple.WindowManager StageManagerHideWidgets -bool true
 print_success_muted "Desktop and Stage Manager widgets hidden"
 
+step "Configuring Rectangle window snapping..."
+defaults write com.knollsoft.Rectangle windowSnapping -int 1
+defaults write com.apple.WindowManager EnableTilingByEdgeDrag -bool false
+defaults write com.apple.WindowManager EnableTopTilingByEdgeDrag -bool false
+defaults write com.apple.WindowManager EnableTilingOptionAccelerator -bool false
+print_success_muted "Rectangle snapping enabled; macOS drag-to-tile gestures disabled"
+print_muted "Restart Rectangle to apply; allow Accessibility access when prompted."
+
 # Safari's preferences can be protected by Full Disk Access.
+step "Disabling Safari website tinting..."
+if defaults write com.apple.Safari NeverUseBackgroundColorInToolbar -bool true; then
+  print_success_muted "Safari website tinting disabled; restart Safari to apply"
+else
+  print_warning 'Safari blocked the preference write. Uncheck "Show color in tab bar" in Safari > Settings > Tabs.'
+fi
+
+step "Blocking Safari website notification permission prompts..."
+if defaults write com.apple.Safari CanPromptForPushNotifications -bool false; then
+  print_success_muted "Safari website notification permission prompts disabled"
+else
+  print_warning 'Safari blocked the preference write. Uncheck "Allow websites to ask for permission to send notifications" in Safari > Settings > Websites > Notifications.'
+fi
+
+# Safari stores the autoplay default in SQLite; preserve per-site exceptions.
+step "Disabling Safari video autoplay by default..."
+safari_preferences_db="$HOME/Library/Safari/PerSitePreferences.db"
+if pgrep -x Safari >/dev/null; then
+  print_warning 'Quit Safari and rerun to disable autoplay, or select Never Auto-Play under Safari > Settings > Websites > Auto-Play > When visiting other websites.'
+elif [ ! -f "$safari_preferences_db" ]; then
+  print_warning 'Open and quit Safari once, then rerun to disable autoplay, or select Never Auto-Play in Safari > Settings > Websites > Auto-Play.'
+elif /usr/bin/sqlite3 -bail -cmd '.timeout 5000' "$safari_preferences_db" <<'SQL'
+BEGIN IMMEDIATE;
+UPDATE default_preferences
+SET default_value = 2
+WHERE preference = 'PerSitePreferencesAutoplay';
+INSERT INTO default_preferences (preference, default_value)
+SELECT 'PerSitePreferencesAutoplay', 2
+WHERE NOT EXISTS (
+  SELECT 1 FROM default_preferences WHERE preference = 'PerSitePreferencesAutoplay'
+);
+COMMIT;
+SQL
+then
+  print_success_muted "Safari autoplay default set to Never Auto-Play"
+else
+  print_warning 'Safari autoplay could not be configured. Grant your terminal Full Disk Access and rerun with Safari closed, or select Never Auto-Play in Safari > Settings > Websites > Auto-Play.'
+fi
+
 step "Removing Safari start-page sections..."
 safari_settings_applied=true
 for safari_setting in ShowFavorites ShowFrequentlyVisitedSites ShowHighlightsInFavorites \
