@@ -280,6 +280,89 @@ esac''')
         self.assertNotEqual(status, 0, output)
         self.assertEqual(config.read_text(), original)
 
+    def prepare_hosts(self, original="127.0.0.1 localhost local.test\n"):
+        # Redirect every system path in the test copy, never the real /etc/hosts.
+        hosts_dir = self.root / "etc with spaces"
+        hosts_dir.mkdir()
+        target = hosts_dir / "hosts"
+        if original is not None:
+            target.write_text(original)
+            target.chmod(0o600)
+        script = self.project / "scripts/hosts.sh"
+        script.write_text(script.read_text().replace("/etc/", f"{hosts_dir}/"))
+        (self.project / "configs/hosts").write_text(
+            "127.0.0.1 localhost\n::1 localhost\n0.0.0.0 ads.example.invalid\n"
+        )
+        self.stub("sudo", '''printf '%s\\n' "$*" >> "$HOME/hosts-sudo-calls"
+exec "$@"''')
+        self.stub("install", '''[ "$1 $2 $3 $4" = "-o root -g wheel" ] || exit 97
+shift 4
+exec /usr/bin/install "$@"''')
+        for command in ("dscacheutil", "killall"):
+            self.stub(command, f'echo "{command} $*" >> "$HOME/dns-refreshes"')
+        return target
+
+    def test_hosts_install_backs_up_original_and_rerun_is_a_noop(self):
+        original = "127.0.0.1 localhost local.test\n"
+        target = self.prepare_hosts(original)
+        status, output = self.run_tty(["/bin/bash", "scripts/hosts.sh"], "y\n")
+        self.assertEqual(status, 0, output)
+        self.assertEqual(target.read_bytes(), (self.project / "configs/hosts").read_bytes())
+        self.assertEqual(target.stat().st_mode & 0o777, 0o644)
+        backups = list(target.parent.glob("hosts.backup.*"))
+        self.assertEqual(len(backups), 1)
+        self.assertEqual(backups[0].read_text(), original)
+        self.assertEqual(backups[0].stat().st_mode & 0o777, 0o600)
+        self.assertEqual((self.home / "dns-refreshes").read_text().splitlines(), [
+            "dscacheutil -flushcache", "killall -HUP mDNSResponder",
+        ])
+        calls = (self.home / "hosts-sudo-calls").read_text()
+        result = self.run_script("scripts/hosts.sh")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("already up to date", result.stdout)
+        self.assertEqual((self.home / "hosts-sudo-calls").read_text(), calls)
+        self.assertEqual(list(target.parent.glob("hosts.backup.*")), backups)
+        self.assertEqual(list(target.parent.glob(".hosts.omakos.*")), [])
+
+    def test_hosts_declining_preserves_existing_file(self):
+        original = "127.0.0.1 localhost local.test\n"
+        target = self.prepare_hosts(original)
+        status, output = self.run_tty(["/bin/bash", "scripts/hosts.sh"], "n\n")
+        self.assertEqual(status, 0, output)
+        self.assertEqual(target.read_text(), original)
+        self.assertFalse((self.home / "hosts-sudo-calls").exists())
+        self.assertEqual(list(target.parent.glob("hosts.backup.*")), [])
+
+    def test_hosts_installs_when_system_file_is_missing(self):
+        target = self.prepare_hosts(original=None)
+        result = self.run_script("scripts/hosts.sh")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(target.read_bytes(), (self.project / "configs/hosts").read_bytes())
+        self.assertEqual(list(target.parent.glob("hosts.backup.*")), [])
+        self.assertEqual(list(target.parent.glob(".hosts.omakos.*")), [])
+
+    def test_hosts_missing_snapshot_preserves_existing_file(self):
+        target = self.prepare_hosts()
+        original = target.read_bytes()
+        (self.project / "configs/hosts").unlink()
+        result = self.run_script("scripts/hosts.sh")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(target.read_bytes(), original)
+        self.assertFalse((self.home / "hosts-sudo-calls").exists())
+
+    def test_hosts_failed_install_backup_or_move_preserves_existing_file(self):
+        target = self.prepare_hosts()
+        original = target.read_bytes()
+        for command in ("install", "cp", "mv"):
+            with self.subTest(command=command):
+                self.stub("sudo", f'''if [ "$1" = "{command}" ]; then exit 23; fi
+exec "$@"''')
+                status, output = self.run_tty(["/bin/bash", "scripts/hosts.sh"], "y\n")
+                self.assertEqual(status, 23, output)
+                self.assertEqual(target.read_bytes(), original)
+                self.assertFalse((self.home / "dns-refreshes").exists())
+                self.assertEqual(list(target.parent.glob(".hosts.omakos.*")), [])
+
     def prepare_sol(self):
         if JQ:
             (self.bin / "jq").symlink_to(JQ)

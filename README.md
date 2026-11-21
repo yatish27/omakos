@@ -166,6 +166,7 @@ The setup applies developer-optimized macOS configurations including:
 - **Safari**: Website tinting and notification permission prompts disabled; video autoplay defaults to Never Auto-Play, preserving website exceptions
 - **Widgets**: Hidden on the desktop and in Stage Manager; Safari start-page sections hidden with empty new tabs/windows
 - **System**: Disabled automatic corrections, expanded dialogs, local saves by default
+- **Hosts**: Installs the bundled hosts file for system-wide domain blocking
 
 ## Features
 
@@ -187,6 +188,7 @@ Each script in the [`scripts/`](scripts/) directory can be run independently:
 ./scripts/irbrc.sh     # Only setup IRB configuration
 ./scripts/zshrc.sh     # Only setup Zsh configuration
 ./scripts/ssh.sh       # Only configure SSH settings
+./scripts/hosts.sh     # Install the bundled hosts file and refresh DNS
 ```
 
 The scripts are designed to be:
@@ -208,6 +210,7 @@ omakos/
 │   ├── cmux.sh             # cmux terminal configuration
 │   ├── gemrc.sh            # Gem configuration
 │   ├── git.sh              # Git configuration
+│   ├── hosts.sh            # System hosts file installation
 │   ├── irbrc.sh            # IRB configuration
 │   ├── mac.sh              # macOS system preferences
 │   ├── mise.sh             # Mise runtime manager setup
@@ -227,6 +230,7 @@ omakos/
 │   ├── ssh/                # SSH configuration files
 │   ├── zed/                # Zed editor settings
 │   ├── gemrc              # Ruby gems configuration
+│   ├── hosts              # System hosts file snapshot
 │   ├── irbrc              # IRB (Interactive Ruby) configuration
 │   ├── mise.toml          # Mise runtime versions config
 │   ├── rubocop.yml        # Ruby code style config
@@ -237,6 +241,15 @@ omakos/
 ### Configuration Files
 
 The [`configs/`](configs/) directory contains all config files.
+
+[`configs/hosts`](configs/hosts) is an exact snapshot of `/etc/hosts` taken on
+November 21, 2026, including the StevenBlack blocklist and local additions. At the
+end of setup, [`scripts/hosts.sh`](scripts/hosts.sh) installs it as `/etc/hosts`
+using administrator privileges. If the file differs, setup asks before replacing
+it and saves the previous file to a unique `/etc/hosts.backup.*` path. An identical
+file is skipped. Installation sets `root:wheel` ownership and `644` permissions,
+then refreshes the macOS DNS cache. Edit `configs/hosts` to change the bundled
+entries; setup installs this snapshot without downloading blocklist updates.
 
 Zed automatically installs the GitHub Dark Default theme and the Ruby, HTML, and
 Elixir extensions. When you first open a matching file, Zed downloads the required
