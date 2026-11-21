@@ -57,7 +57,7 @@ Just follow the prompts and you'll be fine. 👌
 
 The setup process will install and configure the following tools and applications.
 Homebrew packages are defined in [`configs/Brewfile`](configs/Brewfile).
-Safari extensions are installed from the Mac App Store by [`scripts/safari-extensions.sh`](scripts/safari-extensions.sh).
+Safari extension apps are installed from the Mac App Store by [`scripts/safari-extensions.sh`](scripts/safari-extensions.sh), or bundled with the IINA and NetNewsWire Homebrew apps.
 
 ### Command Line Tools
 
@@ -82,7 +82,7 @@ Safari extensions are installed from the Mac App Store by [`scripts/safari-exten
 - [Zed](https://zed.dev/) - High-performance code editor
 - [cmux](https://www.cmux.dev/) - Terminal with the existing Ghostty colors and Google Sans Code font settings
 - [Bruno](https://www.usebruno.com/) - API client
-- [Elixir](https://elixir-lang.org/) with Erlang for Elixir/EEx/HEEx language support
+- [Elixir](https://elixir-lang.org/) with Erlang, managed by mise, for Elixir/EEx/HEEx language support
 - [Docker](https://www.docker.com/) for containerization
 - [OrbStack](https://orbstack.dev/) for Docker and Linux development on macOS
 - [PostgreSQL 18](https://www.postgresql.org/) with `libpq` for database management
@@ -97,6 +97,8 @@ Safari extensions are installed from the Mac App Store by [`scripts/safari-exten
   - Rust
   - Go
   - Node
+  - Erlang/OTP
+  - Elixir
 - [UV](https://github.com/astral-sh/uv) for Python packaging
 - [pnpm](https://pnpm.io/) for Node.js package management
 
@@ -126,14 +128,35 @@ Safari extensions are installed from the Mac App Store by [`scripts/safari-exten
 
 - [1Password for Safari](https://apps.apple.com/app/id1569813296) for passwords and autofill (free download; requires a 1Password account)
 - [Consent-O-Matic](https://apps.apple.com/app/id1606897889) for automatically answering cookie consent popups using your preferences (free and open source)
+- [uBlock Origin Lite](https://apps.apple.com/app/id6745342698) for blocking ads and trackers (free)
+- [GoodLinks](https://apps.apple.com/app/id1474335294) for saving links to read later (paid; purchase in the App Store before setup)
+- **Open in IINA**, bundled with the IINA Homebrew app, for opening web videos in IINA
+- **Subscribe to Feed**, bundled with the NetNewsWire Homebrew app, for subscribing to feeds
 - [Wipr 2](https://apps.apple.com/app/id1662217862) for blocking ads and trackers (paid; purchase in the App Store before setup)
 
 Sign in to the Mac App Store before setup and approve authentication prompts for
 the downloads. If installation fails, setup continues and prints a retry command.
-Wipr 2 is installed using an existing purchase; setup cannot buy it for you.
-After installation, enable 1Password and Consent-O-Matic in **Safari > Settings > Extensions**
-and approve their website access. Choose your cookie preferences in Consent-O-Matic.
+GoodLinks and Wipr 2 are installed using existing purchases; setup cannot buy them
+for you. After installation, enable 1Password, Consent-O-Matic, uBlock Origin Lite,
+GoodLinks, Open in IINA, and Subscribe to Feed in **Safari > Settings > Extensions**
+and approve website access when prompted. Choose your cookie preferences in Consent-O-Matic.
 Open Wipr 2 and follow its setup instructions to enable its Safari extensions.
+
+The current uBlock Origin Lite custom filters are saved in
+[`configs/ublock-origin-lite/custom-filters.txt`](configs/ublock-origin-lite/custom-filters.txt).
+This export contains three `x.com` rules for the Premium signup panel, the
+“What's happening” section, and promoted posts. Setup prints the file's absolute
+path for a one-time import after enabling the extension:
+
+1. Open the uBlock Origin Lite dashboard from its Safari toolbar button.
+2. Choose **Custom filters > Import / Export > Import and append…** and select
+   `configs/ublock-origin-lite/custom-filters.txt` from your Omakos checkout.
+3. Reload affected webpages.
+
+This appends the rules to existing custom filters. Setup does not automatically
+modify Safari's extension storage. To update the bundled rules later, use
+**Custom filters > Import / Export > Export…** and replace the file with that
+export.
 
 ### Fonts
 
@@ -228,6 +251,7 @@ omakos/
 │   ├── git/                # Git configuration files
 │   ├── sol/                # Sol launcher settings
 │   ├── ssh/                # SSH configuration files
+│   ├── ublock-origin-lite/  # Safari custom filter export
 │   ├── zed/                # Zed editor settings
 │   ├── gemrc              # Ruby gems configuration
 │   ├── hosts              # System hosts file snapshot
@@ -254,8 +278,11 @@ entries; setup installs this snapshot without downloading blocklist updates.
 Zed automatically installs the GitHub Dark Default theme and the Ruby, HTML, and
 Elixir extensions. When you first open a matching file, Zed downloads the required
 language servers: Ruby LSP and RuboCop, Herb for HTML+ERB, TypeScript Language Server
-and ESLint, HTML/CSS and Tailwind CSS servers, and ElixirLS. Ruby and Node come from
-mise; Elixir and Erlang come from Homebrew. Formatting uses Zed-managed RuboCop,
+and ESLint, HTML/CSS and Tailwind CSS servers, and ElixirLS. Ruby, Node, Elixir, and
+Erlang come from mise. The bundled configuration uses `latest` for both Erlang and
+Elixir; if you pin an Erlang major, select an Elixir build with the matching OTP
+suffix as described in [mise's Elixir guide](https://mise.jdx.dev/lang/elixir.html).
+Formatting uses Zed-managed RuboCop,
 Herb, and Prettier. Projects still need their own dependencies and ESLint/Tailwind
 configuration. See [Zed's language-server management](https://zed.dev/docs/configuring-languages#managing-language-servers).
 

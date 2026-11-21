@@ -1,0 +1,3 @@
+x.com##aside section:has(a[href="/i/premium_sign_up"])
+x.com##aside section:has(h2:has-text(/^What.s happening$/))
+x.com##li[data-index] > div:has(article div[class~="@container/post-actions"] > div > a:has-text(/^Ad$/)):style(height: 1px !important; min-height: 0 !important; padding: 0 !important; border: 0 !important; overflow: hidden !important; visibility: hidden !important;)

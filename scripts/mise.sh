@@ -49,6 +49,8 @@ if [ -f "$HOME/.mise.toml" ]; then
   mise exec go -- go version
   mise exec node -- node --version
   mise exec python -- python --version
+  # Elixir reports both its own version and the Erlang/OTP runtime version.
+  mise exec erlang elixir -- elixir --version
   echo "----------------------------------------"
 
   print_success "All development tools installed successfully!"

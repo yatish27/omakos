@@ -5,6 +5,8 @@ ruby = 'latest'
 go = 'latest'
 node = 'lts'
 python = 'latest'
+erlang = 'latest'
+elixir = 'latest'
 
 [settings]
 # Always keep the downloaded archives for faster reinstalls
