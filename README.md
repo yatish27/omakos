@@ -57,7 +57,7 @@ Just follow the prompts and you'll be fine. 👌
 
 The setup process will install and configure the following tools and applications.
 Homebrew packages are defined in [`configs/Brewfile`](configs/Brewfile).
-Safari extension apps are installed from the Mac App Store by [`scripts/safari-extensions.sh`](scripts/safari-extensions.sh), or bundled with the IINA and NetNewsWire Homebrew apps.
+Safari extension apps are installed from the Mac App Store by [`scripts/safari-extensions.sh`](scripts/safari-extensions.sh).
 
 ### Command Line Tools
 
@@ -130,33 +130,7 @@ Safari extension apps are installed from the Mac App Store by [`scripts/safari-e
 - [Consent-O-Matic](https://apps.apple.com/app/id1606897889) for automatically answering cookie consent popups using your preferences (free and open source)
 - [uBlock Origin Lite](https://apps.apple.com/app/id6745342698) for blocking ads and trackers (free)
 - [GoodLinks](https://apps.apple.com/app/id1474335294) for saving links to read later (paid; purchase in the App Store before setup)
-- **Open in IINA**, bundled with the IINA Homebrew app, for opening web videos in IINA
-- **Subscribe to Feed**, bundled with the NetNewsWire Homebrew app, for subscribing to feeds
 - [Wipr 2](https://apps.apple.com/app/id1662217862) for blocking ads and trackers (paid; purchase in the App Store before setup)
-
-Sign in to the Mac App Store before setup and approve authentication prompts for
-the downloads. If installation fails, setup continues and prints a retry command.
-GoodLinks and Wipr 2 are installed using existing purchases; setup cannot buy them
-for you. After installation, enable 1Password, Consent-O-Matic, uBlock Origin Lite,
-GoodLinks, Open in IINA, and Subscribe to Feed in **Safari > Settings > Extensions**
-and approve website access when prompted. Choose your cookie preferences in Consent-O-Matic.
-Open Wipr 2 and follow its setup instructions to enable its Safari extensions.
-
-The current uBlock Origin Lite custom filters are saved in
-[`configs/ublock-origin-lite/custom-filters.txt`](configs/ublock-origin-lite/custom-filters.txt).
-This export contains three `x.com` rules for the Premium signup panel, the
-“What's happening” section, and promoted posts. Setup prints the file's absolute
-path for a one-time import after enabling the extension:
-
-1. Open the uBlock Origin Lite dashboard from its Safari toolbar button.
-2. Choose **Custom filters > Import / Export > Import and append…** and select
-   `configs/ublock-origin-lite/custom-filters.txt` from your Omakos checkout.
-3. Reload affected webpages.
-
-This appends the rules to existing custom filters. Setup does not automatically
-modify Safari's extension storage. To update the bundled rules later, use
-**Custom filters > Import / Export > Export…** and replace the file with that
-export.
 
 ### Fonts
 

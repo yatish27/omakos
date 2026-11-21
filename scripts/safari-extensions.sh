@@ -38,8 +38,7 @@ else
   print_warning "Safari extensions skipped: install mas with 'brew install mas', then rerun 'bash scripts/safari-extensions.sh'."
 fi
 
-print_muted "Open in IINA and Subscribe to Feed are included with the IINA and NetNewsWire Homebrew apps."
-print_muted "After installation, open Safari > Settings > Extensions and enable 1Password, Consent-O-Matic, uBlock Origin Lite, GoodLinks, Open in IINA, and Subscribe to Feed."
+print_muted "After installation, open Safari > Settings > Extensions and enable 1Password, Consent-O-Matic, uBlock Origin Lite, and GoodLinks."
 print_muted "Approve website access when prompted."
 print_muted "Open Wipr 2 and follow its setup instructions to enable its Safari extensions."
 
