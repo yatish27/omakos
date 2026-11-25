@@ -8,7 +8,7 @@ source ./scripts/utils.sh
 step "Setting up mise (modern development environment manager)..."
 
 # Check if mise is installed
-if ! command -v mise &>/dev/null; then
+if ! command -v mise &> /dev/null; then
   print_error "mise is not installed. Please ensure it's installed via Homebrew first."
   exit 1
 fi

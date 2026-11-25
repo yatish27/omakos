@@ -5,7 +5,7 @@ set -e
 source ./scripts/utils.sh
 
 # Check if git is installed
-if ! command -v git &>/dev/null; then
+if ! command -v git &> /dev/null; then
   print_error "Git is not installed. Please install Git first."
   exit 1
 fi
@@ -37,8 +37,8 @@ fi
 if [ "$gitconfig_setup" = true ]; then
   print_muted "Setting up Git user information..."
 
-  if ! IFS= read -r -p "Enter your Git display name: " git_name </dev/tty ||
-     ! IFS= read -r -p "Enter your Git email: " git_email </dev/tty; then
+  if ! IFS= read -r -p "Enter your Git display name: " git_name < /dev/tty ||
+    ! IFS= read -r -p "Enter your Git email: " git_email < /dev/tty; then
     print_error "Could not read Git identity. Run setup from an interactive terminal."
     exit 1
   fi

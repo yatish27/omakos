@@ -6,30 +6,20 @@ set -e
 # VARIABLES
 ###############################################################################
 
-reset="\033[0m"
-dot="\033[31m▸ $reset"
-dim="\033[2m"
-blue="\e[34m"
-green="\e[32m"
-yellow="\e[33m"
-tag_green="\e[30;42m"
-tag_blue="\e[30;46m"
-bold=$(tput bold)
-normal=$(tput sgr0)
-underline="\e[37;4m"
-indent="   "
-
-# Get full directory name of this script
-cwd="$(cd "$(dirname "$0")" && pwd)"
+reset=$'\033[0m'
+dot=$'\033[31m▸ \033[0m'
+dim=$'\033[2m'
+blue=$'\033[34m'
+yellow=$'\033[33m'
 
 ###############################################################################
 # Utility Functions
 ###############################################################################
 _print_in_color() {
-  printf "%b" \
-    "$(tput setaf "$2" 2>/dev/null)" \
+  printf '%s%s%s' \
+    "$(tput setaf "$2" 2> /dev/null)" \
     "$1" \
-    "$(tput sgr0 2>/dev/null)"
+    "$(tput sgr0 2> /dev/null)"
 }
 
 ###############################################################################
@@ -49,23 +39,23 @@ print_in_yellow() {
 }
 
 print_success() {
-  print_in_green "  [✓] $1\n"
+  print_in_green "  [✓] $1"$'\n'
 }
 
 print_success_muted() {
-  printf "  ${dim}[✓] $1${reset}\n" "$@"
+  printf '  %s[✓] %s%s\n' "$dim" "$1" "$reset"
 }
 
 print_muted() {
-  printf "  ${dim}$1${reset}\n" "$@"
+  printf '  %s%s%s\n' "$dim" "$1" "$reset"
 }
 
 print_warning() {
-  print_in_yellow "  [!] $1\n"
+  print_in_yellow "  [!] $1"$'\n'
 }
 
 print_error() {
-  print_in_red "  [𝘅] $1 $2\n"
+  print_in_red "  [𝘅] $*"$'\n'
 }
 
 ###############################################################################
@@ -73,7 +63,8 @@ print_error() {
 ###############################################################################
 
 check_internet_connection() {
-  if curl --fail --silent --show-error --location --connect-timeout 10 --max-time 20 \
+  if curl --proto '=https' --proto-redir '=https' \
+    --fail --silent --show-error --location --connect-timeout 10 --max-time 20 \
     --output /dev/null https://github.com; then
     print_success "Internet connection"
   else
@@ -85,28 +76,6 @@ check_internet_connection() {
 ###############################################################################
 # Prompts
 ###############################################################################
-ask_for_sudo() {
-
-  # Ask for the administrator password upfront.
-
-  sudo -v &>/dev/null
-
-  # Update existing `sudo` time stamp
-  # until this script has finished.
-  #
-  # https://gist.github.com/cowboy/3118588
-
-  # Keep-alive: update existing `sudo` time stamp until script has finished
-  while true; do
-    sudo -n true
-    sleep 60
-    kill -0 "$$" || exit
-  done 2>/dev/null &
-
-  print_success "Password cached"
-
-}
-
 ask() {
   # https://djm.me/ask
   local prompt default reply
@@ -128,7 +97,10 @@ ask() {
     echo -n "  [?] $1 [$prompt] "
 
     # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
-    read reply </dev/tty
+    if ! IFS= read -r reply < /dev/tty; then
+      print_error "Could not read confirmation. Run setup from an interactive terminal." >&2
+      return 1
+    fi
 
     # Default?
     if [ -z "$reply" ]; then
@@ -137,8 +109,8 @@ ask() {
 
     # Check if the reply is valid
     case "$reply" in
-    Y* | y*) return 0 ;;
-    N* | n*) return 1 ;;
+      Y* | y*) return 0 ;;
+      N* | n*) return 1 ;;
     esac
 
   done
@@ -151,7 +123,7 @@ show_file_diff() {
   if [ -f "$file_path" ] && [ -f "$config_file" ]; then
     echo -e "   ${blue}📋${reset}  Showing diff between existing and new config:"
     echo -e "   ${dim}┌─────────────────────────────────────────────────────${reset}"
-    if command -v diff &>/dev/null; then
+    if command -v diff &> /dev/null; then
       diff --color=always -u "$file_path" "$config_file" || true
     else
       echo "   ${dim}diff command not available${reset}"
@@ -165,13 +137,13 @@ files_are_identical() {
   local config_file="$2"
 
   if [ -f "$file_path" ] && [ -f "$config_file" ]; then
-    if command -v diff &>/dev/null; then
-      diff "$file_path" "$config_file" >/dev/null 2>&1
+    if command -v diff &> /dev/null; then
+      diff "$file_path" "$config_file" > /dev/null 2>&1
       return $?
     else
       # Fallback: compare file sizes and content if diff is not available
       if [ "$(wc -c < "$file_path")" = "$(wc -c < "$config_file")" ]; then
-        cmp "$file_path" "$config_file" >/dev/null 2>&1
+        cmp "$file_path" "$config_file" > /dev/null 2>&1
         return $?
       else
         return 1
@@ -208,5 +180,5 @@ confirm_override() {
 ###############################################################################
 
 step() {
-  printf "\n ${dot}$@${reset}\n"
+  printf '\n %s%s%s\n' "$dot" "$*" "$reset"
 }
