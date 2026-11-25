@@ -29,7 +29,8 @@ print_success_muted "Finder preferences configured"
 
 # System preferences
 step "Configuring enhanced system and trackpad settings..."
-defaults write com.apple.LaunchServices LSQuarantine -bool false
+# Keep download quarantine enabled, including on Macs configured by older runs.
+defaults write com.apple.LaunchServices LSQuarantine -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
@@ -110,11 +111,11 @@ fi
 # Safari stores the autoplay default in SQLite; preserve per-site exceptions.
 step "Disabling Safari video autoplay by default..."
 safari_preferences_db="$HOME/Library/Safari/PerSitePreferences.db"
-if pgrep -x Safari >/dev/null; then
+if pgrep -x Safari > /dev/null; then
   print_warning 'Quit Safari and rerun to disable autoplay, or select Never Auto-Play under Safari > Settings > Websites > Auto-Play > When visiting other websites.'
 elif [ ! -f "$safari_preferences_db" ]; then
   print_warning 'Open and quit Safari once, then rerun to disable autoplay, or select Never Auto-Play in Safari > Settings > Websites > Auto-Play.'
-elif /usr/bin/sqlite3 -bail -cmd '.timeout 5000' "$safari_preferences_db" <<'SQL'
+elif /usr/bin/sqlite3 -bail -cmd '.timeout 5000' "$safari_preferences_db" << 'SQL'; then
 BEGIN IMMEDIATE;
 UPDATE default_preferences
 SET default_value = 2
@@ -126,7 +127,6 @@ WHERE NOT EXISTS (
 );
 COMMIT;
 SQL
-then
   print_success_muted "Safari autoplay default set to Never Auto-Play"
 else
   print_warning 'Safari autoplay could not be configured. Grant your terminal Full Disk Access and rerun with Safari closed, or select Never Auto-Play in Safari > Settings > Websites > Auto-Play.'
@@ -198,11 +198,11 @@ print_success_muted "Apple Intelligence disabled"
 
 # Restart affected applications
 step "Applying changes by restarting system components..."
-killall Dock 2>/dev/null || true
-killall Finder 2>/dev/null || true
-killall SystemUIServer 2>/dev/null || true
-killall NotificationCenter 2>/dev/null || true
-killall WindowManager 2>/dev/null || true
+killall Dock 2> /dev/null || true
+killall Finder 2> /dev/null || true
+killall SystemUIServer 2> /dev/null || true
+killall NotificationCenter 2> /dev/null || true
+killall WindowManager 2> /dev/null || true
 print_success_muted "Applications restarted"
 
 echo ""

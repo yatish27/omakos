@@ -6,7 +6,7 @@ source ./scripts/utils.sh
 
 step "Installing Safari extensions from the Mac App Store..."
 
-if command -v mas >/dev/null 2>&1; then
+if command -v mas > /dev/null 2>&1; then
   print_muted "Sign in to the App Store first; Apple may ask you to authenticate the downloads."
 
   # mas get supports free apps that are not yet in the account's purchase history.

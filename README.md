@@ -21,13 +21,24 @@ You can install Omakos using one of these two methods:
 Run this single command in your terminal:
 
 ```sh
-curl -L https://raw.githubusercontent.com/yatish27/omakos/main/install.sh | bash
+(
+  set -e
+  omakos_installer=$(mktemp)
+  trap 'rm -f "$omakos_installer"' EXIT
+  curl --proto '=https' --proto-redir '=https' -fsSL \
+    https://raw.githubusercontent.com/yatish27/omakos/main/install.sh \
+    -o "$omakos_installer"
+  bash "$omakos_installer"
+)
 ```
 
 Run this from an interactive terminal. The installer downloads and validates the
 archive before replacing `~/omakos`. If that path already exists, its contents
 (including Git history and local changes) are preserved in a unique
 `~/omakos.backup.*/omakos` directory printed during installation.
+The command finishes downloading the bootstrap before executing it and allows
+only HTTPS downloads and redirects. Review the downloaded script before running
+it if you want to inspect the bootstrap as well as the setup scripts.
 
 ### Option 2: Manual Install
 
@@ -268,10 +279,40 @@ Light 14 font with compact spacing (also used in the former iTerm2 profile).
 Existing shared Ghostty files remain untouched. Reload cmux's configuration with
 Command-Shift-comma after changing it.
 
-### Installation regression checks
+### Repository checks
 
-Run `python3 -m unittest discover -s tests -v`. These checks use temporary home
-directories and mock downloads, package installation, and system changes.
+Install the development tools on macOS (Python 3.11 or newer is required):
+
+```sh
+brew install shellcheck shfmt gitleaks python ruby jq
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements-dev.txt
+make check
+```
+
+Use Gitleaks 8.30.1 or newer. On Ubuntu 24.04, install `make`, `shellcheck`, `shfmt`,
+`zsh`, `ruby`, `jq`, `openssh-client`, and `python3-venv` with apt, and install Gitleaks as shown in
+[the CI workflow](.github/workflows/checks.yml).
+
+- `make lint` checks all shell scripts with Bash, ShellCheck, and shfmt; Python
+  with Ruff; Zsh and Ruby config syntax; Git and SSH configs; and JSON, JSON-with-comments,
+  TOML, and YAML configs, including duplicate keys.
+- `make security` runs Bandit on Python code, Gitleaks on the working tree and
+  available Git history, and pip-audit on the development-tool dependencies.
+  This command needs network access for the vulnerability database.
+- `make test` runs installation regression checks using temporary home directories
+  and mocked downloads, package installation, and system changes.
+
+GitHub Actions runs the same checks on pushes and pull requests, using the full
+Git history. To format code, run
+`shfmt -i 2 -ci -sr -w install.sh setup.sh scripts/*.sh` and `ruff format .`.
+
+The security checks cover repository code and development dependencies. Homebrew
+packages, mise runtimes, and the Omakos, Homebrew, and Oh My Zsh downloads follow
+upstream versions rather than a checked-in dependency lock. HTTPS protects their
+transport; it does not independently verify upstream code or audit the packages
+installed on your Mac.
 
 ## Customization
 

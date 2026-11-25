@@ -4,17 +4,18 @@ import errno
 import fcntl
 import json
 import os
-from pathlib import Path
 import pty
 import select
 import shutil
-import subprocess
+
+# The regression harness executes only local fixtures with a controlled PATH.
+import subprocess  # nosec B404
 import tempfile
 import termios
 import time
 import unittest
 import zipfile
-
+from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 GIT = shutil.which("git")
@@ -35,8 +36,9 @@ class InstallationTests(unittest.TestCase):
         for filename in ("install.sh", "setup.sh"):
             shutil.copy2(REPO / filename, self.project / filename)
         for directory in ("scripts", "configs"):
-            shutil.copytree(REPO / directory, self.project / directory,
-                            ignore=shutil.ignore_patterns("images"))
+            shutil.copytree(
+                REPO / directory, self.project / directory, ignore=shutil.ignore_patterns("images")
+            )
         self.env = {
             "HOME": str(self.home),
             "PATH": f"{self.bin}:/usr/bin:/bin:/usr/sbin:/sbin",
@@ -59,9 +61,14 @@ class InstallationTests(unittest.TestCase):
         return path
 
     def run_script(self, script, data=""):
-        return subprocess.run(
-            ["/bin/bash", script], cwd=self.project, env=self.env,
-            input=data, text=True, capture_output=True, timeout=15,
+        return subprocess.run(  # nosec B603
+            ["/bin/bash", script],
+            cwd=self.project,
+            env=self.env,
+            input=data,
+            text=True,
+            capture_output=True,
+            timeout=15,
             start_new_session=True,
         )
 
@@ -75,9 +82,14 @@ class InstallationTests(unittest.TestCase):
 
         process = None
         try:
-            process = subprocess.Popen(
-                args, cwd=self.project, env=self.env, stdin=subprocess.PIPE,
-                stdout=slave, stderr=slave, preexec_fn=controlling_terminal,
+            process = subprocess.Popen(  # nosec B603
+                args,
+                cwd=self.project,
+                env=self.env,
+                stdin=subprocess.PIPE,
+                stdout=slave,
+                stderr=slave,
+                preexec_fn=controlling_terminal,
             )
             os.close(slave)
             slave = None
@@ -111,11 +123,17 @@ class InstallationTests(unittest.TestCase):
                 os.close(slave)
 
     def test_shell_syntax(self):
-        for script in [self.project / "install.sh", self.project / "setup.sh",
-                       *sorted((self.project / "scripts").glob("*.sh"))]:
+        for script in [
+            self.project / "install.sh",
+            self.project / "setup.sh",
+            *sorted((self.project / "scripts").glob("*.sh")),
+        ]:
             with self.subTest(script=script.name):
-                result = subprocess.run(["/bin/bash", "-n", str(script)],
-                                        capture_output=True, text=True)
+                result = subprocess.run(  # nosec B603
+                    ["/bin/bash", "-n", str(script)],
+                    capture_output=True,
+                    text=True,
+                )
                 self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_offline_check_really_calls_curl_and_fails(self):
@@ -144,18 +162,19 @@ class InstallationTests(unittest.TestCase):
     def prepare_homebrew(self):
         (self.bin / "brew").unlink()
         self.stub("uname", "echo x86_64")
-        with (self.project / "scripts/utils.sh").open("a") as stream:
-            stream.write("\nask_for_sudo() { :; }\n")
         # Stop at the boundary of the next installation phase.
         (self.project / "scripts/brew.sh").write_text("exit 42\n")
 
     def test_homebrew_handles_clt_without_local_version_parser(self):
         self.prepare_homebrew()
-        self.stub("curl", '''case "$*" in
+        self.stub(
+            "curl",
+            """case "$*" in
 *https://github.com) exit 0 ;;
 *Homebrew/install*) echo 'echo HOMEBREW_INSTALLER_REACHED' ;;
 *) exit 97 ;;
-esac''')
+esac""",
+        )
         result = self.run_script("setup.sh")
         self.assertEqual(result.returncode, 42, result.stderr)
         self.assertIn("HOMEBREW_INSTALLER_REACHED", result.stdout)
@@ -178,11 +197,14 @@ esac''')
     def prepare_archive(self, valid=True):
         archive = self.root / "archive.zip"
         with zipfile.ZipFile(archive, "w") as output:
-            output.writestr("omakos-main/setup.sh", '''#!/bin/bash
+            output.writestr(
+                "omakos-main/setup.sh",
+                """#!/bin/bash
 read -r answer
 printf '%s' "$answer" > "$HOME/setup-answer"
 exit "${TEST_SETUP_EXIT:-0}"
-''')
+""",
+            )
             if valid:
                 output.writestr("omakos-main/scripts/utils.sh", "")
                 output.writestr("omakos-main/configs/Brewfile", "")
@@ -222,10 +244,13 @@ exit "${TEST_SETUP_EXIT:-0}"
     def test_failed_replacement_restores_existing_checkout(self):
         checkout = self.existing_checkout()
         self.prepare_archive()
-        self.stub("mv", '''case "$1" in
+        self.stub(
+            "mv",
+            """case "$1" in
 */.omakos-install.*/omakos-main) exit 1 ;;
 *) exec /bin/mv "$@" ;;
-esac''')
+esac""",
+        )
         result = self.run_script("install.sh")
         self.assertEqual(result.returncode, 1)
         self.assertEqual((checkout / "local-change.txt").read_text(), "uncommitted work\n")
@@ -237,7 +262,8 @@ esac''')
         self.existing_checkout()
         self.prepare_archive()
         status, output = self.run_tty(
-            ["/bin/bash"], "terminal answer\n",
+            ["/bin/bash"],
+            "terminal answer\n",
             stdin=(self.project / "install.sh").read_text(),
         )
         self.assertEqual(status, 0, output)
@@ -258,13 +284,17 @@ esac''')
     @unittest.skipUnless(GIT, "git is needed for Git config validation")
     def test_git_reads_tty_when_stdin_is_exhausted(self):
         status, output = self.run_tty(
-            ["/bin/bash", "scripts/git.sh"], "Test Person\ntest@example.invalid\n",
+            ["/bin/bash", "scripts/git.sh"],
+            "Test Person\ntest@example.invalid\n",
         )
         self.assertEqual(status, 0, output)
-        for key, expected in (("user.name", "Test Person"),
-                              ("user.email", "test@example.invalid")):
-            result = subprocess.run([GIT, "config", "--file", str(self.home / ".gitconfig"), key],
-                                    env=self.env, capture_output=True, text=True)
+        for key, expected in (("user.name", "Test Person"), ("user.email", "test@example.invalid")):
+            result = subprocess.run(  # nosec B603
+                [GIT, "config", "--file", str(self.home / ".gitconfig"), key],
+                env=self.env,
+                capture_output=True,
+                text=True,
+            )
             self.assertEqual(result.stdout.strip(), expected)
 
     def test_git_without_tty_does_not_install_template_identity(self):
@@ -293,11 +323,17 @@ esac''')
         (self.project / "configs/hosts").write_text(
             "127.0.0.1 localhost\n::1 localhost\n0.0.0.0 ads.example.invalid\n"
         )
-        self.stub("sudo", '''printf '%s\\n' "$*" >> "$HOME/hosts-sudo-calls"
-exec "$@"''')
-        self.stub("install", '''[ "$1 $2 $3 $4" = "-o root -g wheel" ] || exit 97
+        self.stub(
+            "sudo",
+            '''printf '%s\\n' "$*" >> "$HOME/hosts-sudo-calls"
+exec "$@"''',
+        )
+        self.stub(
+            "install",
+            '''[ "$1 $2 $3 $4" = "-o root -g wheel" ] || exit 97
 shift 4
-exec /usr/bin/install "$@"''')
+exec /usr/bin/install "$@"''',
+        )
         for command in ("dscacheutil", "killall"):
             self.stub(command, f'echo "{command} $*" >> "$HOME/dns-refreshes"')
         return target
@@ -313,9 +349,13 @@ exec /usr/bin/install "$@"''')
         self.assertEqual(len(backups), 1)
         self.assertEqual(backups[0].read_text(), original)
         self.assertEqual(backups[0].stat().st_mode & 0o777, 0o600)
-        self.assertEqual((self.home / "dns-refreshes").read_text().splitlines(), [
-            "dscacheutil -flushcache", "killall -HUP mDNSResponder",
-        ])
+        self.assertEqual(
+            (self.home / "dns-refreshes").read_text().splitlines(),
+            [
+                "dscacheutil -flushcache",
+                "killall -HUP mDNSResponder",
+            ],
+        )
         calls = (self.home / "hosts-sudo-calls").read_text()
         result = self.run_script("scripts/hosts.sh")
         self.assertEqual(result.returncode, 0, result.stderr)
@@ -355,8 +395,11 @@ exec /usr/bin/install "$@"''')
         original = target.read_bytes()
         for command in ("install", "cp", "mv"):
             with self.subTest(command=command):
-                self.stub("sudo", f'''if [ "$1" = "{command}" ]; then exit 23; fi
-exec "$@"''')
+                self.stub(
+                    "sudo",
+                    f'''if [ "$1" = "{command}" ]; then exit 23; fi
+exec "$@"''',
+                )
                 status, output = self.run_tty(["/bin/bash", "scripts/hosts.sh"], "y\n")
                 self.assertEqual(status, 23, output)
                 self.assertEqual(target.read_bytes(), original)
@@ -378,7 +421,8 @@ exec "$@"''')
         target = self.prepare_sol()
         target.parent.mkdir(parents=True)
         original = {
-            "globalShortcut": "option", "launchAtLogin": False,
+            "globalShortcut": "option",
+            "launchAtLogin": False,
             "searchFolders": ["/a folder"],
             "shortcuts": {"custom": "command+shift+k"},
             "customItems": [{"name": "My item", "url": "https://example.invalid"}],
@@ -387,9 +431,14 @@ exec "$@"''')
         for attempt in range(2):
             result = self.run_script("scripts/sol.sh")
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertEqual(json.loads(target.read_text()), {
-                **original, "globalShortcut": "command", "launchAtLogin": True,
-            })
+            self.assertEqual(
+                json.loads(target.read_text()),
+                {
+                    **original,
+                    "globalShortcut": "command",
+                    "launchAtLogin": True,
+                },
+            )
             backups = list(target.parent.glob("config.json.backup.*"))
             self.assertEqual(len(backups), 1)
             self.assertEqual(json.loads(backups[0].read_text()), original)
@@ -415,6 +464,84 @@ exec "$@"''')
         self.assertNotEqual(result.returncode, 0)
         self.assertFalse(target.exists())
         self.assertFalse((self.home / "preference-writes").exists())
+
+    def test_output_helpers_preserve_percent_signs_and_backslashes(self):
+        script = self.project / "output.sh"
+        script.write_text(r"""source ./scripts/utils.sh
+message='100% ready: %s %n \c \n'
+for helper in print_success print_success_muted print_muted print_warning print_error step; do
+  "$helper" "$message"
+done
+""")
+        result = self.run_script(str(script))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout.count(r"100% ready: %s %n \c \n"), 6)
+
+    def test_confirmation_without_tty_preserves_existing_file(self):
+        target = self.home / ".gemrc"
+        target.write_text("custom gem settings\n")
+        result = self.run_script("scripts/gemrc.sh")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(target.read_text(), "custom gem settings\n")
+        self.assertIn("Could not read confirmation", result.stderr)
+        self.assertIn("Skipping Gem configuration", result.stdout)
+
+    def test_new_ssh_directory_and_config_have_private_permissions(self):
+        result = self.run_script("scripts/ssh.sh")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        target = self.home / ".ssh/config"
+        self.assertEqual(target.parent.stat().st_mode & 0o777, 0o700)
+        self.assertEqual(target.stat().st_mode & 0o777, 0o600)
+
+    def test_existing_ssh_permissions_are_repaired_without_overwriting(self):
+        target = self.home / ".ssh/config"
+        target.parent.mkdir()
+        target.write_text("Host private\n  HostName example.invalid\n")
+        target.parent.chmod(0o777)
+        target.chmod(0o666)
+        for attempt in range(2):
+            result = self.run_script("scripts/ssh.sh")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(target.read_text(), "Host private\n  HostName example.invalid\n")
+            self.assertEqual(target.parent.stat().st_mode & 0o777, 0o700)
+            self.assertEqual(target.stat().st_mode & 0o777, 0o600)
+
+    def test_failed_ohmyzsh_download_never_executes_partial_output(self):
+        self.env["SHELL"] = "/bin/zsh"
+        self.stub(
+            "curl",
+            """printf 'touch "$HOME/partial-installer-ran"\n'
+exit 22""",
+        )
+        result = self.run_script("scripts/zsh.sh")
+        self.assertEqual(result.returncode, 22, result.stderr)
+        self.assertFalse((self.home / "partial-installer-ran").exists())
+        self.assertNotIn("oh-my-zsh installed!", result.stdout)
+
+    def test_zsh_uses_registered_system_shell_and_skips_existing_installation(self):
+        (self.home / ".oh-my-zsh").mkdir()
+        self.env["SHELL"] = "/bin/bash"
+        self.stub("chsh", 'printf "%s\\n" "$@" > "$HOME/chsh-arguments"')
+        result = self.run_script("scripts/zsh.sh")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.home / "chsh-arguments").read_text(), "-s\n/bin/zsh\n")
+        (self.home / "chsh-arguments").unlink()
+        self.env["SHELL"] = "/bin/zsh"
+        result = self.run_script("scripts/zsh.sh")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertFalse((self.home / "chsh-arguments").exists())
+
+    def test_mac_settings_restore_download_quarantine(self):
+        self.stub("defaults", 'echo "$*" >> "$HOME/preference-writes"')
+        self.stub("pgrep", "exit 1")
+        self.stub("chflags", "exit 0")
+        self.stub("killall", "exit 0")
+        result = self.run_script("scripts/mac.sh")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        writes = (self.home / "preference-writes").read_text().splitlines()
+        self.assertIn("write com.apple.LaunchServices LSQuarantine -bool true", writes)
+        self.assertNotIn("write com.apple.LaunchServices LSQuarantine -bool false", writes)
+
 
 if __name__ == "__main__":
     unittest.main()

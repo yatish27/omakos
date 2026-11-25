@@ -5,21 +5,24 @@
 ###############################################################################
 
 # Exit handler - runs if script fails
-trap 'status=$?
-if [ "$status" -ne 0 ]; then
-  echo -e "\n   ❌ Omakos setup failed" >&2
-fi
-exit "$status"' EXIT
+on_exit() {
+  local status=$?
+  if [ "$status" -ne 0 ]; then
+    printf '\n   ❌ Omakos setup failed\n' >&2
+  fi
+  exit "$status"
+}
+trap on_exit EXIT
 
 set -e
 
 # Source utility functions
 source ./scripts/utils.sh
 
+count=0
 chapter() {
-  local fmt="$1"
-  shift
-  printf "\n✦  ${bold}$((count++)). $fmt${normal}\n└─────────────────────────────────────────────────────○\n" "$@"
+  printf '\n✦  %s%d. %s%s\n└─────────────────────────────────────────────────────○\n' \
+    "$(tput bold)" "$((++count))" "$*" "$(tput sgr0)"
 }
 
 ###############################################################################
@@ -41,12 +44,6 @@ chapter "Checking internet connection…"
 check_internet_connection
 
 ###############################################################################
-# PROMPT: Password
-###############################################################################
-chapter "Caching password…"
-ask_for_sudo
-
-###############################################################################
 # INSTALL: Dependencies
 ###############################################################################
 chapter "Installing Dependencies…"
@@ -56,12 +53,14 @@ chapter "Installing Dependencies…"
 # -----------------------------------------------------------------------------
 if ! [ -x "$(command -v brew)" ]; then
   step "Installing Homebrew…"
-  homebrew_installer=$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
+  homebrew_installer=$(curl --proto '=https' --proto-redir '=https' -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
   /bin/bash -c "$homebrew_installer"
   if [[ "$(uname -m)" == "arm64" ]]; then
     # Apple Silicon M1/M2 Macs
     export PATH=/opt/homebrew/bin:$PATH
-    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>"$HOME/.zprofile"
+    # Expand this command when a new shell starts, not while installing.
+    # shellcheck disable=SC2016
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
     eval "$(/opt/homebrew/bin/brew shellenv)"
   else
     # Intel Macs
@@ -70,7 +69,7 @@ if ! [ -x "$(command -v brew)" ]; then
   print_success "Homebrew installed!"
 else
   print_success_muted "Homebrew already installed. Updating Homebrew formulae…"
-  brew update --quiet >/dev/null 2>&1
+  brew update --quiet > /dev/null 2>&1
 fi
 
 ###############################################################################

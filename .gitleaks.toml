@@ -1,0 +1,6 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Local dependencies and generated caches"
+paths = ['''(^|/)(\.git|\.venv|__pycache__|\.ruff_cache)/''']
